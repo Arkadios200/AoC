@@ -27,13 +27,14 @@ def part2(input):
 
   enabled = True
   for match in matches:
-    if match == "do()":
-      enabled = True
-    elif match == "don't()":
-      enabled = False
-    else:
-      if enabled:
-        total += get_product(match)
+    match match:
+      case "do()":
+        enabled = True
+      case "don't()":
+        enabled = False
+      case _:
+        if enabled:
+          total += get_product(match) if enabled else 0
 
   return total
 
