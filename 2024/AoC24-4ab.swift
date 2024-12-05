@@ -27,7 +27,7 @@ var total1 = 0, total2 = 0
 for i in 0..<wordSearch.count {
   for j in 0..<wordSearch[i].count {
     if wordSearch[i][j] == "X" {
-      var tempStrings: [String] = ["", "", "", "", "", "", "", ""]
+      var tempStrings = [String](repeating: "", count: 8)
       for k in 1...3 {
         let locations: [[Int]] = [
           [i, j+k],
