@@ -1,9 +1,10 @@
 import Foundation
 
+// This part wasn't written by me. Sorry.
 extension Collection {
-    subscript(safe index: Index) -> Element? {
-        indices.contains(index) ? self[index] : nil
-    }
+  subscript(safe index: Index) -> Element? {
+    indices.contains(index) ? self[index] : nil
+  }
 }
 
 func getValue(of input: [[Character]], at ij: [Int]) -> String {
@@ -15,17 +16,14 @@ func getValue(of input: [[Character]], at ij: [Int]) -> String {
   return ""
 }
 
-let input = (try? String(contentsOf: URL(fileURLWithPath: "sample.txt")))!
-
-let tempIn = input.components(separatedBy: "\n")
+let input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!
 
 var wordSearch = [[Character]]()
-
-for s in tempIn {
+for s in input.components(separatedBy: "\n") {
   wordSearch.append(Array(s))
 }
 
-var count = 0
+var total1 = 0
 for i in 0..<wordSearch.count {
   for j in 0..<wordSearch[i].count {
     if wordSearch[i][j] == "X" {
@@ -46,7 +44,7 @@ for i in 0..<wordSearch.count {
         }
         for s in tempStrings {
           if s == "MAS" {
-            count += 1
+            total1 += 1
           }
         }
       }
@@ -54,4 +52,4 @@ for i in 0..<wordSearch.count {
   }
 }
 
-print(count)
+print("Part 1 answer: \(total1)")
