@@ -69,5 +69,5 @@ for u in updates {
     total2 += tempU.pages[Int(floor(Double(tempU.pages.count)/2))]
   }
 }
-print(total1)
-print(total2)
+print("Part 1 answer: \(total1)")
+print("Part 2 answer: \(total2)")
