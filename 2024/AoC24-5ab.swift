@@ -5,12 +5,9 @@ struct OrderRule {
   var num2: Int = 0
 
   init(_ input: String) {
-    for i in input.indices {
-      if input[i] == "|" {
-        self.num1 = Int(input[input.startIndex...input.index(before: i)])!
-        self.num2 = Int(input[input.index(after: i)...input.index(before: input.endIndex)])!
-      }
-    }
+    let temp: [String.SubSequence] = input.split(separator: "|")
+    num1 = Int(temp[0])!
+    num2 = Int(temp[1])!
   }
 }
 
