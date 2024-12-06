@@ -29,7 +29,7 @@ for i in 0..<wordSearch.count {
     if wordSearch[i][j] == "X" {
       var tempStrings = [String](repeating: "", count: 8)
       for k in 1...3 {
-        let locations: [[Int]] = [
+        let directions: [[Int]] = [
           [i, j+k],
           [i+k, j+k],
           [i+k, j],
@@ -40,7 +40,7 @@ for i in 0..<wordSearch.count {
           [i-k, j+k]
         ]
         for m in 0..<8 {
-          tempStrings[m] += getValue(of: wordSearch, at: locations[m])
+          tempStrings[m] += getValue(of: wordSearch, at: directions[m])
         }
         for s in tempStrings where s == "MAS" {
           total1 += 1
