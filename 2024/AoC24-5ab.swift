@@ -5,7 +5,7 @@ struct OrderRule {
   var num2: Int = 0
 
   init(_ input: String) {
-    let temp: [String.SubSequence] = input.split(separator: "|")
+    let temp = input.components(separatedBy: "|")
     num1 = Int(temp[0])!
     num2 = Int(temp[1])!
   }
