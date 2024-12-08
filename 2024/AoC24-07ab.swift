@@ -1,5 +1,14 @@
 import Foundation
 
+func exp(_ base: Int, _ power: Int) -> Int {
+  var b = 1
+  for _ in 0..<power {
+    b *= base
+  }
+  
+  return b
+}
+
 let input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!.components(separatedBy: "\n")
 var totals = [Int]()
 var lists = [[Int]]()
@@ -16,7 +25,7 @@ for line in input {
 
 var total1 = 0, total2 = 0
 for i in 0..<totals.count {
-  let x = Int(truncating: NSDecimalNumber(decimal: pow(2, lists[i].count-1)-1))
+  let x = exp(2, lists[i].count-1)-1
   for j in 0...x {
     var tempBin = Array(String(j, radix: 2))
     while tempBin.count < lists[i].count-1 {
@@ -41,7 +50,7 @@ for i in 0..<totals.count {
     }
   }
 
-  let y = Int(truncating: NSDecimalNumber(decimal: pow(3, lists[i].count-1)-1))
+  let y = exp(3, lists[i].count-1)-1
   for j in 0...y {
     var tempTern = Array(String(j, radix: 3))
     while tempTern.count < lists[i].count-1 {
