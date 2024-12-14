@@ -1,6 +1,6 @@
 import Foundation
 
-func addDuple(_ a: (Int, Int), _ b: (Int, Int)) -> (Int, Int) {
+func + (_ a: (Int, Int), _ b: (Int, Int)) -> (Int, Int) {
   return (a.0 + b.0, a.1 + b.1)
 }
 
@@ -17,16 +17,16 @@ func getAntinodes1(_ a: [(Int, Int)]) -> [(Int, Int)] {
   for i in 0..<a.count-1 {
     for j in i+1..<a.count {
       var vector = (a[i].0-a[j].0, a[i].1-a[j].1)
-      var new1 = addDuple(a[i], vector)
+      var new1 = a[i] + vector
       if new1 == a[j] {
         vector = (-vector.0, -vector.1)
-        new1 = addDuple(a[i], vector)
+        new1 = a[i] + vector
       }
       vector = (a[i].0-a[j].0, a[i].1-a[j].1)
-      var new2 = addDuple(a[j], vector)
+      var new2 = a[j] + vector
       if new2 == a[i] {
         vector = (-vector.0, -vector.1)
-        new2 = addDuple(a[j], vector)
+        new2 = a[j] + vector
       }
       if withinBounds(new1, of: map) {
         antinodes.append(new1)
@@ -44,7 +44,7 @@ func walk(from start: (Int, Int), along vector: (Int, Int), excluding antinodes:
   var newAntinode = start
   var newAntinodes = [(Int, Int)]()
   while true {
-    newAntinode = addDuple(newAntinode, vector)
+    newAntinode = newAntinode + vector
     if !withinBounds(newAntinode, of: map) {break}
     if !antinodes.contains(where: {$0 == newAntinode}) {
       newAntinodes.append(newAntinode)
