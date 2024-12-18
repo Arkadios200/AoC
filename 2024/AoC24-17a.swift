@@ -77,12 +77,12 @@ func runProgram(_ program: [Int], a: Int) -> String {
   return output
 }
 
-let temp = "2,4,1,2,7,5,1,3,4,3,5,5,0,3,3,0"
+let temp = "0,1,5,4,3,0"
 
 var input = [Int]()
 for t in temp.split(separator: ",") {
   input.append(Int(t)!)
 }
 
-let total1 = runProgram(input, a: 64584136)
+let total1 = runProgram(input, a: 729)
 print("Part 1 answer: \(total1)")
