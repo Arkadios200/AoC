@@ -68,7 +68,7 @@ func runProgram(_ program: [Int], a: Int) -> String {
         break
       default:
         print("Something broke")
-       break
+        break
     }
   }
   
