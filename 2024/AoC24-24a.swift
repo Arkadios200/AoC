@@ -13,7 +13,7 @@ while let line = readLine() {
 }
 
 while gates.count > 0 {
-  for i in stride(from:gates.count-1, through: 0, by: -1) {
+  for i in stride(from: gates.count-1, through: 0, by: -1) {
     let g = gates[i].split(separator: " ").map( { String($0) } )
     if let x = wires[g[0]], let y = wires[g[2]] {
       switch g[1] {
