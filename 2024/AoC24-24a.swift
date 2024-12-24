@@ -1,10 +1,10 @@
 import Foundation
 
-var test = [String: Int]()
+var wires = [String: Int]()
 while let line = readLine() {
   if line == "" {break}
   let temp = line.components(separatedBy: ": ")
-  test[temp[0]] = Int(temp[1])!
+  wires[temp[0]] = Int(temp[1])!
 }
 
 var gates = [String]()
@@ -15,16 +15,16 @@ while let line = readLine() {
 while gates.count > 0 {
   for i in stride(from:gates.count-1, through: 0, by: -1) {
     let g = gates[i].split(separator: " ").map( { String($0) } )
-    if let x = test[g[0]], let y = test[g[2]] {
+    if let x = wires[g[0]], let y = wires[g[2]] {
       switch g[1] {
         case "AND":
-          test[g[4]] = (x == 1 && y == 1) ? 1 : 0
+          wires[g[4]] = (x == 1 && y == 1) ? 1 : 0
           break
         case "OR":
-          test[g[4]] = (x == 1 || y == 1) ? 1 : 0
+          wires[g[4]] = (x == 1 || y == 1) ? 1 : 0
           break
         case "XOR":
-          test[g[4]] = x ^ y
+          wires[g[4]] = x ^ y
           break
         default:
           print("Something broke")
@@ -37,7 +37,7 @@ while gates.count > 0 {
 }
 
 var final = [Character](repeating: "0", count: 50)
-for (key, val) in test where key[key.startIndex] == "z" {
+for (key, val) in wires where key[key.startIndex] == "z" {
   final[Int(key[key.index(after: key.startIndex)..<key.endIndex])!] = Character(String(val))
 }
 
