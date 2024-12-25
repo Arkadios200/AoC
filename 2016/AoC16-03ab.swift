@@ -24,7 +24,11 @@ while let line = readLine() {
 var input2 = [[Int]]()
 for i in stride(from: 0, to: input1.count, by: 3) {
   for j in 0..<3 {
-    input2.append([input1[i][j], input1[i+1][j], input1[i+2][j]])
+    var temp = [Int]()
+    for k in 0...2 {
+      temp.append(input1[i+k][j])
+    }
+    input2.append(temp)
   }
 }
 
