@@ -1,7 +1,8 @@
-var score = 0
 let stream = Array(readLine()!)
 
 var total1 = 0
+var total2 = 0
+var score = 0
 var i = 0
 var garbage = false
 while i < stream.count {
@@ -29,6 +30,7 @@ while i < stream.count {
         garbage = false
         break
       default:
+        total2 += 1
         break
     }
   }
@@ -37,3 +39,4 @@ while i < stream.count {
 }
 
 print("Part 1 answer: \(total1)")
+print("Part 2 answer: \(total2)")
