@@ -1,7 +1,7 @@
 import hashlib
 
 i = 0
-input = "wtnhxymk"
+input = "abc"
 code1 = ""
 code2 = [" ", " ", " ", " ", " ", " ", " ", " "]
 while (len(code1) < 8 or " " in code2):
