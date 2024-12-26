@@ -21,33 +21,6 @@ struct Report {
   }
 }
 
-// Reads in and stores the input
-func getReports(from file: String) -> [Report] {
-  var input = (try? String(contentsOf: URL(fileURLWithPath: file)))!
-  if input[input.index(before: input.endIndex)] != "\n" {
-    input.append("\n")
-  }
-
-  var reports = [Report]()
-
-  var tempList = [Int](), tempEntry = ""
-  for c: Character in input {
-    if c >= "0" && c <= "9" {
-      tempEntry.append(c)
-    } else if c == " " && tempEntry != "" {
-      tempList.append(Int(tempEntry)!)
-      tempEntry = ""
-    } else if c == "\n" {
-      tempList.append(Int(tempEntry)!)
-      tempEntry = ""
-      reports.append(Report(tempList))
-      tempList.removeAll()
-    }
-  }
-
-  return reports
-}
-
 // Part 1 magic
 func getTotal1(of reports: [Report]) -> Int {
   var total = 0
@@ -80,7 +53,11 @@ func getTotal2(of reports: [Report]) -> Int {
 }
 
 // int main()
-let reports: [Report] = getReports(from: "input.txt")
+var reports = [Report]()
+while let line = readLine() {
+  reports.append(Report(line.split(separator: " ").map( { Int(String($0))! } )))
+}
+
 
 let total1 = getTotal1(of: reports)
 print("Part 1 answer: \(total1)")
