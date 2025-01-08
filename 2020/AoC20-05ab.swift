@@ -12,9 +12,9 @@ func exp(_ a: Int, _ b: Int) -> Int {
 var passes = [([Character], [Character])]()
 while let line = readLine() {
   let temp = Array(line)
-  let r = Array(temp[0..<7].reversed())
-  let c = Array(temp.reversed()[0..<3])
-  passes.append((r, c))
+  let row = Array(temp[0..<7].reversed())
+  let col = Array(temp.reversed()[0..<3])
+  passes.append((row, col))
 }
 
 var seats = [Int]()
