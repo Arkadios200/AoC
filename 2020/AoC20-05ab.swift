@@ -9,16 +9,12 @@ func exp(_ a: Int, _ b: Int) -> Int {
   return out
 }
 
-var passes = [([Character], [Character])]()
+var seats = [Int]()
 while let line = readLine() {
   let temp = Array(line)
   let row = Array(temp[0..<7].reversed())
   let col = Array(temp.reversed()[0..<3])
-  passes.append((row, col))
-}
 
-var seats = [Int]()
-for (row, col) in passes {
   var r = 0
   for i in stride(from: row.count-1, through: 0, by: -1) where row[i] == "B" {
     r += exp(2, i)
@@ -29,8 +25,7 @@ for (row, col) in passes {
     c += exp(2, i)
   }
 
-  let temp = (r * 8) + c
-  seats.append(temp)
+  seats.append((r * 8) + c)
 }
 
 var total1 = 0
