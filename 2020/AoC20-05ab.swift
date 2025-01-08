@@ -1,10 +1,14 @@
-var seats = [Int]()
-while let line = readLine() {
-  let temp = Array(line)
+func getSeatID(of pass: String) -> Int {
+  let temp = Array(pass)
   let row = Int(temp[0..<7].map( { ($0 == "B" ? "1" : "0") } ).joined(), radix: 2)!
   let col = Int(temp[7..<10].map( { ($0 == "R" ? "1" : "0") } ).joined(), radix: 2)!
 
-  seats.append((row * 8) + col)
+  return (row * 8) + col
+}
+
+var seats = [Int]()
+while let line = readLine() {
+  seats.append(getSeatID(of: line))
 }
 
 var total1 = 0
