@@ -1,6 +1,6 @@
 var seats = [Int]()
 while let line = readLine() {
-  let id = Int(line.map( { ($0 == "B" || $0 == "R") ? "1" : "0" } ).joined(), radix: 2)!
+  let id = Int(line.map( { "BR".contains($0) ? "1" : "0" } ).joined(), radix: 2)!
   seats.append(id)
 }
 
