@@ -11,10 +11,7 @@ while let line = readLine() {
   seats.append(getSeatID(of: line))
 }
 
-var total1 = 0
-for s in seats where s > total1 {
-  total1 = s
-}
+var total1 = seats.max()!
 print("Part 1 answer: \(total1)")
 
 for i in 0...total1 {
