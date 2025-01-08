@@ -1,7 +1,13 @@
+extension Array {
+  func split(at index: Index) -> (Array, Array) {
+    return (Array(self[0..<index]), Array(self[index..<self.count]))
+  }
+}
+
 func getSeatID(of pass: String) -> Int {
-  let temp = Array(pass)
-  let row = Int(temp[0..<7].map( { ($0 == "B" ? "1" : "0") } ).joined(), radix: 2)!
-  let col = Int(temp[7..<10].map( { ($0 == "R" ? "1" : "0") } ).joined(), radix: 2)!
+  let temp = Array(pass).split(at: 7)
+  let row = Int(temp.0.map( { ($0 == "B" ? "1" : "0") } ).joined(), radix: 2)!
+  let col = Int(temp.1.map( { ($0 == "R" ? "1" : "0") } ).joined(), radix: 2)!
 
   return (row * 8) + col
 }
