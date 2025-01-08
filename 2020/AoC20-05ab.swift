@@ -4,12 +4,11 @@ while let line = readLine() {
   seats.append(id)
 }
 
-var total1 = seats.max()!
-print("Part 1 answer: \(total1)")
+seats.sort()
 
-for i in 0...total1 {
-  if seats.contains(i+1) && seats.contains(i-1) && !seats.contains(i) {
-    print("Part 2 answer: \(i)")
-    break
-  }
+print("Part 1 answer: \(seats[seats.count-1])")
+
+for i in 1...seats.count where seats[i] - seats[i-1] == 2 {
+  print("Part 2 answer: \(seats[i]-1)")
+  break
 }
