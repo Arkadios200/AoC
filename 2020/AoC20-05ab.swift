@@ -1,31 +1,10 @@
-func exp(_ a: Int, _ b: Int) -> Int {
-  if b == 0 {return 1}
-
-  var out = 1
-  for _ in 1...b {
-    out *= a
-  }
-
-  return out
-}
-
 var seats = [Int]()
 while let line = readLine() {
   let temp = Array(line)
-  let row = Array(temp[0..<7].reversed())
-  let col = Array(temp.reversed()[0..<3])
+  let row = Int(temp[0..<7].map( { ($0 == "B" ? "1" : "0") } ).joined(), radix: 2)!
+  let col = Int(temp[7..<10].map( { ($0 == "R" ? "1" : "0") } ).joined(), radix: 2)!
 
-  var r = 0
-  for i in stride(from: row.count-1, through: 0, by: -1) where row[i] == "B" {
-    r += exp(2, i)
-  }
-
-  var c = 0
-  for i in stride(from: col.count-1, through: 0, by: -1) where col[i] == "R" {
-    c += exp(2, i)
-  }
-
-  seats.append((r * 8) + c)
+  seats.append((row * 8) + col)
 }
 
 var total1 = 0
