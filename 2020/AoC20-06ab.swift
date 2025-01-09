@@ -22,14 +22,14 @@ for group in groups {
 
   var s2 = ""
   part2: for i in group[0].indices {
-    var found = false
+    var found = true
     for line in group {
       if !line.contains(group[0][i]) {
-        found = true
+        found = false
         break
       }
     }
-    if !found { s2.append(group[0][i]) }
+    if found { s2.append(group[0][i]) }
   }
   total2 += s2.count
 }
