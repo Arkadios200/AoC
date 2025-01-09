@@ -1,39 +1,23 @@
-import Foundation
-
-var input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!
-if input[input.index(before: input.endIndex)] != "\n" {
-  input.append("\n")
+var lists: ([Int], [Int]) = ([], [])
+while let line = readLine() {
+  let temp = line.split(separator: " ").map( { Int($0)! } )
+  lists.0.append(temp[0])
+  lists.1.append(temp[1])
 }
 
-var list1 = [Int](), list2 = [Int]()
-var temp = ""
-for c: Character in input {
-  if c >= "0" && c <= "9" {
-    temp.append(c)
-  } else if c == " " && temp != "" {
-    list1.append(Int(temp)!)
-    temp = ""
-  } else if c == "\n" {
-    list2.append(Int(temp)!)
-    temp = ""
-  }
-}
-
-list1.sort()
-list2.sort()
+lists.0.sort()
+lists.1.sort()
 
 var total1 = 0
-for i in 0..<list1.count {
-  total1 += abs(list1[i] - list2[i])
+var total2 = 0
+for i in 0..<lists.0.count {
+  total1 += abs(lists.1[i] - lists.0[i])
+
+  var count = 0
+  for j in lists.1 where lists.0[i] == j {
+    count += 1
+  }
+  total2 += lists.0[i] * count
 }
 print("Part 1 answer: \(total1)")
-
-var total2 = 0
-for num1 in list1 {
-  var count = 0
-  for num2 in list2 {
-    count += (num1 == num2 ? 1 : 0)
-  }
-  total2 += num1 * count
-}
 print("Part 2 answer: \(total2)")
