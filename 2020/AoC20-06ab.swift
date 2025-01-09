@@ -1,37 +1,34 @@
-var groups = [[String]]()
-var temp = [String]()
-while let line = readLine() {
-  if line == "" {
-    groups.append(temp)
-    temp.removeAll()
-  } else {
-    temp.append(line)
-  }
-}
-
 var total1 = 0
 var total2 = 0
-for group in groups {
-  var s1 = ""
-  part1: for g in group {
-    for i in g.indices where !s1.contains(g[i]) {
-      s1.append(g[i])
-    }
-  }
-  total1 += s1.count
-
-  var s2 = ""
-  part2: for i in group[0].indices {
-    var found = true
-    for line in group {
-      if !line.contains(group[0][i]) {
-        found = false
-        break
+var group = [String]()
+while let line = readLine() {
+  if line == "" {
+    var s = ""
+    part1: for g in group {
+      for i in g.indices where !s.contains(g[i]) {
+        s.append(g[i])
       }
     }
-    if found { s2.append(group[0][i]) }
+    total1 += s.count
+
+    s = ""
+    part2: for i in group[0].indices {
+      var foundInAll = true
+      for g in group {
+        if !g.contains(group[0][i]) {
+          foundInAll = false
+          break
+        }
+      }
+      if foundInAll { s.append(group[0][i]) }
+    }
+    total2 += s.count
+
+    group.removeAll()
+  } else {
+    group.append(line)
   }
-  total2 += s2.count
 }
+
 print("Part 1 answer: \(total1)")
 print("Part 2 answer: \(total2)")
