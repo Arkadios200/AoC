@@ -6,7 +6,7 @@ while let line = readLine() {
 
 seats.sort()
 
-print("Part 1 answer: \(seats[seats.count-1])")
+print("Part 1 answer: \(seats.last)")
 
 for i in 1...seats.count where seats[i] - seats[i-1] == 2 {
   print("Part 2 answer: \(seats[i]-1)")
