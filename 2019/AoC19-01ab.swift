@@ -2,15 +2,14 @@ let getFuel = { ($0 / 3) - 2 }
 
 var total1 = 0, total2 = 0
 var modules = [Int]()
-while let x = readLine() {
-  let m = Int(x)!
+while let line = readLine() {
+  var m = getFuel(Int(line)!)
 
-  var temp = getFuel(m)
-  total1 += temp
+  total1 += m
 
-  while temp > 0 {
-    total2 += temp
-    temp = getFuel(temp)
+  while m > 0 {
+    total2 += m
+    m = getFuel(m)
   }
 }
 
