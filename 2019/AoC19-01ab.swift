@@ -1,17 +1,13 @@
-func getFuel(_ module: Int) -> Int {
-  return (module / 3) - 2
-}
-
-var modules = [Int]()
-while let x = readLine() {
-  modules.append(Int(x)!)
-}
+let getFuel = { ($0 / 3) - 2 }
 
 var total1 = 0, total2 = 0
-for m in modules {
-  total1 += getFuel(m)
+var modules = [Int]()
+while let x = readLine() {
+  let m = Int(x)!
 
   var temp = getFuel(m)
+  total1 += temp
+
   while temp > 0 {
     total2 += temp
     temp = getFuel(temp)
