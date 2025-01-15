@@ -1,5 +1,5 @@
 struct Component {
-  var ports: (Int, Int)
+  private(set) var ports: (Int, Int)
   let id: Int
 
   init(_ p1: Int, _ p2: Int, _ id: Int) {
@@ -73,16 +73,8 @@ while bridgesCount != bridges.count {
 let total1 = getMaxStrength(of: bridges)
 print("Part 1 answer: \(total1)")
 
-var length = 0
-for b in bridges where b.count > length {
-  length = b.count
-}
-
-var longestBridges = [[Component]]()
-for b in bridges where b.count == length {
-  longestBridges.append(b)
-}
-
+bridges.sort(by: { $0.count < $1.count } )
+let longestBridges = Array(bridges[bridges.firstIndex(where: { $0.count == bridges.last!.count } )!..<bridges.count])
 
 let total2 = getMaxStrength(of: longestBridges)
 print("Part 2 answer: \(total2)")
