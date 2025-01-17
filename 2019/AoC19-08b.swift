@@ -2,11 +2,11 @@ let input = Array(readLine()!)
 
 var layers = [[[Character]]]()
 for i in stride(from: 0, to: input.count, by: 150) {
-  var temp = [[Character]]()
+  var tempLayer = [[Character]]()
   for j in stride(from: 0, to: 150, by: 25) {
-    temp.append(Array(input[i+j..<i+j+25]))
+    tempLayer.append(Array(input[i+j..<i+j+25]))
   }
-  layers.append(temp)
+  layers.append(tempLayer)
 }
 
 var image = [[Character]](repeating: [Character](repeating: "x", count: 25), count: 6)
