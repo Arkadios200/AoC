@@ -12,9 +12,10 @@ for i in stride(from: 0, to: input.count, by: 150) {
 var image = [[Character]](repeating: [Character](repeating: "x", count: 25), count: 6)
 for i in 0..<image.count {
   for j in 0..<image[i].count {
-    for k in stride(from:layers.count-1, through: 0, by: -1) {
-      if layers[k][i][j] != "2" {
-        image[i][j] = layers[k][i][j]
+    for layer in layers {
+      if layer[i][j] != "2" {
+        image[i][j] = layer[i][j]
+        break
       }
     }
   }
