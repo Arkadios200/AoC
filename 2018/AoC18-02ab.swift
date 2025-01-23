@@ -20,6 +20,7 @@ part2: for i in 0..<input.count-1 {
     var diff = 0
     for k in 0..<input[i].count {
       diff += (input[i][k] != input[j][k]) ? 1 : 0
+      if diff > 1 { break }
     }
     if diff == 1 {
       var out = ""
