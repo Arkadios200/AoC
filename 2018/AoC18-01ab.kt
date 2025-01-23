@@ -3,27 +3,27 @@ import java.io.File
 fun main() {
   val input = File("input.txt").readText().split("\n").map({ it.toInt() })
 
-  var freq = 0
-  val fRecord = mutableListOf(freq)
+  val fRecord = mutableListOf(0)
 
   var found1 = false
   var found2 = false
-  while (true) {
+  day1@ while (true) {
     for (i in input) {
-      freq += i
+      val freq = fRecord.last() + i
       
-      if (fRecord.contains(freq)) {
+      if (fRecord.contains(freq) && !found2) {
         println("Part 2 answer: $freq")
         found2 = true
       }
+
+      if (found1 && found2) { break@day1 }
       
       fRecord.add(freq)
     }
+    
     if (!found1) {
-      println("Part 1 answer: $freq")
+      println("Part 1 answer: ${fRecord.last()}")
       found1 = true
     }
-
-    if (found1 && found2) {break}
   }
 }
