@@ -26,9 +26,9 @@ func part2(_ input: [Character]) -> Int {
   var santaPos = (0, 0)
   var roboSantaPos = (0, 0)
   var posRecord = [santaPos]
-  for i in 0..<input.count {
+  for (i, e) in input.enumerated() {
     if i % 2 == 0 {
-      switch input[i] {
+      switch e {
         case "^":
           santaPos.1 -= 1
         case ">":
@@ -44,7 +44,7 @@ func part2(_ input: [Character]) -> Int {
         posRecord.append(santaPos)
       }
     } else {
-      switch input[i] {
+      switch e {
         case "^":
           roboSantaPos.1 -= 1
         case ">":
