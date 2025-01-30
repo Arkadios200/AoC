@@ -24,8 +24,8 @@ struct Report {
 // Part 1 magic
 func getTotal1(of reports: [Report]) -> Int {
   var total = 0
-  for r in reports {
-    total += (r.isSafe() ? 1 : 0)
+  for r in reports where r.isSafe() {
+    total += 1
   }
 
   return total
