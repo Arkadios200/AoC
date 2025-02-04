@@ -36,7 +36,6 @@ find: for (i, e) in map.enumerated() {
     }
   }
 }
-print(pos)
 
 var posRecord: [(Int, Int)] = [(pos.0, pos.1)]
 part1: while true {
@@ -89,4 +88,4 @@ part1: while true {
   }
 }
 
-print(posRecord.count)
+print("Part 1 answer: \(posRecord.count)")
