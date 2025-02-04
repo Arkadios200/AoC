@@ -31,7 +31,9 @@ program: while i < instructions.count {
         i += (regs[temp[1]]! != 0) ? Int(temp[2])! : 1
       }
       continue program
-    default: break
+    default:
+      print("Something broke.")
+      break program
   }
   i += 1
 }
