@@ -21,7 +21,6 @@ func extrapolate(_ seq: [Int]) -> (Int, Int) {
   return (seqs.first!.last!, seqs.first!.first!)
 }
 
-
 var total = (0, 0)
 while let line = readLine() {
   let seq = line.split(separator: " ").map( { Int($0)! } )
