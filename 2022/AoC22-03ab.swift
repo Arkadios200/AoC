@@ -27,26 +27,24 @@ let priorities: [Character: Int] = [
   "z": 26, "Z": 52
 ]
 
-var rucksacks = [String]()
+var rucksacks = [[Character]]()
 while let line = readLine() {
-  rucksacks.append(line)
+  rucksacks.append(Array(line))
 }
 
-var total1 = 0
-for rucksack in rucksacks {
-  let temp = [Array(rucksack)[0..<rucksack.count/2], Array(rucksack)[rucksack.count/2..<rucksack.count]]
-
-  for (key, val) in priorities where temp.allSatisfy( { $0.contains(key) } ) {
+var total1 = 0, total2 = 0
+for (i, rucksack) in rucksacks.enumerated() {
+  let temp = [rucksack[0..<rucksack.count/2], rucksack[rucksack.count/2..<rucksack.count]]
+  part1: for (key, val) in priorities where temp.allSatisfy( { $0.contains(key) } ) {
     total1 += val
-    break
+    break part1
   }
-}
 
-var total2 = 0
-for i in stride(from: 0, to: rucksacks.count, by: 3) {
-  for (key, val) in priorities where rucksacks[i...i+2].allSatisfy( { $0.contains(key) } ) {
-    total2 += val
-    break
+  if i % 3 == 0 {
+    part2: for (key, val) in priorities where rucksacks[i...i+2].allSatisfy( { $0.contains(key) } ) {
+      total2 += val
+      break part2
+    }
   }
 }
 
