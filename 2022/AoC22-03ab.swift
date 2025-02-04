@@ -34,19 +34,18 @@ while let line = readLine() {
 
 var total1 = 0
 for rucksack in rucksacks {
-  let arr1 = Array(rucksack)[0..<rucksack.count/2]
-  let arr2 = Array(rucksack)[rucksack.count/2..<rucksack.count]
+  let temp = [Array(rucksack)[0..<rucksack.count/2], Array(rucksack)[rucksack.count/2..<rucksack.count]]
 
-  for c in arr1 where arr2.contains(c) {
-    total1 += priorities[c]!
+  for (key, val) in priorities where temp.allSatisfy( { $0.contains(key) } ) {
+    total1 += val
     break
   }
 }
 
 var total2 = 0
 for i in stride(from: 0, to: rucksacks.count, by: 3) {
-  for c in rucksacks[i] where rucksacks[i...i+2].allSatisfy( { $0.contains(c) } ) {
-    total2 += priorities[c]!
+  for (key, val) in priorities where rucksacks[i...i+2].allSatisfy( { $0.contains(key) } ) {
+    total2 += val
     break
   }
 }
