@@ -23,25 +23,25 @@ func skyMap(of lights: [Light]) -> [[Character]]? {
     return nil
   }
 
-  var map = [[Character]](repeating: [Character](repeating: ".", count: width), count: height)
+  var map = [[Character]](repeating: [Character](repeating: " ", count: width), count: height)
   for light in lights {
     let i = light.pos.y - lights.min(by: { $0.pos.y < $1.pos.y } )!.pos.y
     let j = light.pos.x - lights.min(by: { $0.pos.x < $1.pos.x } )!.pos.x
 
-    map[i][j] = "#"
+    map[i][j] = "█"
   }
 
   return map
 }
 
 var lights: [Light] = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!
-.split(separator: "\n")
-.map( { Light(
-  $0
-  .filter( { " -1234567890".contains($0) } )
-  .split(separator: " ")
-  .map( { Int($0)! } )
-) } )
+  .split(separator: "\n")
+  .map( { Light(
+    $0
+    .filter( { " -1234567890".contains($0) } )
+    .split(separator: " ")
+    .map( { Int($0)! } )
+  ) } )
 
 var count = 0
 while true {
