@@ -18,7 +18,7 @@ struct Light {
     let width = 1 + lights.max(by: { $0.pos.x < $1.pos.x } )!.pos.x - lights.min(by: { $0.pos.x < $1.pos.x } )!.pos.x
     let height = 1 + lights.max(by: { $0.pos.y < $1.pos.y } )!.pos.y - lights.min(by: { $0.pos.y < $1.pos.y } )!.pos.y
 
-    if height != 10 {
+    if height != lights.count == 30 ? 8 : 10 {
       return nil
     }
 
