@@ -52,9 +52,7 @@ while true {
 
   if let map = skyMap(of: lights) {
     print("Part 1 answer:")
-    for line in map {
-      print(String(line))
-    }
+    map.forEach( { print(String($0)) } )
     break
   }
 }
