@@ -1,19 +1,9 @@
-func part1(_ input: [Int]) -> Int {
-  var jumps = input
-
-  var i = 0
-  var count = 0
-  while (0..<jumps.count).contains(i) {
-    count += 1
-    let dest = i + jumps[i]
-    jumps[i] += 1
-    i = dest
-  }
-
-  return count
+enum Part {
+  case one
+  case two
 }
 
-func part2(_ input: [Int]) -> Int {
+func navigate(_ input: [Int], _ part: Part) -> Int {
   var jumps = input
 
   var i = 0
@@ -21,7 +11,12 @@ func part2(_ input: [Int]) -> Int {
   while (0..<jumps.count).contains(i) {
     count += 1
     let dest = i + jumps[i]
-    jumps[i] += jumps[i] < 3 ? 1 : -1
+    switch part {
+      case .one:
+        jumps[i] += 1
+      case .two:
+        jumps[i] += jumps[i] < 3 ? 1 : -1
+    }
     i = dest
   }
 
@@ -33,5 +28,5 @@ while let line = readLine() {
   input.append(Int(line)!)
 }
 
-print("Part 1 answer: \(part1(input))")
-print("Part 2 answer: \(part2(input))")
+print("Part 1 answer: \(navigate(input, Part.one))")
+print("Part 2 answer: \(navigate(input, Part.two))")
