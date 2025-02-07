@@ -1,28 +1,37 @@
-var jumps = [Int]()
-while let x = readLine() {
-  jumps.append(Int(x)!)
+func part1(_ input: [Int]) -> Int {
+  var jumps = input
+
+  var i = 0
+  var count = 0
+  while (0..<jumps.count).contains(i) {
+    count += 1
+    let dest = i + jumps[i]
+    jumps[i] += 1
+    i = dest
+  }
+
+  return count
 }
 
-let jumpsCopy = jumps
+func part2(_ input: [Int]) -> Int {
+  var jumps = input
 
-var i = 0
-var jumpCount = 0
-while i < jumps.count && i >= 0 {
-  jumps[i] += 1
-  i += jumps[i] - 1
-  jumpCount += 1
+  var i = 0
+  var count = 0
+  while (0..<jumps.count).contains(i) {
+    count += 1
+    let dest = i + jumps[i]
+    jumps[i] += jumps[i] < 3 ? 1 : -1
+    i = dest
+  }
+
+  return count
 }
 
-print("Part 1 answer: \(jumpCount)")
-
-jumps = jumpsCopy
-i = 0
-jumpCount = 0
-while i < jumps.count && i >= 0 {
-  let diff = (jumps[i] < 3 ? 1 : -1)
-  jumps[i] += diff
-  i += jumps[i] - diff
-  jumpCount += 1
+var input = [Int]()
+while let line = readLine() {
+  input.append(Int(line)!)
 }
 
-print("Part 2 answer: \(jumpCount)")
+print("Part 1 answer: \(part1(input))")
+print("Part 2 answer: \(part2(input))")
