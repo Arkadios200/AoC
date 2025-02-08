@@ -1,5 +1,3 @@
-import Foundation
-
 struct Report {
   var levels: [Int]
   
@@ -11,7 +9,7 @@ struct Report {
     var safe = true
     let inc = (levels[0] <= levels[1])
     for i in 0..<(levels.count-1) {
-      let diff = inc ? (levels[i+1]-levels[i]) : (levels[i]-levels[i+1])
+      let diff = (levels[i+1] - levels[i]) * (inc ? 1 : -1)
       if !(diff >= 1 && diff <= 3) {
         safe = false
         break
@@ -21,17 +19,10 @@ struct Report {
   }
 }
 
-// Part 1 magic
 func getTotal1(of reports: [Report]) -> Int {
-  var total = 0
-  for r in reports where r.isSafe() {
-    total += 1
-  }
-
-  return total
+  return reports.filter( { $0.isSafe() } ).count
 }
 
-// Part 2 magic
 func getTotal2(of reports: [Report]) -> Int {
   var total = 0
   for r in reports {
@@ -40,10 +31,8 @@ func getTotal2(of reports: [Report]) -> Int {
       for i in 0..<r.levels.count {
         var temp = r
         temp.levels.remove(at: i)
-        if temp.isSafe() {
-          safe = true
-          break
-        }
+        safe = temp.isSafe()
+        if safe { break }
       }
     }
     total += (safe ? 1 : 0)
@@ -52,7 +41,6 @@ func getTotal2(of reports: [Report]) -> Int {
   return total
 }
 
-// int main()
 var reports = [Report]()
 while let line = readLine() {
   reports.append(Report(line.split(separator: " ").map( { Int(String($0))! } )))
