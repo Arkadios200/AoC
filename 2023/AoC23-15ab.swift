@@ -10,20 +10,20 @@ struct Lens {
   }
 }
 
-func hashAlgorithm(_ s: String) -> Int {
+func hash(_ s: String) -> Int {
   return s.reduce(0, { (($0 + Int($1.asciiValue!)) * 17) % 256 } )
 }
 
 var input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!.split(separator: ",").map( { String($0) } )
 
-print("Part 1 answer: \(input.reduce(0, { $0 + hashAlgorithm($1) } ))")
+print("Part 1 answer: \(input.reduce(0, { $0 + hash($1) } ))")
 
 var boxes = [[Lens]](repeating: [], count: 256)
 loop: for line in input {
   let index = line.firstIndex(where: { "-=".contains($0) } )!
   
   let label = String(line.prefix(upTo: index))
-  let box = hashAlgorithm(label)
+  let box = hash(label)
   
   switch line[index] {
     case "-":
