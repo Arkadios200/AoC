@@ -29,7 +29,7 @@ loop: for line in input {
     case "-":
       boxes[box] = boxes[box].filter( { $0.label != label } )
     case "=":
-      let focalLength = Int(line.suffix(from: line.index(after: index)))!
+      let focalLength = Int(String(line.last!))!
       if let i = boxes[box].firstIndex(where: { $0.label == label } ) {
         boxes[box][i].focalLength = focalLength
       } else {
