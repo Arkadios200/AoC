@@ -48,7 +48,6 @@ int main() {
   for (std::string s : lines) {
     total1 += hash(s);
   }
-  
   std::cout << "Part 1 answer: " << total1 << "\n";
 
   std::vector<std::vector<Lens>> boxes(256, std::vector<Lens>{});
