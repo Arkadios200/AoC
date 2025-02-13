@@ -2,14 +2,13 @@ func redistribute(_ banks: inout [Int]) -> Int {
   var record = [banks]
 
   while true {
-    for (i, e) in banks.enumerated() where e == banks.max()! {
-      var iter = i
-      banks[i] = 0
-      for _ in 1...e {
-        iter = (iter + 1) % banks.count
-        banks[iter] += 1
-      }
-      break
+    let (i, e) = banks.enumerated().max(by: { $0.element < $1.element } )!
+
+    var iter = i
+    banks[iter] = 0
+    for _ in 1...e {
+      iter = (iter + 1) % banks.count
+      banks[iter] += 1
     }
 
     if record.contains(banks) {
