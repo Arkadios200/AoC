@@ -14,7 +14,7 @@ func hash(_ s: String) -> Int {
   return s.reduce(0, { (($0 + Int($1.asciiValue!)) * 17) % 256 } )
 }
 
-var input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!.split(separator: ",").map( { String($0) } )
+let input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!.split(separator: ",").map( { String($0) } )
 
 print("Part 1 answer: \(input.reduce(0, { $0 + hash($1) } ))")
 
