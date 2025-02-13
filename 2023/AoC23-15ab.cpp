@@ -17,7 +17,7 @@ class Lens {
 std::vector<std::string> get_lines(std::string input) {
   std::vector<std::string> lines = {};
 
-  if (input[input.size()-1] != ',') input.push_back(',');
+  if (input.back() != ',') input.push_back(',');
   size_t pos = 0;
   while ((pos = input.find(',')) != std::string::npos) {
     lines.push_back(input.substr(0, pos));
@@ -57,7 +57,7 @@ int main() {
     if ((pos = line.find('=')) != std::string::npos) {
       const std::string label = line.substr(0, pos);
       const int box = hash(label);
-      const int focal_length = std::stoi(line.substr(pos + 1, 1));
+      const int focal_length = line.back() - '0';
       
       bool found = false;
       for (int i = 0; i < boxes[box].size(); i++) {
