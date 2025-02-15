@@ -12,7 +12,7 @@ func nice1(_ s: String) -> Bool {
 func nice2(_ s: String) -> Bool {
   let indices = s.indices
 
-  let cond1 = indices[..<indices.index(indices.endIndex, offsetBy: -3)].contains(where: { indices[indices.index($0, offsetBy: 2)..<indices.index(before: indices.endIndex)].map( { String(s[$0...s.index(after: $0)]) } ).contains(String(s[$0...s.index(after: $0)])) } )
+  let cond1 = indices[..<indices.index(indices.endIndex, offsetBy: -3)].contains(where: { indices[indices.index($0, offsetBy: 2)..<indices.index(before: indices.endIndex)].map( { s[$0...s.index(after: $0)] } ).contains(s[$0...s.index(after: $0)]) } )
   
   let cond2 = indices[..<indices.index(indices.endIndex, offsetBy: -2)].contains(where: { s[$0] == s[s.index($0, offsetBy: 2)] } )
   
