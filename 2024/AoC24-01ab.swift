@@ -13,8 +13,8 @@ lists.0.sort()
 lists.1.sort()
 
 let (total1, total2) = lists.0.indices.reduce((0, 0), {
-  let i = $1
-  return $0 + (abs(lists.1[i] - lists.0[i]), lists.0[i] * lists.1.filter( { $0 == lists.0[i] } ).count)
+  let i = (lists.0[$1], lists.1[$1])
+  return $0 + (abs(i.1 - i.0), i.0 * lists.1.filter( { $0 == i.0 } ).count)
 } )
 
 print("Part 1 answer: \(total1)")
