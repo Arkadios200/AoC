@@ -8,7 +8,7 @@ func val1(of line: [Int]) -> Int {
 }
 
 func val2(of line: [Int]) -> Int {
-  return 2*line[0] + 2*line[1] + line.reduce(1, *)
+  return 2*(line[0] + line[1]) + line.reduce(1, *)
 }
 
 var total1 = 0, total2 = 0
