@@ -6,16 +6,11 @@ struct Report {
   }
 
   func isSafe() -> Bool {
-    var safe = true
     let inc = (levels[0] <= levels[1])
-    for i in 0..<(levels.count-1) {
-      let diff = (levels[i+1] - levels[i]) * (inc ? 1 : -1)
-      if !(diff >= 1 && diff <= 3) {
-        safe = false
-        break
-      }
-    }
-    return safe
+    return levels.indices[1...].allSatisfy( {
+      let diff = (levels[$0] - levels[$0-1]) * (inc ? 1 : -1)
+      return (1...3).contains(diff)
+    } )
   }
 }
 
@@ -24,21 +19,18 @@ func getTotal1(of reports: [Report]) -> Int {
 }
 
 func getTotal2(of reports: [Report]) -> Int {
-  var total = 0
-  for r in reports {
-    var safe = r.isSafe()
+  return reports.filter( {
+    var safe = $0.isSafe()
     if !safe {
-      for i in 0..<r.levels.count {
-        var temp = r
+      for i in 0..<$0.levels.count {
+        var temp = $0
         temp.levels.remove(at: i)
         safe = temp.isSafe()
         if safe { break }
       }
     }
-    total += (safe ? 1 : 0)
-  }
-
-  return total
+    return safe
+  } ).count
 }
 
 var reports = [Report]()
