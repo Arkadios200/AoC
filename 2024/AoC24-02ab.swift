@@ -21,13 +21,12 @@ func getTotal1(of reports: [Report]) -> Int {
 
 func getTotal2(of reports: [Report]) -> Int {
   return reports.filter( {
-    if $0.isSafe { return true }
-    for i in $0.levels.indices {
-      var temp = $0
-      temp.levels.remove(at: i)
-      if temp.isSafe { return true }
-    }
-    return false
+    let report = $0
+    return report.isSafe ? true : report.levels.indices.map( {
+      var temp = report
+      temp.levels.remove(at: $0)
+      return temp.isSafe
+    } ).contains(true)
   } ).count
 }
 
