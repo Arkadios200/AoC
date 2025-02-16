@@ -17,7 +17,9 @@ fun main() {
           else -> break
         })
       } else {
-        if (c != expected.last()) {
+        if (c == expected.last()) {
+          expected.removeLast()
+        } else {
           total += when (c) {
             ')' ->     3
             ']' ->    57
@@ -26,8 +28,6 @@ fun main() {
             else -> break
           }
           continue@outer
-        } else {
-          expected.removeLast()
         }
       }
     }
