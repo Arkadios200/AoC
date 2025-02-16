@@ -6,7 +6,7 @@ fun main() {
   var total = 0
   var scores = mutableListOf<Long>()
   outer@ for (line in input) {
-    var expected: MutableList<Char> = mutableListOf()
+    var expected: = mutableListOf<Char>()
     for (c in line) {
       if ("([{<".asSequence().contains(c)) {
         expected.add(when (c) {
