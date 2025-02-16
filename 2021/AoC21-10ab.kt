@@ -2,12 +2,12 @@
 import java.io.File
 
 fun main() {
-  val input = File("input.txt").readText().split('\n')
+  val input = File("input.txt").readLines()
 
   var total = 0
-  var scores = mutableListOf<Long>()
+  val scores = mutableListOf<Long>()
   outer@ for (line in input) {
-    var expected = mutableListOf<Char>()
+    val expected = mutableListOf<Char>()
     for (c in line) {
       if ("([{<".asSequence().contains(c)) {
         expected.add((c.code + if (c == '(') 1 else 2).toChar())
