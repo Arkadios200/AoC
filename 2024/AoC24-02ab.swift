@@ -22,7 +22,7 @@ func getTotal1(of reports: [Report]) -> Int {
 func getTotal2(of reports: [Report]) -> Int {
   return reports.filter( {
     let report = $0
-    return report.isSafe ? true : report.levels.indices.map( {
+    return report.isSafe || report.levels.indices.map( {
       var temp = report
       temp.levels.remove(at: $0)
       return temp.isSafe
