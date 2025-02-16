@@ -3,19 +3,10 @@ while let line = readLine() {
   m1.append(Int(line)!)
 }
 
-var total1 = 0
-for i in 1..<m1.count where m1[i] > m1[i-1] {
-  total1 += 1
-}
+let total1 = m1.indices[1...].filter( { m1[$0-1] < m1[$0] } ).count
 print("Part 1 answer: \(total1)")
 
-var m2 = [Int]()
-for i in 0..<m1.count-2 {
-  m2.append(m1[i...i+2].reduce(0, +))
-}
+let m2 = m1.indices[2...].map( { m[$0-2...$0].reduce(0, +) } )
 
-var total2 = 0
-for i in 1..<m2.count where m2[i] > m2[i-1] {
-  total2 += 1
-}
+let total2 = m2.indices[1...].filter( { m2[$0-1] < m2[$0] } ).count
 print("Part 2 answer: \(total2)")
