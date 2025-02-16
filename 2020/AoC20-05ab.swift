@@ -4,11 +4,6 @@ while let line = readLine() {
   seats.append(id)
 }
 
-seats.sort()
+print("Part 1 answer: \(seats.max()!)")
 
-print("Part 1 answer: \(seats.last)")
-
-for i in 1...seats.count where seats[i] - seats[i-1] == 2 {
-  print("Part 2 answer: \(seats[i]-1)")
-  break
-}
+print("Part 2 answer: \((seats.min()!...seats.max()!).first(where: { !seats.contains($0) } )!)")
