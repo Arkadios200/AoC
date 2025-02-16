@@ -1,3 +1,4 @@
+
 import java.io.File
 
 fun main() {
@@ -9,13 +10,7 @@ fun main() {
     var expected = mutableListOf<Char>()
     for (c in line) {
       if ("([{<".asSequence().contains(c)) {
-        expected.add(when (c) {
-          '(' -> ')'
-          '[' -> ']'
-          '{' -> '}'
-          '<' -> '>'
-          else -> break
-        })
+        expected.add((c.code + if (c == '(') 1 else 2).toChar())
       } else {
         if (c == expected.last()) {
           expected.removeLast()
