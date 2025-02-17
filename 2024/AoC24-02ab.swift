@@ -1,13 +1,11 @@
 struct Report {
   var levels: [Int]
   var isSafe: Bool {
-    get {
-      let inc = (levels[0] < levels[1])
-      return levels.indices[1...].allSatisfy( {
-        let diff = (levels[$0] - levels[$0-1]) * (inc ? 1 : -1)
-        return (1...3).contains(diff)
-      } )
-    }
+    let inc = (levels[0] < levels[1])
+    return levels.indices[1...].allSatisfy( {
+      let diff = (levels[$0] - levels[$0-1]) * (inc ? 1 : -1)
+      return (1...3).contains(diff)
+    } )
   }
   
   init(_ levels: [Int]) {
