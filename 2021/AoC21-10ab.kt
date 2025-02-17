@@ -1,4 +1,3 @@
-
 import java.io.File
 
 fun main() {
@@ -14,28 +13,34 @@ fun main() {
       } else if (c == expected.last()) {
         expected.removeLast()
       } else {
-        total += when (c) {
-          ')' ->     3
-          ']' ->    57
-          '}' ->  1197
-          '>' -> 25137
-          else -> break
-        }
+        total += score1(c)
         continue@outer
       }
     }
 
-    scores.add(expected.reversed().map {
-      when (it) {
-        ')' -> 1
-        ']' -> 2
-        '}' -> 3
-        '>' -> 4
-        else -> 0
-      }.toLong()
-    }.reduce { acc, item -> acc * 5 + item })
+    scores.add(expected.reversed().map { score2(it).toLong() }.reduce { acc, item -> acc * 5 + item })
   }
 
   println("Part 1 answer: $total")
   println("Part 2 answer: ${scores.sorted()[scores.size/2]}")
+}
+
+fun score1(c: Char): Int {
+  return when (c) {
+    ')' ->     3
+    ']' ->    57
+    '}' ->  1197
+    '>' -> 25137
+    else -> 0
+  }
+}
+
+fun score2(c: Char): Int {
+  return when (c) {
+    ')' -> 1
+    ']' -> 2
+    '}' -> 3
+    '>' -> 4
+    else -> 0
+  }
 }
