@@ -18,7 +18,9 @@ fun main() {
       }
     }
 
-    scores.add(expected.reversed().map { score2(it).toLong() }.reduce { acc, item -> acc * 5 + item })
+    var temp: Long = 0
+    expected.reversed().map { score2(it) }.forEach { temp = temp * 5 + it }
+    scores.add(temp)
   }
 
   println("Part 1 answer: $total")
