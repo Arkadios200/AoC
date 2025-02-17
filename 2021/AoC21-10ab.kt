@@ -11,19 +11,17 @@ fun main() {
     for (c in line) {
       if ("([{<".asSequence().contains(c)) {
         expected.add((c.code + if (c == '(') 1 else 2).toChar())
+      } else if (c == expected.last()) {
+        expected.removeLast()
       } else {
-        if (c == expected.last()) {
-          expected.removeLast()
-        } else {
-          total += when (c) {
-            ')' ->     3
-            ']' ->    57
-            '}' ->  1197
-            '>' -> 25137
-            else -> break
-          }
-          continue@outer
+        total += when (c) {
+          ')' ->     3
+          ']' ->    57
+          '}' ->  1197
+          '>' -> 25137
+          else -> break
         }
+        continue@outer
       }
     }
 
