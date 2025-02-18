@@ -1,10 +1,5 @@
 func validTriangles(in input: [[Int]]) -> Int {
-  var total = 0
-  for i in input {
-    let temp = i.sorted()
-    total += (temp[0] + temp[1] > temp[2]) ? 1 : 0
-  }
-  return total
+  return input.map( { $0.sorted() } ).filter( { $0[0] + $0[1] > $0[2] } ).count
 }
 
 var input1 = [[Int]]()
