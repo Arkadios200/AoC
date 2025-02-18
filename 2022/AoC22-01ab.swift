@@ -2,7 +2,7 @@ var elves = [Int]()
 var elf = 0
 while let line = readLine() {
   if line == "" {
-    elves.append(temp)
+    elves.append(elf)
     elf = 0
   } else {
     elf += Int(line)!
