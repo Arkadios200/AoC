@@ -35,16 +35,16 @@ while let line = readLine() {
 var total1 = 0, total2 = 0
 for (i, rucksack) in rucksacks.enumerated() {
   let temp = [rucksack[0..<rucksack.count/2], rucksack[rucksack.count/2..<rucksack.count]]
-  part1: for (key, val) in priorities where temp.allSatisfy( { $0.contains(key) } ) {
-    total1 += val
-    break part1
-  }
+  total1 += priorities.first(where: {
+    let key = $0.key 
+    return temp.allSatisfy( { $0.contains(key) } )
+  } )?.value ?? 0
 
   if i % 3 == 0 {
-    part2: for (key, val) in priorities where rucksacks[i...i+2].allSatisfy( { $0.contains(key) } ) {
-      total2 += val
-      break part2
-    }
+    total2 += priorities.first(where: {
+      let key = $0.key
+      return rucksacks[i...i+2].allSatisfy( { $0.contains(key) } )
+    } )?.value ?? 0
   }
 }
 
