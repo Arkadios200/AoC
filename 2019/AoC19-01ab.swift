@@ -1,4 +1,4 @@
-let getFuel = { ($0 / 3) - 2 }
+let getFuel: (Int) -> Int = { ($0 / 3) - 2 }
 
 var total1 = 0, total2 = 0
 var modules = [Int]()
