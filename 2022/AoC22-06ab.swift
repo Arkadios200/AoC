@@ -1,12 +1,6 @@
 func indexAfterFirstNonrepeatingSubstring(ofLength length: Int, in line: [Character]) -> Int {
   let index = length - 1
-  return 1 + line.indices[index...].first(where: {
-    let temp = line[$0-index...$0]
-    var counts = [Character: Int]()
-    temp.forEach( { counts[$0] = (counts[$0] ?? 0) + 1 } )
-
-    return counts.count == length
-  } )!
+  return line.indices[index...].first(where: { Set(line[$0-index...$0]).count == length } )! + 1
 }
 
 let line = Array(readLine()!)
