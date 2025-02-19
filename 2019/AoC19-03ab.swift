@@ -36,8 +36,6 @@ func part2(_ lines: [[Character]]) -> (Int, Int) {
     if tempCSR.count > 1 {
       tempCSR = tempCSR.filter( { $0[i] == (getCount(tempCSR, i) >= 0 ? "0" : "1") } )
     }
-
-    if tempOGR.count == 1 && tempCSR.count == 1 { break }
   }
 
   return (String(tempOGR.first!).parseBin!, String(tempCSR.first!).parseBin!)
@@ -45,7 +43,6 @@ func part2(_ lines: [[Character]]) -> (Int, Int) {
 
 var lines = [[Character]]()
 while let line = readLine() {
-  if line == "" { break }
   lines.append(Array(line))
 }
 
