@@ -42,7 +42,6 @@ func CO2ScrubberRating(_ lines: [[Character]]) -> Int {
 
 var lines = [[Character]]()
 while let line = readLine() {
-  if line == "" { break }
   lines.append(Array(line))
 }
 
