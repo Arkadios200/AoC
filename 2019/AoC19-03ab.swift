@@ -16,10 +16,10 @@ func getCount(_ lines: [[Character]], _ i: Int) -> Int {
 func part1(_ lines: [[Character]]) -> (Int, Int) {
   var gamma = "", epsilon = ""
   for i in lines[0].indices {
-    let count = getCount(lines, i)
+    let cond = getCount(lines, i) >= 0
 
-    gamma.append(count >= 0 ? "1" : "0")
-    epsilon.append(count >= 0 ? "0" : "1")
+    gamma.append(cond ? "1" : "0")
+    epsilon.append(cond ? "0" : "1")
   }
 
   return (gamma.parseBin!, epsilon.parseBin!)
