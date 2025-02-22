@@ -6,11 +6,7 @@ func += (a: inout (Int, Int), b: (Int, Int)) {
 func extrapolate(_ seq: [Int]) -> (Int, Int) {
   var seqs = [seq]
   while seqs.last!.contains(where: { $0 != 0 } ) {
-    var newSeq = [Int]()
-    for i in 1..<seqs.last!.count {
-      newSeq.append(seqs.last![i] - seqs.last![i-1])
-    }
-    seqs.append(newSeq)
+    seqs.append(seqs.last!.indices[1...].map( { seqs.last![$0] - seqs.last![$0-1] } ))
   }
 
   for i in stride(from: seqs.count-2, through: 0, by: -1) {
