@@ -34,7 +34,7 @@ struct Light {
   }
 }
 
-var lights: [Light] = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!
+var lights: [Light] = (try! String(contentsOf: URL(fileURLWithPath: "input.txt")))
 .split(separator: "\n")
 .map( { Light(
   $0
@@ -46,9 +46,7 @@ var lights: [Light] = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")
 var count = 0
 while true {
   count += 1
-  for i in 0..<lights.count {
-    lights[i].step()
-  }
+  lights.indices.forEach( { lights[$0].step() } )
 
   if let map = Light.skyMap(of: lights) {
     print("Part 1 answer:")
@@ -56,4 +54,5 @@ while true {
     break
   }
 }
+
 print("Part 2 answer: \(count)")
