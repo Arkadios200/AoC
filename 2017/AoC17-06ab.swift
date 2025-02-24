@@ -2,7 +2,6 @@ func redistribute(_ banks: inout [Int]) -> Int {
   var record: Set<[Int]> = [banks]
 
   while true {
-    let len = record.count
     let (i, e) = banks.enumerated().max(by: { $0.element < $1.element } )!
 
     var iter = i
@@ -12,9 +11,7 @@ func redistribute(_ banks: inout [Int]) -> Int {
       banks[iter] += 1
     }
 
-    record.insert(banks)
-
-    if record.count == len {
+    if !record.insert(banks).inserted {
       return record.count
     }
   }
