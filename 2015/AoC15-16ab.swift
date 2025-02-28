@@ -10,6 +10,7 @@ struct Aunt {
 
 func process(_ line: String) -> (Int, [(String, Int)]) {
   let temp = line.filter( { $0 != " " } ).split(separator: ":", maxSplits: 1)
+
   let num = Int(temp[0].filter( { $0.isNumber } ))!
   let data = temp[1].split(separator: ",")
     .map( { $0.split(separator: ":") } )
