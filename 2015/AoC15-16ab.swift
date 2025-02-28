@@ -1,9 +1,19 @@
-func process(_ line: String) -> (String, [[String]]) {
-  let temp = line.filter( { $0 != " " } ).split(separator: ":", maxSplits: 1)
-  let num = temp[0].filter( { $0.isNumber } )
-  let totals = temp[1].split(separator: ",").map( { $0.split(separator: ":").map( { String($0) } ) } )
+struct Aunt {
+  let num: Int
+  let data: [(String, Int)]
 
-  return (num, totals)
+  init(_ num: Int, _ data: [(String, Int)]) {
+    self.num = num
+    self.data = data
+  }
+}
+
+func process(_ line: String) -> (Int, [(String, Int)]) {
+  let temp = line.filter( { $0 != " " } ).split(separator: ":", maxSplits: 1)
+  let num = Int(temp[0].filter( { $0.isNumber } ))!
+  let data = temp[1].split(separator: ",").map( { $0.split(separator: ":") } ).map( { (String($0[0]), Int($0[1])!) } )
+
+  return (num, data)
 }
 
 let targetAunt1: [String: Int] = [
@@ -32,20 +42,31 @@ let targetAunt2: [String: (Int) -> Bool] = [
   "perfumes": { $0 == 1 }
 ]
 
-outer: while let line = readLine() {
-  let (num, totals) = process(line)
+var aunts = [Aunt]()
+while let line = readLine() {
+  let (num, data) = process(line)
+  aunts.append(Aunt(num, data))
+}
 
-  var check1 = true
-  var check2 = true
-  for t in totals {
-    if targetAunt1[t[0]]! != Int(t[1])! {
-      check1 = false
-    }
-
-    if !targetAunt2[t[0]]!(Int(t[1])!) {
-      check2 = false
+let ans1 = aunts.first(where: {
+  (aunt: Aunt) in
+  for line in aunt.data {
+    if targetAunt1[line.0]! != line.1 {
+      return false
     }
   }
-  if check1 { print("Part 1 answer: \(num)") }
-  if check2 { print("Part 2 answer: \(num)") }
-}
+  return true
+} )!.num
+
+let ans2 = aunts.first(where: {
+  (aunt: Aunt) in
+  for line in aunt.data {
+    if !targetAunt2[line.0]!(line.1) {
+      return false
+    }
+  }
+  return true
+} )!.num
+
+print("Part 1 answer: \(ans1)")
+print("Part 2 answer: \(ans2)")
