@@ -19,7 +19,7 @@ func process(_ line: String) -> (Int, [(String, Int)]) {
   return (num, data)
 }
 
-let targetAunt1: [String: Int] = [
+let targetData1: [String: Int] = [
   "children":    3,
   "cats":        7,
   "samoyeds":    2,
@@ -32,7 +32,7 @@ let targetAunt1: [String: Int] = [
   "perfumes":    1
 ]
 
-let targetAunt2: [String: (Int) -> Bool] = [
+let targetData2: [String: (Int) -> Bool] = [
   "children":    { $0 == 3 },
   "cats":        { $0 > 7 },
   "samoyeds":    { $0 == 2 },
@@ -52,11 +52,11 @@ while let line = readLine() {
 }
 
 let ans1 = aunts.first(where: {
-  $0.data.allSatisfy( { targetAunt1[$0.0]! == $0.1 } )
+  $0.data.allSatisfy( { targetData1[$0.0]! == $0.1 } )
 } )!.num
 
 let ans2 = aunts.first(where: {
-  $0.data.allSatisfy( { targetAunt2[$0.0]!($0.1) } )
+  $0.data.allSatisfy( { targetData2[$0.0]!($0.1) } )
 } )!.num
 
 print("Part 1 answer: \(ans1)")
