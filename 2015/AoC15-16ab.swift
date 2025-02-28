@@ -34,13 +34,13 @@ let targetData1: [String: Int] = [
 
 let targetData2: [String: (Int) -> Bool] = [
   "children":    { $0 == 3 },
-  "cats":        { $0 > 7 },
+  "cats":        { $0  > 7 },
   "samoyeds":    { $0 == 2 },
-  "pomeranians": { $0 < 3 },
+  "pomeranians": { $0  < 3 },
   "akitas":      { $0 == 0 },
   "vizslas":     { $0 == 0 },
-  "goldfish":    { $0 < 5 },
-  "trees":       { $0 > 3 },
+  "goldfish":    { $0  < 5 },
+  "trees":       { $0  > 3 },
   "cars":        { $0 == 2 },
   "perfumes":    { $0 == 1 }
 ]
