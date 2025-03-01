@@ -23,16 +23,16 @@ struct Aunt {
 }
 
 let targetData: [String: (Int, (Int) -> Bool)] = [
-  "children":    (3, { $0 == 3 }),
-  "cats":        (7, { $0  > 7 }),
-  "samoyeds":    (2, { $0 == 2 }),
-  "pomeranians": (3, { $0  < 3 }),
-  "akitas":      (0, { $0 == 0 }),
-  "vizslas":     (0, { $0 == 0 }),
-  "goldfish":    (5, { $0  < 5 }),
-  "trees":       (3, { $0  > 3 }),
-  "cars":        (2, { $0 == 2 }),
-  "perfumes":    (1, { $0 == 1 })
+  "children":    (3, { $0 == 3 } ),
+  "cats":        (7, { $0  > 7 } ),
+  "samoyeds":    (2, { $0 == 2 } ),
+  "pomeranians": (3, { $0  < 3 } ),
+  "akitas":      (0, { $0 == 0 } ),
+  "vizslas":     (0, { $0 == 0 } ),
+  "goldfish":    (5, { $0  < 5 } ),
+  "trees":       (3, { $0  > 3 } ),
+  "cars":        (2, { $0 == 2 } ),
+  "perfumes":    (1, { $0 == 1 } )
 ]
 
 var aunts = [Aunt]()
