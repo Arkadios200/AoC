@@ -1,71 +1,63 @@
-func part1(_ input: [Character]) -> Int {
-  var pos = (0, 0)
-  var posRecord = [pos]
-  for i in input {
-    switch i {
-      case "^":
-        pos.1 -= 1
-      case ">":
-        pos.0 += 1
-      case "v":
-        pos.1 += 1
-      case "<":
-        pos.0 -= 1
-      default: break
-    }
+// Tuples in Swift aren't Hashable, so they can't be used in sets. :/
+struct Point: Equatable, Hashable {
+  var x: Int
+  var y: Int
 
-    if !posRecord.contains() { $0 == pos } {
-      posRecord.append(pos)
-    }
+  init(_ x: Int, _ y: Int) {
+    self.x = x
+    self.y = y
+  }
+
+  static func == (lhs: Point, rhs: Point) -> Bool {
+    return (lhs.x == rhs.x) && (lhs.y == rhs.y)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(self.x)
+    hasher.combine(self.y)
+  }
+}
+
+func move(_ pos: inout Point, _ c: Character) {
+  switch c {
+    case "^": pos.y -= 1
+    case ">": pos.x += 1
+    case "v": pos.y += 1
+    case "<": pos.x -= 1
+    default: print("Invalid input.")
+  }
+}
+
+func part1(_ input: String) -> Int {
+  var pos = Point(0, 0)
+  var posRecord: Set = [pos]
+  for c in input {
+    move(&pos, c)
+    posRecord.insert(pos)
   }
 
   return posRecord.count
 }
 
-func part2(_ input: [Character]) -> Int {
-  var santaPos = (0, 0)
-  var roboSantaPos = (0, 0)
-  var posRecord = [santaPos]
-  for (i, e) in input.enumerated() {
+func part2(_ input: String) -> Int {
+  var santaPos = Point(0, 0)
+  var roboSantaPos = Point(0, 0)
+  var posRecord: Set = [santaPos]
+
+  for (i, c) in input.enumerated() {
     if i % 2 == 0 {
-      switch e {
-        case "^":
-          santaPos.1 -= 1
-        case ">":
-          santaPos.0 += 1
-        case "v":
-          santaPos.1 += 1
-        case "<":
-          santaPos.0 -= 1
-        default: break
-      }
-
-      if !posRecord.contains() { $0 == santaPos } {
-        posRecord.append(santaPos)
-      }
+      move(&santaPos, c)
+      posRecord.insert(santaPos)
     } else {
-      switch e {
-        case "^":
-          roboSantaPos.1 -= 1
-        case ">":
-          roboSantaPos.0 += 1
-        case "v":
-          roboSantaPos.1 += 1
-        case "<":
-          roboSantaPos.0 -= 1
-        default: break
-      }
-
-      if !posRecord.contains() { $0 == roboSantaPos } {
-        posRecord.append(roboSantaPos)
-      }
+      move(&roboSantaPos, c)
+      posRecord.insert(roboSantaPos)
     }
   }
 
   return posRecord.count
 }
 
-let input = Array(readLine()!)
+let input = readLine()!
 
 print("Part 1 answer: \(part1(input))")
 print("Part 2 answer: \(part2(input))")
