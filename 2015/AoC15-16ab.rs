@@ -8,8 +8,8 @@ struct Aunt {
 
 impl From<&str> for Aunt {
   fn from(line: &str) -> Aunt {
-    let l = line.split_whitespace().collect::<String>();
-    let (a, b) = l.split_once(':').unwrap();
+    let temp = line.split_whitespace().collect::<String>();
+    let (a, b) = temp.split_once(':').unwrap();
 
     let num: u32 = a.chars()
       .filter(|c| c.is_digit(10))
