@@ -1,4 +1,5 @@
-// Tuples in Swift aren't Hashable, so they can't be used in sets. :/
+// Tuples in Swift are Equatable, but not Hashable, and they can't be extended.
+// Basically, they can't be used in Sets. :/
 struct Point: Hashable {
   var x: Int
   var y: Int
@@ -26,7 +27,7 @@ func move(_ pos: inout Point, _ c: Character) {
 
 func part1(_ input: String) -> Int {
   var pos = Point(0, 0)
-  var posRecord: Set = [pos]
+  var posRecord: Set<Point> = [pos]
   for c in input {
     move(&pos, c)
     posRecord.insert(pos)
@@ -41,12 +42,14 @@ func part2(_ input: String) -> Int {
   var posRecord: Set = [santaPos]
 
   for (i, c) in input.enumerated() {
-    if i % 2 == 0 {
-      move(&santaPos, c)
-      posRecord.insert(santaPos)
-    } else {
-      move(&roboSantaPos, c)
-      posRecord.insert(roboSantaPos)
+    switch i % 2 {
+      case 0:
+        move(&santaPos, c)
+        posRecord.insert(santaPos)
+      case 1:
+        move(&roboSantaPos, c)
+        posRecord.insert(roboSantaPos)
+      default: print("Something broke.")
     }
   }
 
