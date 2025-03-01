@@ -2,7 +2,8 @@ func nice1(_ s: String) -> Bool {
   let cond1 = s.filter( { "aeiou".contains($0) } ).count >= 3
 
   let indices = s.indices
-  let cond2 = indices[..<indices.index(before: indices.endIndex)].contains(where: { s[$0] == s[s.index(after: $0)] } )
+  let cond2 = indices[..<indices.index(before: indices.endIndex)]
+    .contains(where: { s[$0] == s[s.index(after: $0)] } )
 
   let cond3 = ["ab", "cd", "pq", "xy"].filter( { s.contains($0) } ).count == 0
   
