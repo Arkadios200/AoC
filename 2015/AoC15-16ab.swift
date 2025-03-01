@@ -6,57 +6,46 @@ struct Aunt {
     self.num = num
     self.data = data
   }
+
+  static func process(_ line: String) -> Aunt {
+    let temp = line.filter( { $0 != " " } ).split(separator: ":", maxSplits: 1)
+
+    let num: Int = Int(temp[0].filter( { $0.isNumber } ))!
+
+    let data: [(String, Int)] = temp[1].split(separator: ",")
+      .map( {
+        let s = $0.split(separator: ":")
+        return (String(s[0]), Int(s[1])!)
+      } )
+
+    return Aunt(num, data)
+  }
 }
 
-func process(_ line: String) -> (Int, [(String, Int)]) {
-  let temp = line.filter( { $0 != " " } ).split(separator: ":", maxSplits: 1)
-
-  let num = Int(temp[0].filter( { $0.isNumber } ))!
-  let data = temp[1].split(separator: ",")
-    .map( { $0.split(separator: ":") } )
-    .map( { (String($0[0]), Int($0[1])!) } )
-
-  return (num, data)
-}
-
-let targetData1: [String: Int] = [
-  "children":    3,
-  "cats":        7,
-  "samoyeds":    2,
-  "pomeranians": 3,
-  "akitas":      0,
-  "vizslas":     0,
-  "goldfish":    5,
-  "trees":       3,
-  "cars":        2,
-  "perfumes":    1
-]
-
-let targetData2: [String: (Int) -> Bool] = [
-  "children":    { $0 == 3 },
-  "cats":        { $0  > 7 },
-  "samoyeds":    { $0 == 2 },
-  "pomeranians": { $0  < 3 },
-  "akitas":      { $0 == 0 },
-  "vizslas":     { $0 == 0 },
-  "goldfish":    { $0  < 5 },
-  "trees":       { $0  > 3 },
-  "cars":        { $0 == 2 },
-  "perfumes":    { $0 == 1 }
+let targetData: [String: (Int, (Int) -> Bool)] = [
+  "children":    (3, { $0 == 3 }),
+  "cats":        (7, { $0  > 7 }),
+  "samoyeds":    (2, { $0 == 2 }),
+  "pomeranians": (3, { $0  < 3 }),
+  "akitas":      (0, { $0 == 0 }),
+  "vizslas":     (0, { $0 == 0 }),
+  "goldfish":    (5, { $0  < 5 }),
+  "trees":       (3, { $0  > 3 }),
+  "cars":        (2, { $0 == 2 }),
+  "perfumes":    (1, { $0 == 1 })
 ]
 
 var aunts = [Aunt]()
 while let line = readLine() {
-  let (num, data) = process(line)
-  aunts.append(Aunt(num, data))
+  aunts.append(Aunt.process(line))
 }
 
 let ans1 = aunts.first(where: {
-  $0.data.allSatisfy( { targetData1[$0.0]! == $0.1 } )
+  $0.data.allSatisfy( { targetData[$0.0]!.0 == $0.1 } )
 } )!.num
 
 let ans2 = aunts.first(where: {
-  $0.data.allSatisfy( { targetData2[$0.0]!($0.1) } )
+  $0.data.allSatisfy( { targetData[$0.0]!.1($0.1) } )
 } )!.num
 
 print("Part 1 answer: \(ans1)")
