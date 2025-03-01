@@ -12,7 +12,8 @@ impl From<&str> for Aunt {
     let (a, b) = l.split_once(':').unwrap();
 
     let num: u32 = a.chars()
-      .filter(|c| c.is_digit(10)).collect::<String>()
+      .filter(|c| c.is_digit(10))
+      .collect::<String>()
       .parse().unwrap();
 
     let data: Vec<(String, u32)> = b.split(',')
