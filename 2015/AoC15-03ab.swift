@@ -8,10 +8,6 @@ struct Point: Equatable, Hashable {
     self.y = y
   }
 
-  static func == (lhs: Point, rhs: Point) -> Bool {
-    return (lhs.x == rhs.x) && (lhs.y == rhs.y)
-  }
-
   func hash(into hasher: inout Hasher) {
     hasher.combine(self.x)
     hasher.combine(self.y)
