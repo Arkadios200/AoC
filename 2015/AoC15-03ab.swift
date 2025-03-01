@@ -1,5 +1,5 @@
 // Tuples in Swift aren't Hashable, so they can't be used in sets. :/
-struct Point: Equatable, Hashable {
+struct Point: Hashable {
   var x: Int
   var y: Int
 
