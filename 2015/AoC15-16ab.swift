@@ -41,11 +41,17 @@ while let line = readLine() {
 }
 
 let ans1 = aunts.first(where: {
-  $0.data.allSatisfy( { targetData[$0.0]!.0 == $0.1 } )
+  $0.data.allSatisfy( {
+    let (key, val) = $0
+    return targetData[key]!.0 == val
+  } )
 } )!.num
 
 let ans2 = aunts.first(where: {
-  $0.data.allSatisfy( { targetData[$0.0]!.1($0.1) } )
+  $0.data.allSatisfy( {
+    let (key, val) = $0
+    return targetData[key]!.1(val)
+  } )
 } )!.num
 
 print("Part 1 answer: \(ans1)")
