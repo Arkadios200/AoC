@@ -12,15 +12,15 @@ impl From<&str> for Aunt {
     let (a, b) = temp.split_once(':').unwrap();
 
     let num: u32 = a.chars()
-      .filter(|c| c.is_digit(10))
-      .collect::<String>()
-      .parse().unwrap();
+    .filter(|c| c.is_digit(10))
+    .collect::<String>()
+    .parse().unwrap();
 
     let data: Vec<(String, u32)> = b.split(',')
-      .map(|s| {
-        let (key, value) = s.split_once(':').unwrap();
-        (String::from(key), value.parse().unwrap())
-      }).collect();
+    .map(|s| {
+      let (key, value) = s.split_once(':').unwrap();
+      (String::from(key), value.parse().unwrap())
+    }).collect();
 
     Aunt { num, data }
   }
@@ -55,12 +55,7 @@ fn main() {
 
   
   let input = fs::read_to_string("input.txt").unwrap();
-  let lines: Vec<_> = input.split('\n').collect();
-
-  let mut aunts: Vec<Aunt> = Vec::new();
-  for line in lines {
-    aunts.push(Aunt::from(line));
-  }
+  let aunts: Vec<Aunt> = input.split('\n').map(|line| Aunt::from(line)).collect();
 
   let ans1 = aunts.iter().find(|aunt|
     aunt.data.iter().all(|(key, value)| target_data[key.as_str()].0 == *value)
