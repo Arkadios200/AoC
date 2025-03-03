@@ -14,7 +14,7 @@ struct Point: Hashable {
     hasher.combine(self.y)
   }
 
-  mutating func move(_ c: Character) {
+  mutating func move(_ c: Character) -> Point {
     switch c {
       case "^": self.y -= 1
       case ">": self.x += 1
@@ -22,6 +22,8 @@ struct Point: Hashable {
       case "<": self.x -= 1
       default: print("Invalid input.")
     }
+
+    return self
   }
 }
 
@@ -29,8 +31,7 @@ func part1(_ input: String) -> Int {
   var pos = Point(0, 0)
   var posRecord: Set<Point> = [pos]
   for c in input {
-    pos.move(c)
-    posRecord.insert(pos)
+    posRecord.insert(pos.move(c))
   }
 
   return posRecord.count
@@ -44,11 +45,9 @@ func part2(_ input: String) -> Int {
   for (i, c) in input.enumerated() {
     switch i % 2 {
       case 0:
-        santaPos.move(c)
-        posRecord.insert(santaPos)
+        posRecord.insert(santaPos.move(c))
       case 1:
-        roboSantaPos.move(c)
-        posRecord.insert(roboSantaPos)
+        posRecord.insert(roboSantaPos.move(c))
       default: print("Something broke.")
     }
   }
