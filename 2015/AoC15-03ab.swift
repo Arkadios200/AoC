@@ -14,15 +14,20 @@ struct Point: Hashable {
     hasher.combine(self.y)
   }
 
-  mutating func move(_ c: Character) -> Point {
-    switch c {
-      case "^": self.y -= 1
-      case ">": self.x += 1
-      case "v": self.y += 1
-      case "<": self.x -= 1
-      default: print("Invalid input.")
-    }
+  static func += (lhs: inout Point, rhs: Point) {
+    lhs.x += rhs.x
+    lhs.y += rhs.y
+  }
 
+  mutating func move(_ c: Character) -> Point {
+    let dirs: [Character: Point] = [
+      "^": Point(0, -1),
+      ">": Point(+1, 0),
+      "v": Point(0, +1),
+      "<": Point(-1, 0)
+    ]
+
+    self += dirs[c]!
     return self
   }
 }
