@@ -1,16 +1,16 @@
 func redistribute(_ banks: inout [Int]) -> Int {
-  var record: Set<[Int]> = [banks]
+  var record = Set<[Int]>()
 
-  repeat {
+  let len = banks.count
+  while record.insert(banks).inserted {
     let (i, e) = banks.enumerated().max(by: { $0.element < $1.element } )!
 
-    var iter = i
-    banks[iter] = 0
-    for _ in 1...e {
-      iter = (iter + 1) % banks.count
-      banks[iter] += 1
+    banks[i] = 0
+
+    for x in 1...e {
+      banks[(i + x) % len] += 1
     }
-  } while record.insert(banks).inserted
+  }
 
   return record.count
 }
