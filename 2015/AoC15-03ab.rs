@@ -1,7 +1,7 @@
 use std::fs;
 use std::collections::HashSet;
 
-fn step(pos: &mut (i32, i32), c: char) {
+fn step(pos: &mut (i32, i32), c: char) -> (i32, i32) {
   match c {
     '^' => pos.1 -= 1,
     '>' => pos.0 += 1,
@@ -9,6 +9,8 @@ fn step(pos: &mut (i32, i32), c: char) {
     '<' => pos.0 -= 1,
     _   => { println!("Invalid input."); }
   };
+
+  *pos
 }
 
 fn part1(input: &str) -> usize {
@@ -17,29 +19,26 @@ fn part1(input: &str) -> usize {
   pos_record.insert(pos);
   
   for c in input.chars() {
-    step(&mut pos, c);
-    pos_record.insert(pos);
+    pos_record.insert(step(&mut pos, c));
   }
 
   pos_record.len()
 }
 
+
 fn part2(input: &str) -> usize {
   let mut santa_pos: (i32, i32) = (0, 0);
   let mut robosanta_pos: (i32, i32) = (0, 0);
-
   let mut pos_record: HashSet<(i32, i32)> = HashSet::new();
   pos_record.insert(santa_pos);
 
   for (i, c) in input.chars().enumerate() {
     match i % 2 {
       0 => {
-        step(&mut santa_pos, c);
-        pos_record.insert(santa_pos);
+        pos_record.insert(step(&mut santa_pos, c));
       },
       1 => {
-        step(&mut robosanta_pos, c);
-        pos_record.insert(robosanta_pos);
+        pos_record.insert(step(&mut robosanta_pos, c));
       },
       _ => { println!("Something broke."); }
     };
