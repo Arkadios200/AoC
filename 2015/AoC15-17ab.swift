@@ -8,13 +8,13 @@ while let line = readLine() {
 var total1 = 0
 var counts = [Int]()
 let bin = (1 << buckets.count)
-for i in 0..<bin {
+outer: for i in 0..<bin {
   var temp = i
 
   var count = 0
   var sum = 0
   for bucket in buckets {
-    if sum > 150 { break }
+    if sum > 150 { continue outer }
     let t = temp % 2
 
     sum += bucket * t
