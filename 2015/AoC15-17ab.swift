@@ -9,14 +9,22 @@ var total1 = 0
 var counts = [Int]()
 let bin = (1 << buckets.count)
 for i in 0..<bin {
-  let temp = Array(String(i, radix: 2).reversed())
+  var temp = i
 
-  let b = buckets.indices.filter { ($0 < temp.count ? temp[$0] : "0") == "1" }
-  let sum = b.reduce(0, { $0 + buckets[$1] } )
+  var count = 0
+  var sum = 0
+  for bucket in buckets {
+    if sum > 150 { break }
+    let t = temp % 2
+
+    sum += bucket * t
+    count += t
+    temp /= 2
+  }
 
   if sum == target {
     total1 += 1
-    counts.append(b.count)
+    counts.append(count)
   }
 }
 
