@@ -16,15 +16,15 @@ func part1(_ count: Int) -> Int? {
 }
 
 func part2(_ count: Int) -> Int? {
-  var houses2 = [Int](repeating: 0, count: count)
+  var houses = [Int](repeating: 0, count: count)
   outer: for elf in 1..<count {
     for i in 1...50 {
       let elfi = elf * i
       if elfi >= count { continue outer }
 
-      houses2[elfi] += 11 * elf
+      houses[elfi] += 11 * elf
 
-      if houses2[elfi] >= TARGET {
+      if houses[elfi] >= TARGET {
         return elfi
       }
     }
