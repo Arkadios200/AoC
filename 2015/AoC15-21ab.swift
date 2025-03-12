@@ -39,7 +39,6 @@ struct Player {
   var health = 100
   let armor: Int
   let damage: Int
-  var alive: Bool = true
   let cost: Int
 
   init(_ equipment: [Item]) {
