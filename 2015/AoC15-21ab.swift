@@ -35,33 +35,26 @@ class Ring: Item {
   }
 }
 
-let weapons: [Weapon] = [
-  Weapon(c: 8, d: 4),
-  Weapon(c: 10, d: 5),
-  Weapon(c: 25, d: 6),
-  Weapon(c: 40, d: 7),
-  Weapon(c: 74, d: 8)
-]
+func fight(_ player: Player) -> (Bool, Int) {
+  var player = player
+  var boss = (health: 104, damage: 8, armor: 1)
+  var alive = true
+  
+  while true {
+    boss.health -= max(1, player.damage - boss.armor)
+    if boss.health <= 0 {
+      break
+    }
 
-let armors: [Armor] = [
-  Armor(c: 0, a: 0),
-  Armor(c: 13, a: 1),
-  Armor(c: 31, a: 2),
-  Armor(c: 53, a: 3),
-  Armor(c: 75, a: 4),
-  Armor(c: 102, a: 5)
-]
+    player.health -= max(1, boss.damage - player.armor)
+    if player.health <= 0 {
+      alive = false
+      break
+    }
+  }
 
-let rings: [Ring] = [
-  Ring(c: 0, a: 0),
-  Ring(c: 0, a: 0),
-  Ring(c: 25, d: 1),
-  Ring(c: 50, d: 2),
-  Ring(c: 100, d: 3),
-  Ring(c: 20, a: 1),
-  Ring(c: 40, a: 2),
-  Ring(c: 80, a: 3)
-]
+  return (alive, player.cost)
+}
 
 struct Player {
   var health = 100
@@ -91,6 +84,34 @@ struct Player {
   }
 }
 
+let weapons: [Weapon] = [
+  Weapon(c: 8, d: 4),
+  Weapon(c: 10, d: 5),
+  Weapon(c: 25, d: 6),
+  Weapon(c: 40, d: 7),
+  Weapon(c: 74, d: 8)
+]
+
+let armors: [Armor] = [
+  Armor(c: 0, a: 0),
+  Armor(c: 13, a: 1),
+  Armor(c: 31, a: 2),
+  Armor(c: 53, a: 3),
+  Armor(c: 75, a: 4),
+  Armor(c: 102, a: 5)
+]
+
+let rings: [Ring] = [
+  Ring(c: 0, a: 0),
+  Ring(c: 0, a: 0),
+  Ring(c: 25, d: 1),
+  Ring(c: 50, d: 2),
+  Ring(c: 100, d: 3),
+  Ring(c: 20, a: 1),
+  Ring(c: 40, a: 2),
+  Ring(c: 80, a: 3)
+]
+
 var winCosts = [Int]()
 var loseCosts = [Int]()
 
@@ -98,23 +119,8 @@ for w in weapons {
   for a in armors {
     for r1 in 0..<(rings.count-1) {
       for r2 in (r1+1)..<rings.count {
-        var player = Player([w, a, rings[r1], rings[r2]])
-
-        var boss = (health: 104, damage: 8, armor: 1)
-
-        while true {
-          boss.health -= max(1, player.damage - boss.armor)
-          if boss.health <= 0 {
-            winCosts.append(player.cost)
-            break
-          }
-
-          player.health -= max(1, boss.damage - player.armor)
-          if player.health <= 0 {
-            loseCosts.append(player.cost)
-            break
-          }
-        }
+        let (alive, cost) = fight(Player([w, a, rings[r1], rings[r2]]))
+        alive ? winCosts.append(cost) : loseCosts.append(cost)
       }
     }
   }
