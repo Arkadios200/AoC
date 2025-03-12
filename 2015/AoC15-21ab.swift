@@ -35,27 +35,6 @@ class Ring: Item {
   }
 }
 
-func fight(_ player: Player) -> (Bool, Int) {
-  var player = player
-  var boss = (health: 104, damage: 8, armor: 1)
-  var alive = true
-  
-  while true {
-    boss.health -= max(1, player.damage - boss.armor)
-    if boss.health <= 0 {
-      break
-    }
-
-    player.health -= max(1, boss.damage - player.armor)
-    if player.health <= 0 {
-      alive = false
-      break
-    }
-  }
-
-  return (alive, player.cost)
-}
-
 struct Player {
   var health = 100
   let armor: Int
@@ -82,6 +61,27 @@ struct Player {
     self.armor = arm
     self.cost = equipment.reduce(0) { $0 + $1.cost }
   }
+}
+
+func fight(_ player: Player) -> (Bool, Int) {
+  var player = player
+  var boss = (health: 104, damage: 8, armor: 1)
+  var alive = true
+  
+  while true {
+    boss.health -= max(1, player.damage - boss.armor)
+    if boss.health <= 0 {
+      break
+    }
+
+    player.health -= max(1, boss.damage - player.armor)
+    if player.health <= 0 {
+      alive = false
+      break
+    }
+  }
+
+  return (alive, player.cost)
 }
 
 let weapons: [Weapon] = [
