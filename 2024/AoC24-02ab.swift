@@ -1,9 +1,9 @@
 struct Report {
   var levels: [Int]
   var isSafe: Bool {
-    let inc = (levels[0] < levels[1])
+    let inc = (levels[0] < levels[1]) ? 1 : -1
     return levels.indices[1...].allSatisfy( {
-      let diff = (levels[$0] - levels[$0-1]) * (inc ? 1 : -1)
+      let diff = (levels[$0] - levels[$0-1]) * inc
       return (1...3).contains(diff)
     } )
   }
