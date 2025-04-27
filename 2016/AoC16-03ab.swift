@@ -1,5 +1,5 @@
 func validTriangles(in input: [[Int]]) -> Int {
-  return input.filter( { (2 * $0.max()!) < $0.reduce(0, +) } ).count
+  return input.filter { (2 * $0.max()!) < $0.reduce(0, +) }.count
 }
 
 var input1 = [[Int]]()
@@ -8,13 +8,9 @@ while let line = readLine() {
 }
 
 var input2 = [[Int]]()
-for i in stride(from: 0, to: input1.count, by: 3) {
+for i in input1.indices.filter( { $0 % 3 == 0 } ) {
   for j in 0..<3 {
-    var temp = [Int]()
-    for k in 0..<3 {
-      temp.append(input1[i+k][j])
-    }
-    input2.append(temp)
+    input2.append(input1[i...i+2].map { $0[j] })
   }
 }
 
