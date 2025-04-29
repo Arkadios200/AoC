@@ -7,7 +7,9 @@ func getInput() -> [[[Character]]] {
   var layer: [[Character]] = []
   for i in stride(from: 0, to: input.count, by: width * height) {
     for j in stride(from: 0, to: width * height, by: width) {
-      layer.append(input.dropFirst(i + j).prefix(width))
+      layer.append(Array(input.dropFirst(i + j).prefix(width)))
+    }
+
     layers.append(layer)
     layer.removeAll()
   }
