@@ -1,45 +1,35 @@
-let input = Array(readLine()!)
+func getInput() -> [[[Character]]] {
+  var input = Array(readLine()!)
+  let width = 25
+  let height = 6
 
-var layers = [[[Character]]]()
-for i in stride(from: 0, to: input.count, by: 150) {
-  var tempLayer = [[Character]]()
-  for j in stride(from: 0, to: 150, by: 25) {
-    tempLayer.append(Array(input[i+j..<i+j+25]))
-  }
-  layers.append(tempLayer)
-}
-
-var counts = [Character: Int]()
-var zeroes = 150
-part1: for layer in layers {
-  var layerCounts = [Character: Int]()
-  for row in layer {
-    for pixel in row {
-      layerCounts[pixel] = (layerCounts[pixel] ?? 0) + 1
-      if (layerCounts["0"] ?? 0) > zeroes { continue part1 }
+  var layers: [[[Character]]] = []
+  var layer: [[Character]] = []
+  for _ in stride(from: 0, to: input.count, by: width * height) {
+    for _ in 1...height {
+      layer.append(Array(input.prefix(width)))
+      input.removeFirst(width)
     }
+    layers.append(layer)
+    layer.removeAll()
   }
-  if (layerCounts["0"] ?? 0) < zeroes {
-    counts = layerCounts
-    zeroes = layerCounts["0"] ?? 0
-  }
+
+  return layers
 }
 
-print("Part 1 answer: \((counts["1"] ?? 0) * (counts["2"] ?? 0))")
+let layers = getInput()
 
-var image = [[Character]](repeating: [Character](repeating: "x", count: 25), count: 6)
-for i in 0..<image.count {
-  for j in 0..<image[i].count {
-    for layer in layers {
-      if layer[i][j] != "2" {
-        image[i][j] = layer[i][j]
-        break
-      }
-    }
-  }
-}
+let temp = layers.map { $0.joined() }.min(by: { $0.filter { $0 == "0" }.count < $1.filter { $0 == "0" }.count } )!
+let ans1 = temp.filter { $0 == "1" }.count * temp.filter { $0 == "2" }.count
 
-print("Part 2 answer:")
-for row in image {
-  print(String(row.map( { $0 == "1" ? "█" : " " } )))
-}
+print("Part 1 answer: \(ans1)")
+
+let ans2: String = layers.first!.indices.map {
+  i in
+  layers.first![i].indices.map {
+    j in
+    layers.first { $0[i][j] != "2" }![i][j] == "1" ? "█" : " "
+  }.joined()
+}.joined(separator: "\n")
+
+print("Part 2 answer:\n\(ans2)")
