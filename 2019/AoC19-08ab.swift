@@ -1,15 +1,13 @@
 func getInput() -> [[[Character]]] {
-  var input = Array(readLine()!)
+  let input = Array(readLine()!)
   let width = 25
   let height = 6
 
   var layers: [[[Character]]] = []
   var layer: [[Character]] = []
-  for _ in stride(from: 0, to: input.count, by: width * height) {
-    for _ in 1...height {
-      layer.append(Array(input.prefix(width)))
-      input.removeFirst(width)
-    }
+  for i in stride(from: 0, to: input.count, by: width * height) {
+    for j in stride(from: 0, to: width * height, by: width) {
+      layer.append(input.dropFirst(i + j).prefix(width))
     layers.append(layer)
     layer.removeAll()
   }
