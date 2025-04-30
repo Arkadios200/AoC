@@ -1,5 +1,5 @@
 extension Collection where Element: Hashable {
-  func counts() -> [Element: Int] {
+  var counts: [Element: Int] {
     var counts: [Element: Int] = [:]
     self.forEach { counts[$0] = (counts[$0] ?? 0) + 1 }
 
@@ -25,7 +25,7 @@ let ans1 = temp.count
 print("Part 1 answer: \(ans1)")
 
 let ans2 = temp.filter {
-  $0.counts().values.contains(2)
+  $0.counts.values.contains(2)
 }.count
 
 print("Part 2 answer: \(ans2)")
