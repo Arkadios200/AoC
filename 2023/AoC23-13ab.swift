@@ -1,47 +1,66 @@
-func findHorizontal(in map: [[Character]], dist: Int) -> Int? {
-  var out: Int? = nil
-  loop: for i in 1..<map.count {
-    var j = i - 1, k = i
-    var diff = 0
-    while j >= 0 && k < map.count {
-      for l in 0..<map[0].count {
-        diff += (map[j][l] != map[k][l]) ? 1 : 0
-        if diff > dist { continue loop }
-      }
-      j -= 1
-      k += 1
+typealias Grid = [[Character]]
+
+func getInput() -> [Grid] {
+  var grids: [Grid] = []
+
+  var grid: Grid = []
+  while let line = readLine() {
+    if line == "" {
+      grids.append(grid)
+      grid.removeAll()
+
+      continue
     }
-    if diff == dist {
-      out = i * 100
-      break
-    }
+
+    grid.append(Array(line))
   }
-  return out
+
+  if !grid.isEmpty { grids.append(grid) }
+
+  return grids
 }
 
-func findVertical(in map: [[Character]], dist: Int) -> Int {
-  var newMap = [[Character]]()
-  for i in 0..<map[0].count {
-    var temp = [Character]()
-    for j in 0..<map.count {
-      temp.append(map[j][i])
-    }
-    newMap.append(temp)
-  }
-  return findHorizontal(in: newMap, dist: dist)! / 100
-}
+func transpose(_ grid: Grid) -> Grid? {
+  guard grid.allSatisfy( { $0.count == grid.first!.count } ) else { return nil }
 
-var map = [[Character]]()
-var total1 = 0, total2 = 0
-while let line = readLine() {
-  if line == "" {
-    total1 += findHorizontal(in: map, dist: 0) ?? findVertical(in: map, dist: 0)
-    total2 += findHorizontal(in: map, dist: 1) ?? findVertical(in: map, dist: 1)
-    map.removeAll()
-  } else {
-    map.append(Array(line))
+  return grid.first!.indices.map {
+    i in grid.indices.map {
+      j in grid[j][i]
+    }
   }
 }
 
-print("Part 1 answer: \(total1)")
-print("Part 2 answer: \(total2)")
+func findLine(in grid: Grid, dist: Int = 0) -> Int? {
+  return grid.indices.dropFirst().first {
+    let g = [Array(grid[..<$0].reversed()), Array(grid[$0...])]
+
+    let d = g.min(by: { $0.count < $1.count } )!.indices
+    .reduce(0) {
+      (acc, i) in 
+      acc + g[0][i].indices.filter { g[0][i][$0] != g[1][i][$0] }.count
+    }
+
+    return d == dist
+  }
+}
+
+let grids = getInput()
+
+let ans1 = grids.reduce(0) {
+  (acc, grid) in
+  let n = findLine(in: grid)
+
+  return acc + (n != nil ? 100 * n! : findLine(in: transpose(grid)!)!)
+}
+
+print("Part 1 answer: \(ans1)")
+
+
+let ans2 = grids.reduce(0) {
+  (acc, grid) in
+  let n = findLine(in: grid, dist: 1)
+
+  return acc + (n != nil ? 100 * n! : findLine(in: transpose(grid)!, dist: 1)!)
+}
+
+print("Part 2 answer: \(ans2)")
