@@ -1,26 +1,37 @@
-var nums = [Int]()
-while let line = readLine() {
-  nums.append(Int(line)!)
+func getInput() -> [Int] {
+  var input: [Int] = []
+  while let line = readLine() {
+    input.append(Int(line)!)
+  }
+
+  return input
 }
 
-part1: for i in 0..<nums.count-1 {
-  for j in i+1..<nums.count {
-    if nums[i] + nums[j] == 2020 {
-      let total1 = nums[i] * nums[j]
-      print("Part 1 answer: \(total1)")
-      break part1
+func findTwoInts(in nums: [Int], thatSumTo target: Int) -> Int? {
+  var a = nums.indices.first!
+  var b = nums.indices.last!
+
+  while true {
+    if a >= b {
+      return nil
+    } else if nums[a] + nums[b] < target {
+      a += 1
+    } else if nums[a] + nums[b] > target {
+      b -= 1
+    } else {
+      break
     }
   }
+
+  return nums[a] * nums[b]
 }
 
-part2: for i in 0..<nums.count-2 {
-  for j in i+1..<nums.count-1 {
-    for k in j+1..<nums.count {
-      if nums[i] + nums[j] + nums[k] == 2020 {
-        let total2 = nums[i] * nums[j] * nums[k]
-        print("Part 2 answer: \(total2)")
-        break part2
-      }
-    }
-  }
-}
+let nums = getInput().sorted()
+
+let ans1 = findTwoInts(in: nums, thatSumTo: 2020)!
+print("Part 1 answer: \(ans1)")
+
+let ans2 = nums.map {
+  n in n * (findTwoInts(in: nums, thatSumTo: 2020 - n) ?? 0)
+}.first { $0 != 0 }!
+print("Part 2 answer: \(ans2)")
