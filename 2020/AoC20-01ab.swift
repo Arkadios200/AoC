@@ -11,19 +11,15 @@ func findTwoInts(in nums: [Int], thatSumTo target: Int) -> Int? {
   var a = nums.indices.first!
   var b = nums.indices.last!
 
-  while true {
-    if a >= b {
-      return nil
-    } else if nums[a] + nums[b] < target {
-      a += 1
-    } else if nums[a] + nums[b] > target {
-      b -= 1
-    } else {
-      break
+  while a < b {
+    switch nums[a] + nums[b] {
+      case let x where x < target: a += 1
+      case let x where x > target: b -= 1
+      default: return nums[a] * nums[b]
     }
   }
 
-  return nums[a] * nums[b]
+  return nil
 }
 
 let nums = getInput().sorted()
