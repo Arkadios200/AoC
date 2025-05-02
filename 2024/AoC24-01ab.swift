@@ -1,21 +1,22 @@
-func + (a: (Int, Int), b: (Int, Int)) -> (Int, Int) {
-  return (a.0 + b.0, a.1 + b.1)
+func getInput() -> ([Int], [Int]) {
+  var lists: ([Int], [Int]) = ([], [])
+  while let line = readLine() {
+    let temp = line.split(separator: " ").map { Int($0)! }
+
+    lists.0.append(temp.first!)
+    lists.1.append(temp.last!)
+  }
+
+  return lists
 }
 
-var lists: ([Int], [Int]) = ([], [])
-while let line = readLine() {
-  let temp = line.split(separator: " ").map( { Int($0)! } )
-  lists.0.append(temp[0])
-  lists.1.append(temp[1])
+let lists = getInput()
+
+let ans1 = zip(lists.0.sorted(), lists.1.sorted()).reduce(0) { $0 + abs($1.0 - $1.1) }
+print("Part 1 answer: \(ans1)")
+
+let ans2 = lists.0.reduce(0) {
+  (acc, n) in
+  acc + n * lists.1.filter { $0 == n }.count
 }
-
-lists.0.sort()
-lists.1.sort()
-
-let (total1, total2) = lists.0.indices.reduce((0, 0), {
-  let (a, b) = (lists.0[$1], lists.1[$1])
-  return $0 + (abs(a - b), a * lists.1.filter( { $0 == a } ).count)
-} )
-
-print("Part 1 answer: \(total1)")
-print("Part 2 answer: \(total2)")
+print("Part 2 answer: \(ans2)")
