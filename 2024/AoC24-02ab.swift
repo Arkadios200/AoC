@@ -1,7 +1,7 @@
 struct Report {
   var levels: [Int]
   var isSafe: Bool {
-    let inc = (levels[0] < levels[1]) ? 1 : -1
+    let inc = (levels.first! < levels.last!) ? 1 : -1
     return levels.indices.dropFirst().allSatisfy( {
       let diff = (levels[$0] - levels[$0-1]) * inc
       return (1...3).contains(diff)
