@@ -1,6 +1,6 @@
 typealias Grid = [[Character]]
 
-extension BidirectionalCollection {
+extension Collection {
   var unorderedPairs: [(Element, Element)] {
     var out: [(Element, Element)] = []
     for (i, e) in self.dropLast().enumerated() {
