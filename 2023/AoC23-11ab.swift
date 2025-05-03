@@ -46,7 +46,7 @@ func walk(_ grid: Grid, expansion: Int) -> Int {
     let (g1, g2) = $1
 
     let yRange = min(g1.y, g2.y)..<max(g1.y, g2.y)
-      let xRange = min(g1.x, g2.x)..<max(g1.x, g2.x)
+    let xRange = min(g1.x, g2.x)..<max(g1.x, g2.x)
 
     return $0
     + yRange.count
