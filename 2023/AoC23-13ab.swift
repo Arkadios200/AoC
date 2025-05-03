@@ -24,9 +24,7 @@ func transpose(_ grid: Grid) -> Grid? {
   guard grid.allSatisfy( { $0.count == grid.first!.count } ) else { return nil }
 
   return grid.first!.indices.map {
-    i in grid.indices.map {
-      j in grid[j][i]
-    }
+    i in grid.map { $0[i] }
   }
 }
 
