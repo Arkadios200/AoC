@@ -1,5 +1,18 @@
 typealias Grid = [[Character]]
 
+extension BidirectionalCollection {
+  var unorderedPairs: [(Element, Element)] {
+    var out: [(Element, Element)] = []
+    for (i, e) in self.dropLast().enumerated() {
+      for f in self.dropFirst(i+1) {
+        out.append((e, f))
+      }
+    }
+
+    return out
+  }
+}
+
 func getInput() -> Grid {
   var grid: Grid = []
   while let line = readLine() {
@@ -23,24 +36,13 @@ func findGalaxies(in grid: Grid) -> [(y: Int, x: Int)] {
   return galaxies
 }
 
-func unorderedPairs<T>(in list: [T]) -> [(T, T)] {
-  var out: [(T, T)] = []
-  for (i, e) in list.dropLast().enumerated() {
-    for f in list.dropFirst(i+1) {
-      out.append((e, f))
-    }
-  }
-
-  return out
-}
-
 func walk(_ grid: Grid, expansion: Int) -> Int {
   let galaxies = findGalaxies(in: grid)
 
   let rows = grid.indices.filter { !grid[$0].contains("#") }
   let cols = grid[0].indices.filter { j in !grid.map { $0[j] }.contains("#") }
 
-  return unorderedPairs(in: galaxies).reduce(0) {
+  return galaxies.unorderedPairs.reduce(0) {
     let (g1, g2) = $1
 
     let yRange = min(g1.y, g2.y)..<max(g1.y, g2.y)
