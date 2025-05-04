@@ -37,12 +37,10 @@ func findGalaxies(in grid: Grid) -> [(y: Int, x: Int)] {
 }
 
 func walk(_ grid: Grid, expansion: Int) -> Int {
-  let galaxies = findGalaxies(in: grid)
-
   let rows = grid.indices.filter { !grid[$0].contains("#") }
   let cols = grid[0].indices.filter { j in !grid.map { $0[j] }.contains("#") }
 
-  return galaxies.unorderedPairs.reduce(0) {
+  return findGalaxies(in: grid).unorderedPairs.reduce(0) {
     let (g1, g2) = $1
 
     let yRange = min(g1.y, g2.y)..<max(g1.y, g2.y)
