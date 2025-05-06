@@ -1,46 +1,37 @@
-func runProgram(_ input: [Int]) -> Int {
-  var program = input
-  
-  for i in stride(from: 0, to: program.count, by: 4) {
-    if program[i] == 1 {
-      program[program[i+3]] = program[program[i+1]] + program[program[i+2]]
-    } else if program[i] == 2 {
-      program[program[i+3]] = program[program[i+1]] * program[program[i+2]]
-    } else if program[i] == 99 {
-      break
-    } else {
-      print("Something broke")
-      break
+func run(_ p: [Int], _ p1: Int, _ p2: Int) -> Int {
+  var p = p
+  p[1] = p1
+  p[2] = p2
+
+  loop: for i in stride(from: 0, to: p.count, by: 4) {
+    let opcode = p[i]
+    let a = p[i+1]
+    let b = p[i+2]
+    let c = p[i+3]
+
+    switch opcode {
+      case 1: p[c] = p[a] + p[b]
+      case 2: p[c] = p[a] * p[b]
+      case 99: break loop
+      default:
+        print("Error.")
+        break loop 
     }
   }
-  
-  return program[0]
-}
-  
 
-var program = [Int]()
-
-for i in readLine()!.split(separator: ",") {
-  program.append(Int(i)!)
+  return p.first!
 }
 
-program[1] = 12
-program[2] = 2
+let program = readLine()!.split(separator: ",").map { Int($0)! }
 
-let total1 = runProgram(program)
-print("Part 1 answer: \(total1)")
+let ans1 = run(program, 12, 2)
+print("Part 1 answer: \(ans1)")
 
-let target = 19690720
-var total2 = 0
 outer: for noun in 0...99 {
   for verb in 0...99 {
-    program[1] = noun
-    program[2] = verb
-    if runProgram(program) == target {
-      total2 = 100 * noun + verb
+    if run(program, noun, verb) == 19690720 {
+      print("Part 2 answer: \(noun * 100 + verb)")
       break outer
     }
   }
 }
-
-print("Part 2 answer: \(total2)")
