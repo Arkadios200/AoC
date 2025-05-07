@@ -61,7 +61,7 @@ func run(_ p: [Int]) throws {
         }
       case 7: p[params[2]] = p[params[0]] < p[params[1]] ? 1 : 0
       case 8: p[params[2]] = p[params[0]] == p[params[1]] ? 1 : 0
-      default: break loop
+      default: throw IntcodeError.invalidOpcode(opcode)
     }
 
     i += opCount + 1
