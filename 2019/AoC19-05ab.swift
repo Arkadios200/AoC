@@ -1,6 +1,7 @@
 enum IntcodeError: Error {
   case invalidOpcode(_ opcode: Int)
   case invalidInput(_ input: String)
+  case syntaxError(_ input: String)
 }
 
 extension Collection {
@@ -68,6 +69,13 @@ throw IntcodeError.invalidOpcode(opcode)
   }
 }
 
-let program = readLine()!.split(separator: ",").map { Int($0)! }
+let program: [Int] = try readLine()!.split(separator: ",").map {
+  let s = String($0)
+  if let i = Int(s) {
+    return i
+  } else {
+    throw IntcodeError.syntaxError(s)
+  }
+}
 
 try run(program)
