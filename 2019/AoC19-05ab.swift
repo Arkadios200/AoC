@@ -1,95 +1,69 @@
+enum IntcodeError: Error {
+  case invalidOpcode(_ opcode: Int)
+  case invalidInput(_ input: String)
+}
+
 extension Collection {
   subscript(safe index: Index) -> Element? {
     return indices.contains(index) ? self[index] : nil
   }
 }
 
-func runProgram(_ _program: [Int], input: Int) {
-  var program = _program
-  var output: Int
+func run(_ p: [Int]) throws {
+  var p = p
 
   var i = 0
-  execution: while i < program.count {
-    var opcode = program[i]
-    var parameterModes = [Int]()
-    if opcode > 99 {
-      let temp1 = Array(String(opcode))
-      var temp2 = [String]()
-      for x in temp1 {
-        temp2.append(String(x))
-      }
-      opcode = Int(temp2[temp2.count-2...temp2.count-1].joined())!
-      temp2.remove(at: temp2.count-1)
-      temp2.remove(at: temp2.count-1)
-      for j in temp2 {
-        parameterModes.insert(Int(j)!, at: 0)
-      }
-    }
-    let a = parameterModes[safe: 0] ?? 0 == 0 ? program[program[i+1]] : program[i+1]
-    
-    
+  loop: while i < program.count {      
+    let temp = String(p[i])
+    let opcode = Int(temp.suffix(2))!
+    let modes = Array(temp.dropLast(2).reversed())
+
+    var opCount = 0
     switch opcode {
-      case 1:
-        let b = parameterModes[safe: 1] ?? 0 == 0 ? program[program[i+2]] : program[i+2]
-        program[program[i+3]] = a + b
-        i += 4
-        break
-      case 2:
-        let b = parameterModes[safe: 1] ?? 0 == 0 ? program[program[i+2]] : program[i+2]
-        program[program[i+3]] = a * b
-        i += 4
-        break
-      case 3:
-        program[program[i+1]] = input
-        i += 2
-        break
-      case 4:
-        output = program[program[i+1]]
-        print("Output: \(output)")
-        i += 2
-        break
-      case 5:
-        let b = parameterModes[safe: 1] ?? 0 == 0 ? program[program[i+2]] : program[i+2]
-        if a != 0 {
-          i = b
-        } else {
-          i += 3
-        }
-        break
-      case 6:
-        let b = parameterModes[safe: 1] ?? 0 == 0 ? program[program[i+2]] : program[i+2]
-        if a == 0 {
-          i = b
-        } else {
-          i += 3
-        }
-        break
-      case 7:
-        let b = parameterModes[safe: 1] ?? 0 == 0 ? program[program[i+2]] : program[i+2]
-        program[program[i+3]] = a < b ? 1 : 0
-        i += 4
-        break
-      case 8:
-        let b = parameterModes[safe: 1] ?? 0 == 0 ? program[program[i+2]] : program[i+2]
-        program[program[i+3]] = a == b ? 1 : 0
-        i += 4
-        break
-      case 99:
-        break execution
+      case 1, 2, 7, 8: opCount = 3
+      case 3, 4: opCount = 1
+      case 5, 6: opCount = 2
+      case 99: break loop
       default:
-        print("Something broke")
-        break execution
+throw IntcodeError.invalidOpcode(opcode)
     }
+
+    var params: [Int] = []
+    for j in 0..<opCount {
+      let c = modes[safe: j] ?? "0"
+      params.append(c == "0" ? p[i+j+1] : i+j+1)
+    }
+
+    switch opcode {
+      case 1: p[params.last!] = p[params[0]] + p[params[1]]
+      case 2: p[params.last!] = p[params[0]] * p[params[1]]
+      case 3: 
+        let input = readLine()!
+        if let n = Int(input) {
+          p[params.last!] = n
+        } else {
+          throw IntcodeError.invalidInput(input)
+        }
+      case 4: print(p[params.last!])
+      case 5:
+        if p[params[0]] != 0 {
+          i = p[params[1]]
+          continue loop
+        }
+      case 6:
+        if p[params[0]] == 0 {
+          i = p[params[1]]
+          continue loop
+        }
+      case 7: p[params[2]] = p[params[0]] < p[params[1]] ? 1 : 0
+      case 8: p[params[2]] = p[params[0]] == p[params[1]] ? 1 : 0
+      default: break loop
+    }
+
+    i += opCount + 1
   }
 }
 
-  
+let program = readLine()!.split(separator: ",").map { Int($0)! }
 
-var program = [Int]()
-
-for i in readLine()!.split(separator: ",") {
-  program.append(Int(i)!)
-}
-
-runProgram(program, input: 1)
-runProgram(program, input: 5)
+try run(program)
