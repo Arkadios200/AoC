@@ -1,4 +1,8 @@
-func run(_ p: [Int], _ p1: Int, _ p2: Int) -> Int {
+enum IntcodeError: Error {
+  case invalidOpcode(_ opcode: Int)
+}
+
+func run(_ p: [Int], _ p1: Int, _ p2: Int) throws -> Int {
   var p = p
   p[1] = p1
   p[2] = p2
@@ -14,8 +18,7 @@ func run(_ p: [Int], _ p1: Int, _ p2: Int) -> Int {
       case 2: p[c] = p[a] * p[b]
       case 99: break loop
       default:
-        print("Error.")
-        break loop 
+        throw IntcodeError.invalidOpcode(opcode)
     }
   }
 
@@ -24,12 +27,13 @@ func run(_ p: [Int], _ p1: Int, _ p2: Int) -> Int {
 
 let program = readLine()!.split(separator: ",").map { Int($0)! }
 
-let ans1 = run(program, 12, 2)
+
+let ans1 = try run(program, 12, 2)
 print("Part 1 answer: \(ans1)")
 
 outer: for noun in 0...99 {
   for verb in 0...99 {
-    if run(program, noun, verb) == 19690720 {
+    if try run(program, noun, verb) == 19690720 {
       print("Part 2 answer: \(noun * 100 + verb)")
       break outer
     }
