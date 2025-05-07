@@ -32,8 +32,7 @@ throw IntcodeError.invalidOpcode(opcode)
       }
     }(opcode)
 
-    let params: [Int] = (0..<opCount)
-    .map {
+    let params: [Int] = (0..<opCount).map {
       j in
       let c = modes[safe: j] ?? "0"
       return c == "0" ? p[i+j+1] : i+j+1
