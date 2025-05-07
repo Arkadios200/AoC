@@ -35,8 +35,8 @@ throw IntcodeError.invalidOpcode(opcode)
     }
 
     switch opcode {
-      case 1: p[params.last!] = p[params[0]] + p[params[1]]
-      case 2: p[params.last!] = p[params[0]] * p[params[1]]
+      case 1: p[params[2]] = p[params[0]] + p[params[1]]
+      case 2: p[params[2]] = p[params[0]] * p[params[1]]
       case 3: 
         let input = readLine()!
         if let n = Int(input) {
@@ -44,7 +44,7 @@ throw IntcodeError.invalidOpcode(opcode)
         } else {
           throw IntcodeError.invalidInput(input)
         }
-      case 4: print(p[params.last!])
+      case 4: print(p[params[0]])
       case 5:
         if p[params[0]] != 0 {
           i = p[params[1]]
