@@ -22,11 +22,7 @@ func step(_ pos: inout (x: Int, y: Int, dir: Int), _ dir: Character, _ dist: Int
 func navigate1(_ lines: [(Character, Int)]) -> Int {
   var pos = (x: 0, y: 0, dir: 1)
   for (dir, dist) in lines {
-    switch dir {
-      case "F":
-        step(&pos, ["N", "E", "S", "W"][pos.dir], dist)
-      default: step(&pos, dir, dist)
-    }
+    step(&pos, dir == "F" ? ["N", "E", "S", "W"][pos.dir] : dir, dist)
   }
 
   return abs(pos.x) + abs(pos.y)
