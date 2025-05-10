@@ -1,6 +1,15 @@
+func * (lhs: (Int, Int), rhs: Int) -> (Int, Int) {
+  return (lhs.0 * rhs, lhs.1 * rhs)
+}
+
+func + (lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
+  return (lhs.0 + rhs.0, lhs.1 + rhs.1)
+}
+
 func getInput() -> [(Character, Int)] {
   var lines: [(Character, Int)] = []
   while let line = readLine() {
+    if line.isEmpty { break }
     lines.append((line.first!, Int(line.dropFirst())!))
   }
 
@@ -48,9 +57,7 @@ func navigate2(_ lines: [(Character, Int)]) -> Int {
           let (b, c) = wp
           wp = (-c, b)
         }
-      case "F":
-        pos.x += wp.x * dist
-        pos.y += wp.y * dist
+      case "F": pos = pos + wp * dist
       default: break
     }
   }
