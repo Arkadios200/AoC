@@ -9,7 +9,6 @@ func + (lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
 func getInput() -> [(Character, Int)] {
   var lines: [(Character, Int)] = []
   while let line = readLine() {
-    if line.isEmpty { break }
     lines.append((line.first!, Int(line.dropFirst())!))
   }
 
@@ -23,7 +22,7 @@ func step(_ pos: inout (x: Int, y: Int, dir: Int), _ dir: Character, _ dist: Int
     case "E": pos.x += dist
     case "W": pos.x -= dist
     case "R": pos.dir = (pos.dir + dist / 90) % 4
-    case "L": pos.dir = (pos.dir - (dist / 90) + 4) % 4
+    case "L": pos.dir = (pos.dir - dist / 90 + 4) % 4
     default: break
   }
 }
