@@ -1,7 +1,6 @@
 func getInput() -> [(Character, Int)] {
   var lines: [(Character, Int)] = []
   while let line = readLine() {
-    if line.isEmpty { break }
     lines.append((line.first!, Int(line.dropFirst())!))
   }
 
