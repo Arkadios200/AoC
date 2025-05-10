@@ -49,13 +49,11 @@ func navigate2(_ lines: [(Character, Int)]) -> Int {
       case "W": wp.x -= dist
       case "R":
         for _ in 1...(dist / 90) {
-          let (b, c) = wp
-          wp = (c, -b)
+          wp = (wp.1, -wp.0)
         }
       case "L":
         for _ in 1...(dist / 90) {
-          let (b, c) = wp
-          wp = (-c, b)
+          wp = (-wp.1, wp.0)
         }
       case "F": pos = pos + wp * dist
       default: break
