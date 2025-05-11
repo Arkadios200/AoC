@@ -32,7 +32,6 @@ func layout(_ lines: [(Int, Range<Int>, Range<Int>)]) -> Grid {
 }
 
 let lines = getInput()
-
 let grid = layout(lines)
 
 let ans1 = grid.joined().filter { $0 >= 2 }.count
@@ -43,5 +42,4 @@ let ans2 = lines.first {
 
   return grid[yRange].map { $0[xRange] }.joined().allSatisfy { $0 == 1 }
 }!.id
-
 print("Part 2 answer: \(ans2)")
