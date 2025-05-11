@@ -18,7 +18,7 @@ func getInput() -> [(id: Int, Range<Int>, Range<Int>)] {
 }
 
 func layout(_ lines: [(Int, Range<Int>, Range<Int>)]) -> Grid {
-  var grid: Grid = [[Int]](repeating: [Int](repeating: 0, count: 1001), count: 1001)
+  var grid: Grid = [[Int]](repeating: [Int](repeating: 0, count: 1000), count: 1000)
 
   for (_, xRange, yRange) in lines {
     for i in yRange {
