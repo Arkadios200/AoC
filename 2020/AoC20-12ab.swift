@@ -9,7 +9,7 @@ func + (lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
 func getInput() -> [(Character, Int)] {
   var lines: [(Character, Int)] = []
   while let line = readLine() {
-    lines.append((line.first!, Int(line.dropFirst())!))
+    lines.append((line.first!, Int(line.last!)!))
   }
 
   return lines
