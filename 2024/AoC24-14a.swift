@@ -20,8 +20,7 @@ func getInput() -> [Robot] {
   var lines: [Robot] = []
   while let line = readLine() {
     let temp = line.split(separator: " ").map {
-      $0
-      .filter { "-0123456789,".contains($0) }
+      $0.filter { "-0123456789,".contains($0) }
       .split(separator: ",").map { Int($0)! }
     }
 
