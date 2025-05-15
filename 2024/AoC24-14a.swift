@@ -19,7 +19,13 @@ struct Robot {
 func getInput() -> [Robot] {
   var lines: [Robot] = []
   while let line = readLine() {
-    let temp = line.split(separator: " ").map { $0.filter { "-0123456789,".contains($0) }.split(separator: ",").map { Int($0)! } }
+    let temp = line.split(separator: " ").map {
+      $0
+      .filter { "-0123456789,".contains($0) }
+      .split(separator: ",").map {
+        Int($0)!
+      }
+    }
 
     let pos = (temp[0].first!, temp[0].last!)
     let vel = (temp[1].first!, temp[1].last!)
