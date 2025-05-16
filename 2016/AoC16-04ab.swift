@@ -30,27 +30,29 @@ func check(_ line: (String, Int, [Character])) -> Bool {
   return letters == line.2
 }
 
-let input = getInput()
-
-let filteredInput = input.filter { check($0) }
-
-let ans1 = filteredInput.reduce(0) { $0 + $1.id }
-print("Part 1 answer: \(ans1)")
-
-let decryptedRooms: [(id: Int, name: String)] = filteredInput.map {
-  line in
+func decrypt(_ line: (String, Int, [Character])) -> (id: Int, name: String) {
   let letters = Array("abcdefghijklmnopqrstuvwxyz")
 
-  let name = String(line.name.map {
+  let id = line.1
+  let name = String(line.0.map {
     if let i = letters.firstIndex(of: $0) {
-      return letters[(i + line.id) % 26]
+      return letters[(i + id) % 26]
     } else {
       return " "
     }
   })
 
-  return (line.id, name)
+  return (id, name)
 }
+
+let input = getInput()
+
+let filteredInput = input.filter(check)
+
+let ans1 = filteredInput.reduce(0) { $0 + $1.id }
+print("Part 1 answer: \(ans1)")
+
+let decryptedRooms = filteredInput.map(decrypt)
 
 let ans2 = decryptedRooms.first { $0.name == "northpole object storage" }!.id
 print("Part 2 answer: \(ans2)")
