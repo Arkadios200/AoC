@@ -40,13 +40,16 @@ print("Part 1 answer: \(ans1)")
 let decryptedRooms: [(id: Int, name: String)] = filteredInput.map {
   line in
   let letters = Array("abcdefghijklmnopqrstuvwxyz")
-  return (line.id, String(line.name.map {
+
+  let name = String(line.name.map {
     if let i = letters.firstIndex(of: $0) {
       return letters[(i + line.id) % 26]
     } else {
       return " "
     }
-  }))
+  })
+
+  return (line.id, name)
 }
 
 let ans2 = decryptedRooms.first { $0.name == "northpole object storage" }!.id
