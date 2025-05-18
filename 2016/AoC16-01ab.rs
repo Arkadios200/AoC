@@ -51,11 +51,7 @@ struct Point {
 
 impl Point {
   fn new() -> Self {
-    Point {
-      x: 0,
-      y: 0,
-      dir: 0
-    }
+    Point { x: 0, y: 0, dir: 0 }
   }
 
   fn turn(&mut self, c: &char) {
