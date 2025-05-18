@@ -27,30 +27,17 @@ impl From<&str> for Aunt {
 }
 
 fn main() {
-  let conds: Vec<fn(u32) -> bool> = vec![
-    (|x| x == 3),
-    (|x| x  > 7),
-    (|x| x == 2),
-    (|x| x  < 3),
-    (|x| x == 0),
-    (|x| x == 0),
-    (|x| x  < 5),
-    (|x| x  > 3),
-    (|x| x == 2),
-    (|x| x == 1)
-  ];
-
   let target_data = HashMap::from([
-    ("children",    (3, conds[0])),
-    ("cats",        (7, conds[1])),
-    ("samoyeds",    (2, conds[2])),
-    ("pomeranians", (3, conds[3])),
-    ("akitas",      (0, conds[4])),
-    ("vizslas",     (0, conds[5])),
-    ("goldfish",    (5, conds[6])),
-    ("trees",       (3, conds[7])),
-    ("cars",        (2, conds[8])),
-    ("perfumes",    (1, conds[9]))
+    ("children",    (3, (|x| x == 3) as fn(u32) -> bool)),
+    ("cats",        (7, (|x| x  > 7))),
+    ("samoyeds",    (2, (|x| x == 2))),
+    ("pomeranians", (3, (|x| x  < 3))),
+    ("akitas",      (0, (|x| x == 0))),
+    ("vizslas",     (0, (|x| x == 0))),
+    ("goldfish",    (5, (|x| x  < 5))),
+    ("trees",       (3, (|x| x  > 3))),
+    ("cars",        (2, (|x| x == 2))),
+    ("perfumes",    (1, (|x| x == 1)))
   ]);
 
 
