@@ -20,7 +20,6 @@ func defrag(_ disk: [Int?]) -> [Int] {
   var disk = disk
 
   var (a, b) = (disk.firstIndex(of: nil)!, disk.lastIndex { $0 != nil }!)
-
   while a < b {
     defer { b -= 1 }
 
