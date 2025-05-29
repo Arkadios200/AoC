@@ -25,8 +25,5 @@ let ans1 = zip(lists.0.sorted(), lists.1.sorted()).reduce(0) { $0 + abs($1.0 - $
 print("Part 1 answer: \(ans1)")
 
 let counts = lists.1.contents
-let ans2 = lists.0.reduce(0) {
-  (acc, n) in
-  acc + n * (counts[n] ?? 0)
-}
+let ans2 = lists.0.reduce(0) { $0 + $1 * (counts[$1] ?? 0) }
 print("Part 2 answer: \(ans2)")
