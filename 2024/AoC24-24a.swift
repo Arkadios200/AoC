@@ -25,14 +25,12 @@ struct Gate {
   func eval(_ wires: inout [String: Bool]) {
     guard let x = wires[lhs], let y = wires[rhs] else { return }
 
-    wires[out] = {
-      switch op {
-        case "AND": return x && y
-        case "OR":  return x || y
-        case "XOR": return x != y
-        default: fatalError()
-      }
-    }()
+    wires[out] = { switch op {
+      case "AND": return x && y
+      case "OR":  return x || y
+      case "XOR": return x != y
+      default: fatalError("Invalid operator")
+    } }()
   }
 }
 
