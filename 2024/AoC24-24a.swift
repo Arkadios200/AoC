@@ -22,10 +22,10 @@ struct Gate {
     )
   }
 
-  func eval(_ wires: inout [String: Bool]) {
-    guard let x = wires[lhs], let y = wires[rhs] else { return }
+  func eval(_ wires: [String: Bool]) -> Bool? {
+    guard let x = wires[lhs], let y = wires[rhs] else { return nil }
 
-    wires[out] = { switch op {
+    return { switch op {
       case "AND": return x && y
       case "OR":  return x || y
       case "XOR": return x != y
@@ -59,7 +59,9 @@ func simulate(_ wires: [String: Bool], _ gates: [Gate]) -> Int {
     cond = false
     for gate in gates where wires[gate.out] == nil {
       cond = true
-      gate.eval(&wires)
+      if let b = gate.eval(wires) {
+        wires[gate.out] = b
+      }
     }
   }
 
