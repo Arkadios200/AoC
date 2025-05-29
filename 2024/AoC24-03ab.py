@@ -33,7 +33,7 @@ def part2(input):
       case "don't()":
         enabled = False
       case _:
-        total += get_product(match) if enabled else 0
+        if enabled: total += get_product(match)
 
   return total
 
