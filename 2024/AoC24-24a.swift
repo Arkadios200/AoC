@@ -1,13 +1,13 @@
 struct Gate {
   let lhs: String
   let rhs: String
-  let op: String
+  let op:  String
   let out: String
 
   init(lhs: String, rhs: String, op: String, out: String) {
     self.lhs = lhs
     self.rhs = rhs
-    self.op = op
+    self.op  = op
     self.out = out
   }
 
