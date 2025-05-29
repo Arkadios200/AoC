@@ -1,32 +1,32 @@
-enum Part {
-  case one
-  case two
+func getInput() -> [Int] {
+  var nums: [Int] = []
+  while let line = readLine() {
+    nums.append(Int(line)!)
+  }
+
+  return nums
 }
 
-func navigate(_ input: [Int], _ part: Part) -> Int {
-  var jumps = input
+func navigate(_ nums: [Int], _ closure: (inout Int) -> Void) -> Int {
+  var nums = nums
 
   var i = 0
-  var count = 0
-  while (0..<jumps.count).contains(i) {
-    count += 1
-    let dest = i + jumps[i]
-    switch part {
-      case .one:
-        jumps[i] += 1
-      case .two:
-        jumps[i] += jumps[i] < 3 ? 1 : -1
-    }
+  var loopCount = 0
+  while nums.indices.contains(i) {
+    loopCount += 1
+
+    let dest = i + nums[i]
+    closure(&nums[i])
     i = dest
   }
 
-  return count
+  return loopCount
 }
 
-var input = [Int]()
-while let line = readLine() {
-  input.append(Int(line)!)
-}
+let nums = getInput()
 
-print("Part 1 answer: \(navigate(input, Part.one))")
-print("Part 2 answer: \(navigate(input, Part.two))")
+let ans1 = navigate(nums) { $0 += 1 }
+print("Part 1 answer: \(ans1)")
+
+let ans2 = navigate(nums) { $0 += ($0 < 3 ? 1 : -1) }
+print("Part 2 answer: \(ans2)")
