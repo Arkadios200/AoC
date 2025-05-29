@@ -60,10 +60,8 @@ func simulate(_ wires: [String: Bool], _ gates: [Gate]) -> Int {
   var cond = true
   while cond {
     cond = false
-
     for gate in gates where wires[gate.out] == nil {
       cond = true
-
       if let b = gate.eval(wires) {
         wires[gate.out] = b
       }
