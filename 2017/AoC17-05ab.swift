@@ -7,7 +7,7 @@ func getInput() -> [Int] {
   return nums
 }
 
-func navigate(_ nums: [Int], _ closure: (inout Int) -> Void) -> Int {
+func navigate(_ nums: [Int], with closure: (inout Int) -> Void) -> Int {
   var nums = nums
 
   var i = 0
