@@ -10,12 +10,12 @@ extension Collection {
   }
 }
 
-func run(_ p: [Int]) throws {
-  var p = p
+func run(_ program: [Int]) throws {
+  var program = program
 
   var i = 0
-  loop: while i < p.count {      
-    let temp = String(p[i])
+  loop: while i < program.count {      
+    let temp = String(program[i])
 
     let opcode = Int(temp.suffix(2))!
     if opcode == 99 { break loop }
@@ -32,35 +32,35 @@ func run(_ p: [Int]) throws {
       }
     }()
 
-    let params: [Int] = (0..<opCount).map {
+    let args: [Int] = (0..<opCount).map {
       (j) -> Int in
       let c = modes.get(j) ?? "0"
-      return c == "0" ? p[i+j+1] : i+j+1
+      return c == "0" ? program[i+j+1] : i+j+1
     }
 
     switch opcode {
-      case 1: p[params[2]] = p[params[0]] + p[params[1]]
-      case 2: p[params[2]] = p[params[0]] * p[params[1]]
+      case 1: program[args[2]] = program[args[0]] + program[args[1]]
+      case 2: program[args[2]] = program[args[0]] * program[args[1]]
       case 3: 
         let input = readLine()!
         if let n = Int(input) {
-          p[params[0]] = n
+          program[args[0]] = n
         } else {
           throw IntcodeError.invalidInput(input)
         }
-      case 4: print(p[params[0]])
+      case 4: print(program[args[0]])
       case 5:
-        if p[params[0]] != 0 {
-          i = p[params[1]]
+        if program[args[0]] != 0 {
+          i = program[args[1]]
           continue loop
         }
       case 6:
-        if p[params[0]] == 0 {
-          i = p[params[1]]
+        if program[args[0]] == 0 {
+          i = program[args[1]]
           continue loop
         }
-      case 7: p[params[2]] = p[params[0]]  < p[params[1]] ? 1 : 0
-      case 8: p[params[2]] = p[params[0]] == p[params[1]] ? 1 : 0
+      case 7: program[args[2]] = program[args[0]] < program[args[1]] ? 1 : 0
+      case 8: program[args[2]] = program[args[0]] == program[args[1]] ? 1 : 0
       default: throw IntcodeError.invalidOpcode(opcode)
     }
 
