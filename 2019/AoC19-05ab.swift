@@ -5,7 +5,7 @@ enum IntcodeError: Error {
 }
 
 extension Collection {
-  subscript(safe index: Index) -> Element? {
+  func get(_ index: Index) -> Element? {
     return indices.contains(index) ? self[index] : nil
   }
 }
@@ -14,7 +14,7 @@ func run(_ p: [Int]) throws {
   var p = p
 
   var i = 0
-  loop: while i < program.count {      
+  loop: while i < p.count {      
     let temp = String(p[i])
 
     let opcode = Int(temp.suffix(2))!
@@ -23,6 +23,7 @@ func run(_ p: [Int]) throws {
     let modes = Array(temp.dropLast(2).reversed())
 
     let opCount: Int = try {
+      () throws -> Int in
       switch opcode {
         case 1, 2, 7, 8: return 3
         case 3, 4: return 1
@@ -32,8 +33,8 @@ func run(_ p: [Int]) throws {
     }()
 
     let params: [Int] = (0..<opCount).map {
-      j in
-      let c = modes[safe: j] ?? "0"
+      (j) -> Int in
+      let c = modes.get(j) ?? "0"
       return c == "0" ? p[i+j+1] : i+j+1
     }
 
@@ -58,7 +59,7 @@ func run(_ p: [Int]) throws {
           i = p[params[1]]
           continue loop
         }
-      case 7: p[params[2]] = p[params[0]] < p[params[1]] ? 1 : 0
+      case 7: p[params[2]] = p[params[0]]  < p[params[1]] ? 1 : 0
       case 8: p[params[2]] = p[params[0]] == p[params[1]] ? 1 : 0
       default: throw IntcodeError.invalidOpcode(opcode)
     }
