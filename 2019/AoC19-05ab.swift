@@ -23,14 +23,13 @@ func run(_ p: [Int]) throws {
     let modes = Array(temp.dropLast(2).reversed())
 
     let opCount: Int = try {
-      (opcode: Int) throws -> Int in
       switch opcode {
         case 1, 2, 7, 8: return 3
         case 3, 4: return 1
         case 5, 6: return 2
         default: throw IntcodeError.invalidOpcode(opcode)
       }
-    }(opcode)
+    }()
 
     let params: [Int] = (0..<opCount).map {
       j in
