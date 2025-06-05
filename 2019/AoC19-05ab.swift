@@ -4,23 +4,16 @@ enum IntcodeError: Error {
   case syntaxError(_ input: String)
 }
 
-extension Collection {
-  func get(at index: Index) -> Element? {
-    return indices.contains(index) ? self[index] : nil
-  }
-}
-
 func run(_ program: [Int]) throws {
   var program = program
 
   var i = 0
   loop: while i < program.count {      
-    let temp = String(program[i])
+    var temp = program[i]
 
-    let opcode = Int(temp.suffix(2))!
+    let opcode = temp % 100
     if opcode == 99 { break loop }
-
-    let modes = Array(temp.dropLast(2).reversed())
+    temp /= 100
 
     let opCount: Int = try {
       () throws -> Int in
@@ -32,10 +25,17 @@ func run(_ program: [Int]) throws {
       }
     }()
 
-    let args: [Int] = (0..<opCount).map {
-      (j) -> Int in
-      let c = modes.get(at: j) ?? "0"
-      return c == "0" ? program[i+j+1] : i+j+1
+    var args: [Int] = []
+    for j in 1...opCount {
+      args.append(try {
+        switch temp % 10 {
+          case 0: return program[i+j]
+          case 1: return i+j
+          default: throw IntcodeError.invalidOpcode(opcode)
+        }
+      }())
+
+      temp /= 10
     }
 
     switch opcode {
