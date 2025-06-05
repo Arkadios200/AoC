@@ -5,7 +5,7 @@ enum IntcodeError: Error {
 }
 
 extension Collection {
-  func get(_ index: Index) -> Element? {
+  func get(at index: Index) -> Element? {
     return indices.contains(index) ? self[index] : nil
   }
 }
@@ -34,7 +34,7 @@ func run(_ program: [Int]) throws {
 
     let args: [Int] = (0..<opCount).map {
       (j) -> Int in
-      let c = modes.get(j) ?? "0"
+      let c = modes.get(at: j) ?? "0"
       return c == "0" ? program[i+j+1] : i+j+1
     }
 
