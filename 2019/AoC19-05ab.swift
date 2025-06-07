@@ -26,11 +26,11 @@ func run(_ program: [Int]) throws {
     }()
 
     var args: [Int] = []
-    for j in 1...opCount {
+    for j in 0..<opCount {
       args.append(try {
         switch temp % 10 {
-          case 0: return program[i+j]
-          case 1: return i+j
+          case 0: return program[i+j+1]
+          case 1: return i+j+1
           default: throw IntcodeError.invalidOpcode(opcode)
         }
       }())
