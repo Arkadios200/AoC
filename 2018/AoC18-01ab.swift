@@ -1,27 +1,32 @@
-var input = [Int]()
-while let line = readLine() {
-  input.append(Int(line)!)
+func getInput() -> [Int] {
+  var nums: [Int] = []
+  while let line = readLine() {
+    nums.append(Int(line)!)
+  }
+
+  return nums
 }
 
-var record: Set<Int> = []
+func part2(_ nums: [Int]) -> Int {
+  var acc = 0
+  var record: Set = [acc]
 
-var found1 = false
-var found2 = false
-var prev = 0
-while !(found1 && found2) {
-  for i in input {
-    let freq = prev + i
+  while true {
+    for n in nums {
+      acc += n
 
-    if !record.insert(freq).inserted && !found2 {
-      print("Part 2 answer: \(freq)")
-      found2 = true
-    } else {
-      prev = freq
+      if !record.insert(acc).inserted {
+        return acc
+      }
     }
   }
-
-  if !found1 {
-    print("Part 1 answer: \(prev)")
-    found1 = true
-  }
 }
+    
+
+let nums = getInput()
+
+let ans1 = nums.reduce(0, +)
+print("Part 1 answer: \(ans1)")
+
+let ans2 = part2(nums)
+print("Part 2 answer: \(ans2)")
