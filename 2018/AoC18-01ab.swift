@@ -14,10 +14,7 @@ func part2(_ nums: [Int]) -> Int {
   while true {
     for n in nums {
       acc += n
-
-      if !record.insert(acc).inserted {
-        return acc
-      }
+      if !record.insert(acc).inserted { return acc }
     }
   }
 }
