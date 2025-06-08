@@ -5,15 +5,15 @@ fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
   let program: Vec<i32> = input.split(',')
     .map(|i| i.trim().parse().unwrap())
-    .collect();
+    .collect::<Vec<i32>>();
 
   let ans1 = (0..5).permutations(5).map(|p| {
-    p.into_iter().fold(0, |acc, v| run(&program, [v, acc].into_iter()))
+    p.into_iter().fold(0, |acc, v| run(program.as_slice(), [v, acc].into_iter()))
   }).max().unwrap();
   println!("Part 1 answer: {ans1}");
 }
 
-fn run(program: &Vec<i32>, mut input: impl Iterator<Item = i32>) -> i32 {
+fn run(program: &[i32], mut input: impl Iterator<Item = i32>) -> i32 {
   let mut program = program.to_owned();
 
   let mut output: i32 = 0;
