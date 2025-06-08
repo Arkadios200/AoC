@@ -8,12 +8,7 @@ fn main() {
     .collect();
 
   let ans1 = (0..5).permutations(5).map(|p| {
-    let mut temp = 0;
-    for i in 0..p.len() {
-      temp = run(&program, [p[i], temp].into_iter());
-    }
-
-    temp
+    p.into_iter().fold(0, |acc, v| run(&program, [v, acc].into_iter()))
   }).max().unwrap();
   println!("Part 1 answer: {ans1}");
 }
@@ -26,7 +21,6 @@ fn run(program: &Vec<i32>, mut input: impl Iterator<Item = i32>) -> i32 {
   let mut i: usize = 0;
   loop {
     if !(0..program.len()).contains(&i) { panic!("Out of range") }
-    
     let mut temp = program[i];
 
     let opcode = temp % 100;
