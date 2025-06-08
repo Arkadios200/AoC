@@ -1,18 +1,27 @@
-var input = [[Character]]()
-while let line = readLine() {
-  input.append(Array(line))
-}
+extension Sequence where Element: Hashable {
+  var contents: [Element: Int] {
+    var contents: [Element: Int] = [:]
+    self.forEach { contents[$0] = (contents[$0] ?? 0) + 1 }
 
-var out1 = "", out2 = ""
-for i in 0..<input[0].count {
-  var counts = [Character: Int]()
-  for j in 0..<input.count {
-    let c = input[j][i]
-    counts[c] = (counts[c] ?? 0) + 1
+    return contents
   }
-  out1.append((counts.max(by: { $0.value < $1.value } )?.key) ?? "?")
-  out2.append((counts.min(by: { $0.value < $1.value } )?.key) ?? "?")
 }
 
-print("Part 1 answer: \(out1)")
-print("Part 2 answer: \(out2)")
+func getInput() -> [[Character]] {
+  var lines: [[Character]] = []
+  while let line = readLine() {
+    lines.append(Array(line))
+  }
+
+  return lines
+}
+
+let lines = getInput()
+
+let counts = lines.first!.indices.map { j in lines.map { $0[j] }.contents }
+
+let ans1 = String(counts.map { $0.max { $0.value < $1.value }!.key })
+print("Part 1 answer: \(ans1)")
+
+let ans2 = String(counts.map { $0.min { $0.value < $1.value }!.key })
+print("Part 2 answer: \(ans2)")
