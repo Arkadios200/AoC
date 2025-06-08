@@ -24,7 +24,8 @@ fn run(program: &Vec<i32>, mut input: impl Iterator<Item = i32>) -> i32 {
   let mut output: i32 = 0;
   
   let mut i: usize = 0;
-  while i < program.len() {
+  loop {
+    if !(0..program.len()).contains(&i) { panic!("Out of range") }
     let mut temp = program[i];
 
     let opcode = temp % 100;
