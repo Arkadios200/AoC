@@ -25,7 +25,6 @@ func part1(_ lines: [(String, ClosedRange<Int>, ClosedRange<Int>)]) -> Int {
     for i in yRange {
       for j in xRange {
         grid[i][j] = {
-          () -> Bool in
           switch dir {
             case "on": return true
             case "off": return false
