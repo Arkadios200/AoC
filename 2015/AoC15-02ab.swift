@@ -1,21 +1,22 @@
-func += (a: inout (Int, Int), b: (Int, Int)) {
-  a.0 += b.0
-  a.1 += b.1
+func getInput() -> [[Int]] {
+  var lines: [[Int]] = []
+  while let line = readLine() {
+    lines.append(line.split(separator: "x").map { Int($0)! }.sorted())
+  }
+
+  return lines
 }
 
-func val(of line: [Int]) -> (Int, Int) {
-  let val1 = line[0] * line[1] + line.indices.reduce(0, { $0 + 2 * line[$1] * line[($1 + 1) % 3] } )
+let lines = getInput()
 
-  let val2 = 2*(line[0] + line[1]) + line.reduce(1, *)
-
-  return (val1, val2)
+let ans1 = lines.reduce(0) {
+  (acc: Int, line: [Int]) -> Int in
+  acc + line[0] * line[1] + line.indices.reduce(0) { $0 + 2 * line[$1] * line[($1 + 1) % 3] }
 }
+print("Part 1 answer: \(ans1)")
 
-var total = (0, 0)
-while let line = readLine() {
-  total += val(of: line.split(separator: "x").map( { Int($0)! } ).sorted())
+let ans2 = lines.reduce(0) {
+  (acc: Int, line: [Int]) -> Int in
+  acc + 2 * (line[0] + line[1]) + line.reduce(1, *)
 }
-
-let (total1, total2) = total
-print("Part 1 answer: \(total1)")
-print("Part 2 answer: \(total2)")
+print("Part 2 answer: \(ans2)")
