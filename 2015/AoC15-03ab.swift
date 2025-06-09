@@ -1,6 +1,6 @@
 // Tuples in Swift are Equatable, but not Hashable, and they can't be extended.
 // Basically, they can't be used in Sets. :/
-struct Point: Hashable {
+struct Point: Equatable, Hashable {
   private var x: Int
   private var y: Int
 
@@ -9,32 +9,23 @@ struct Point: Hashable {
     self.y = y
   }
 
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(self.x)
-    hasher.combine(self.y)
-  }
-
-  static func += (lhs: inout Point, rhs: Point) {
-    lhs.x += rhs.x
-    lhs.y += rhs.y
-  }
-
   mutating func move(_ c: Character) -> Point {
-    let dirs: [Character: Point] = [
-      "^": Point(0, -1),
-      ">": Point(+1, 0),
-      "v": Point(0, +1),
-      "<": Point(-1, 0)
-    ]
+    switch c {
+      case "^": self.y += 1
+      case ">": self.x += 1
+      case "v": self.y -= 1
+      case "<": self.x -= 1
+      default: fatalError("Invalid input")
+    }
 
-    self += dirs[c]!
     return self
   }
 }
 
 func part1(_ input: String) -> Int {
   var pos = Point(0, 0)
-  var posRecord: Set<Point> = [pos]
+  var posRecord: Set = [pos]
+
   for c in input {
     posRecord.insert(pos.move(c))
   }
@@ -49,11 +40,9 @@ func part2(_ input: String) -> Int {
 
   for (i, c) in input.enumerated() {
     switch i % 2 {
-      case 0:
-        posRecord.insert(santaPos.move(c))
-      case 1:
-        posRecord.insert(roboSantaPos.move(c))
-      default: print("Something broke.")
+      case 0: posRecord.insert(santaPos.move(c))
+      case 1: posRecord.insert(roboSantaPos.move(c))
+      default: fatalError("Something broke")
     }
   }
 
@@ -62,5 +51,8 @@ func part2(_ input: String) -> Int {
 
 let input = readLine()!
 
-print("Part 1 answer: \(part1(input))")
-print("Part 2 answer: \(part2(input))")
+let ans1 = part1(input)
+print("Part 1 answer: \(ans1)")
+
+let ans2 = part2(input)
+print("Part 2 answer: \(ans2)")
