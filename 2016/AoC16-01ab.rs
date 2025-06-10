@@ -68,7 +68,7 @@ impl Point {
       1 => self.x += dist,
       2 => self.y -= dist,
       3 => self.x -= dist,
-      _ => {}
+      _ => panic!("Invalid direction")
     }
 
     *self
