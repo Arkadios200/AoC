@@ -20,9 +20,9 @@ func getInput() -> ([[Character]], [(Int, Int, Int)]) {
   while let line = readLine() {
     if line.isEmpty { continue }
 
-    let a = line.split { !$0.isNumber }.map { Int($0)! }
+    let temp = line.split { !$0.isNumber }.map { Int($0)! }
 
-    dirs.append((a[0], a[1]-1, a[2]-1))
+    dirs.append((temp[0], temp[1]-1, temp[2]-1))
   }
 
   return (transpose(of: stacks)!.map {
