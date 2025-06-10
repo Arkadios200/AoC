@@ -8,9 +8,7 @@ func transpose<T>(of grid: [[T]]) -> [[T]]? {
 
 func getInput() -> ([[Character]], [(Int, Int, Int)]) {
   var stacks: [[Character]] = []
-  while let line = readLine() {
-    if line.contains(where: { $0.isNumber } ) { break }
-
+  while let line = readLine(), !line.contains(where: { $0.isNumber } ) {
     let temp = Array(line)
 
     stacks.append(temp.indices.compactMap { $0 % 4 == 1 ? temp[$0] : nil })
