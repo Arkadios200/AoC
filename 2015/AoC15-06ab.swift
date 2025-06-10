@@ -1,14 +1,11 @@
 func getInput() -> [(String, ClosedRange<Int>, ClosedRange<Int>)] {
   var lines: [(String, ClosedRange<Int>, ClosedRange<Int>)] = []
   while let line = readLine() {
-    let temp = line.split(separator: " ")
-    .suffix(4)
-    .joined(separator: " ")
-    .split(separator: " ", maxSplits: 1)
+    let temp = line.split(separator: " ").suffix(4)
 
     let dir = String(temp.first!)
 
-    let nums = temp.last!.split { !$0.isNumber }.map { Int($0)! }
+    let nums = temp.dropFirst().joined().split { !$0.isNumber }.map { Int($0)! }
     let xRange = nums[0]...nums[2]
     let yRange = nums[1]...nums[3]
 
