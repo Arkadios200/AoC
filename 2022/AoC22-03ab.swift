@@ -15,8 +15,10 @@ let ans1 = rucksacks.map { ($0[..<($0.count/2)], $0[($0.count/2)...]) }.reduce(0
 }
 print("Part 1 answer: \(ans1)")
 
-let ans2 = rucksacks.indices.filter { $0 % 3 == 0 }.map { rucksacks[$0..<$0+3] }.reduce(0) {
-  (acc, v) in
-  acc + priorities.firstIndex { c in v.allSatisfy { $0.contains(c) } }!
-}
+let ans2 = rucksacks.indices
+  .compactMap { $0 % 3 == 0 ? rucksacks[$0..<$0+3] : nil }
+  .reduce(0) {
+    (acc, v) in
+    acc + priorities.firstIndex { c in v.allSatisfy { $0.contains(c) } }!
+  }
 print("Part 2 answer: \(ans2)")
