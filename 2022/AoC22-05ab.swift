@@ -37,7 +37,7 @@ func part1(_ stacks: [[Character]], _ dirs: [(Int, Int, Int)]) -> String {
     }
   }
 
-  return String(stacks.compactMap { $0.last })
+  return String(stacks.map { $0.last ?? " " })
 }
 
 func part2(_ stacks: [[Character]], _ dirs: [(Int, Int, Int)]) -> String {
@@ -50,7 +50,7 @@ func part2(_ stacks: [[Character]], _ dirs: [(Int, Int, Int)]) -> String {
     stacks[to] += taken
   }
 
-  return String(stacks.compactMap { $0.last })
+  return String(stacks.map { $0.last ?? " " })
 }
 
 let (stacks, dirs) = getInput()
