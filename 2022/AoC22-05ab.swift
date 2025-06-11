@@ -23,8 +23,8 @@ func getInput() -> ([[Character]], [(Int, Int, Int)]) {
     dirs.append((temp[0], temp[1]-1, temp[2]-1))
   }
 
-  return (transpose(of: stacks)!.map {
-    $0.reversed().filter { $0.isLetter }
+  return (transpose(of: stacks.reversed())!.map {
+    $0.filter { $0.isLetter }
   }, dirs)
 }
 
