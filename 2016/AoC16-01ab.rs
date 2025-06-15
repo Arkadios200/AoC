@@ -16,17 +16,17 @@ fn main() {
   println!("Part 2 answer: {ans2}");
 }
 
-fn part1(lines: &Vec<(char, i32)>) -> i32 {
+fn part1(lines: &[(char, i32)]) -> i32 {
   let mut pos = Point::new();
   for (dir, dist) in lines {
     pos.turn(dir);
     pos.step(dist);
   }
 
-  pos.m_dist()
+  pos.m_dist(&Point::new())
 }
 
-fn part2(lines: &Vec<(char, i32)>) -> i32 {
+fn part2(lines: &[(char, i32)]) -> i32 {
   let mut pos = Point::new();
   let mut record: HashSet<Point> = HashSet::from([pos]);
 
@@ -35,7 +35,7 @@ fn part2(lines: &Vec<(char, i32)>) -> i32 {
       pos.turn(dir);
       for _ in 0..*dist {
         if !record.insert(pos.step(&1)) {
-          return pos.m_dist();
+          return pos.m_dist(&Point::new());
         }
       }
     }
@@ -74,8 +74,8 @@ impl Point {
     *self
   }
 
-  fn m_dist(&self) -> i32 {
-    self.x.abs() + self.y.abs()
+  fn m_dist(&self, other: &Point) -> i32 {
+    (self.x - other.x).abs() + (self.y - other.y).abs()
   }
 }
 
