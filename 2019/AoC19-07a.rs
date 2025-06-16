@@ -8,7 +8,7 @@ fn main() {
     .collect::<Vec<i32>>();
 
   let ans1 = (0..5).permutations(5).map(|p| {
-    p.into_iter().fold(0, |acc, v| run(program.as_slice(), [v, acc].into_iter()))
+    p.into_iter().fold(0, |acc, v| run(&program, [v, acc].into_iter()))
   }).max().unwrap();
   println!("Part 1 answer: {ans1}");
 }
