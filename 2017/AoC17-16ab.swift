@@ -34,7 +34,7 @@ func populate(_ chars: [Character], _ input: [(Character, String)]) -> [Int: Str
 }
 
 let input = readLine()!.split(separator: ",").map { ($0.first!, String($0.dropFirst())) }
-var chars = Array("abcdefghijklmnop")
+let chars = Array("abcdefghijklmnop")
 
 let changes: [Int: String] = populate(chars, input)
 
