@@ -1,16 +1,15 @@
-func dance(_ chars: inout [Character], _ input: [String]) {
+func dance(_ chars: inout [Character], _ input: [(Character, String)]) {
   for line in input {
-    switch line.first! {
+    switch line.0 {
       case "s":
-        let n = Int(line.dropFirst())!
+        let n = Int(line.1)!
         chars = chars.suffix(n) + chars.dropLast(n)
       case "x":
-        let nums = line.split { !$0.isNumber }.map { Int($0)! }
+        let nums = line.1.split(separator: "/", maxSplits: 1).map { Int($0)! }
         chars.swapAt(nums[0], nums[1])
       case "p":
-        let temp = line.dropFirst()
-        let a = chars.firstIndex(of: temp.first!)!
-        let b = chars.firstIndex(of: temp.last!)!
+        let a = chars.firstIndex(of: line.1.first!)!
+        let b = chars.firstIndex(of: line.1.last!)!
 
         chars.swapAt(a, b)
       default: fatalError("Invalid instruction: \(line)")
@@ -18,7 +17,7 @@ func dance(_ chars: inout [Character], _ input: [String]) {
   }
 }
 
-func populate(_ chars: [Character], _ input: [String]) -> [Int: String] {
+func populate(_ chars: [Character], _ input: [(Character, String)]) -> [Int: String] {
   var chars = chars
 
   var record: Set<[Character]> = []
@@ -34,7 +33,7 @@ func populate(_ chars: [Character], _ input: [String]) -> [Int: String] {
   return changes
 }
 
-let input = readLine()!.split(separator: ",").map { String($0) }
+let input = readLine()!.split(separator: ",").map { ($0.first!, String($0.dropFirst())) }
 var chars = Array("abcdefghijklmnop")
 
 let changes: [Int: String] = populate(chars, input)
