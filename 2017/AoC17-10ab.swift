@@ -22,7 +22,7 @@ func part1(_ input: String) -> Int {
 func knotHash(_ input: String) -> String {
   let dirs = input.map { Int($0.asciiValue!) } + [17, 31, 73, 47, 23]
 
-  var nums = [Int](repeating: 0, count: 256).indices.map { Int($0) }
+  var nums = Array(0..<256)
   let count = nums.count
 
   var skip = 0
