@@ -50,9 +50,8 @@ func part1(_ points: [Point], _ line: (Character, Int)) -> Int {
       }
     default: fatalError("invalid input: \(dir)")
   }
-  points = Array(Set(points))
 
-  return points.count
+  return Set(points).count
 }
 
 func calc(_ points: [Point], _ lines: [(Character, Int)]) -> [[Character]] {
