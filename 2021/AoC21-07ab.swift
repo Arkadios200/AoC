@@ -13,4 +13,4 @@ let ans2 = (input.min()!...input.max()!)
       return $0 + d * (d + 1) / 2
     }
   }.min()!
-print(ans2)
+print("Part 2 answer: \(ans2)")
