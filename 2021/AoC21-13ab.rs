@@ -31,7 +31,9 @@ fn calc(points: &[Point], lines: &[(char, u32)]) -> (usize, Vec<Vec<char>>) {
     points = round(&points, line);
   }
 
-  (ans1, layout(&points))
+  let ans2 = layout(&points);
+
+  (ans1, ans2)
 }
 
 fn round(points: &[Point], line: (char, u32)) -> Vec<Point> {
