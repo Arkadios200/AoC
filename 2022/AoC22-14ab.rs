@@ -97,8 +97,7 @@ fn process(input: &str) -> HashSet<Point> {
     }).collect();
 
   for line in lines {
-    for v in line.windows(2) {
-      let (a, b) = (v[0], v[1]);
+    for (a, b) in line.windows(2).map(|w| (w[0], w[1])) {
       if a.0 != b.0 {
         for i in min(a.0, b.0)..=max(a.0, b.0) {
           points.insert(Point { x: i, y: a.1, label: '#' });
