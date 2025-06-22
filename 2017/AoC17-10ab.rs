@@ -11,14 +11,14 @@ fn main() {
 fn part1(input: &str) -> u32 {
   let dirs = input.split(',').map(|chunk| chunk.parse::<usize>().unwrap());
 
-  let mut nums: Vec<u32> = (0..256).collect();
+  let mut nums: [u32; 256] = core::array::from_fn(|i| i as u32);
   let len = nums.len();
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
   for n in dirs {
     let a = (i..i+n).map(|x| x % len);
-    let b = a.to_owned().map(|k| nums[k]).rev().collect::<Vec<u32>>();
+    let b = a.to_owned().map(move |k| nums[k]).rev();
     for (j, e) in zip(a, b) {
       nums[j] = e;
     }
@@ -36,7 +36,7 @@ fn knot_hash(input: &str) -> String {
     .chain([17, 31, 73, 47, 23])
     .collect();
 
-  let mut nums: Vec<u32> = (0..256).collect();
+  let mut nums: [u32; 256] = core::array::from_fn(|i| i as u32);
   let len = nums.len();
 
   let mut skip: usize = 0;
@@ -44,10 +44,10 @@ fn knot_hash(input: &str) -> String {
 
   for _ in 1..=64 {
     for &n in dirs.iter() {
-      let rng = (i..i+n).map(|x| x % len);
-      let a: Vec<u32> = rng.to_owned().map(|x| nums[x]).collect();
+      let a = (i..i+n).map(|x| x % len);
+      let b = a.to_owned().map(move |k| nums[k]);
       
-      for (j, e) in zip(rng.rev(), a) {
+      for (j, e) in zip(a.rev(), b) {
         nums[j] = e;
       }
 
@@ -57,7 +57,6 @@ fn knot_hash(input: &str) -> String {
   }
 
   nums.chunks(16).fold(String::new(), |acc, chunk| {
-    let s = format!("{:x}", chunk.into_iter().fold(0, |acc, num| acc ^ num));
-    acc + if s.len() == 1 { format!("0{s}") } else { s }.as_str()
+    acc + format!("{:0>2x}", chunk.into_iter().fold(0, |acc, num| acc ^ num)).as_str()
   })
 }
