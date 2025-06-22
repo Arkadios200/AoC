@@ -14,6 +14,23 @@ fn main() {
   println!("Part 2 answer: {ans2}");
 }
 
+#[derive(Clone, Copy)]
+struct Point {
+  x: u32,
+  y: u32,
+  label: char
+}
+
+impl Point {
+  fn new() -> Point {
+    Point {
+      x: 500,
+      y: 0,
+      label: 'o'
+    }
+  }
+}
+
 fn part1(points: &HashSet<Point>) -> usize {
   let mut points = points.to_owned();
   'outer: loop {
@@ -67,23 +84,6 @@ fn part2(points: &HashSet<Point>) -> usize {
   }
 
   points.iter().filter(|p| p.label == 'o').count()
-}
-
-#[derive(Clone, Copy)]
-struct Point {
-  x: u32,
-  y: u32,
-  label: char
-}
-
-impl Point {
-  fn new() -> Point {
-    Point {
-      x: 500,
-      y: 0,
-      label: 'o'
-    }
-  }
 }
 
 fn process(input: &str) -> HashSet<Point> {
