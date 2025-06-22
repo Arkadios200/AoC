@@ -77,15 +77,15 @@ fn process(input: &str) -> (Vec<Point>, Vec<(char, u32)>) {
       Point { x: a.parse().unwrap(), y: b.parse().unwrap() }
     }).collect();
 
-    let lines: Vec<(char, u32)> = blocks.next().unwrap()
-      .lines()
-      .map(|line| {
-        let mut s = line.split_whitespace().last().unwrap().chars();
-        let dir = s.next().unwrap();
-        let coord: u32 = s.skip(1).collect::<String>().parse().unwrap();
+  let lines: Vec<(char, u32)> = blocks.next().unwrap()
+    .lines()
+    .map(|line| {
+      let mut s = line.split_whitespace().last().unwrap().chars();
+      let dir = s.next().unwrap();
+      let coord: u32 = s.skip(1).collect::<String>().parse().unwrap();
 
-        (dir, coord)
-      }).collect();
+      (dir, coord)
+    }).collect();
 
   (points, lines)
 }
