@@ -60,12 +60,10 @@ fn part2(points: &HashSet<Point>) -> usize {
   let mut points = points.to_owned();
   let bottom = points.iter().map(|p| p.y).max().unwrap() + 1;
 
-  'outer: loop {
+  while !points.contains(&Point::new()) {
     let mut sand = Point::new();
     loop {
-      if points.contains(&Point::new()) {
-        break 'outer;
-      } else if sand.y == bottom {
+      if sand.y == bottom {
         points.insert(sand);
         break;
       } else if !points.contains(&Point { x: sand.x, y: sand.y + 1, label: '.'}) {
