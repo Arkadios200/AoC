@@ -58,7 +58,7 @@ fn knot_hash(input: &str) -> String {
   }
 
   nums.chunks(16).fold(String::new(), |acc, chunk| {
-    let n = chunk.into_iter().fold(0, |acc, num| acc ^ num);
+    let n = chunk.into_iter().fold(0, |v, num| v ^ num);
     acc + format!("{n:0>2x}").as_str()
   })
 }
