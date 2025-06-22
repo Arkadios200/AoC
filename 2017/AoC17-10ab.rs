@@ -11,19 +11,19 @@ fn main() {
 fn part1(input: &str) -> u32 {
   let dirs = input.split(',').map(|chunk| chunk.parse::<usize>().unwrap());
 
-  let mut nums: [u32; 256] = core::array::from_fn(|i| i as u32);
-  let len = nums.len();
+  const LEN: usize = 256;
+  let mut nums: [u32; LEN] = core::array::from_fn(|i| i as u32);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
   for n in dirs {
-    let a = (i..i+n).map(|x| x % len);
+    let a = (i..i+n).map(|x| x % LEN);
     let b = a.to_owned().map(move |k| nums[k]).rev();
     for (j, e) in zip(a, b) {
       nums[j] = e;
     }
 
-    i = (i + n + skip) % len;
+    i = (i + n + skip) % LEN;
     skip += 1;
   }
 
@@ -36,22 +36,22 @@ fn knot_hash(input: &str) -> String {
     .chain([17, 31, 73, 47, 23])
     .collect();
 
-  let mut nums: [u32; 256] = core::array::from_fn(|i| i as u32);
-  let len = nums.len();
+  const LEN: usize = 256;
+  let mut nums: [u32; LEN] = core::array::from_fn(|i| i as u32);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
 
   for _ in 1..=64 {
     for &n in dirs.iter() {
-      let a = (i..i+n).map(|x| x % len);
+      let a = (i..i+n).map(|x| x % LEN);
       let b = a.to_owned().map(move |k| nums[k]);
       
       for (j, e) in zip(a.rev(), b) {
         nums[j] = e;
       }
 
-      i = (i + n + skip) % len;
+      i = (i + n + skip) % LEN;
       skip += 1;
     }
   }
