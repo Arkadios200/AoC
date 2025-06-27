@@ -1,7 +1,13 @@
+extension Optional where Wrapped == Int {
+  mutating func combine(_ n: Int) {
+    self = (self ?? 0) + n
+  }
+}
+
 func getInput() -> [Int: Int] {
   var stones: [Int: Int] = [:]
   readLine()!.split(separator: " ").map { Int($0)! }
-    .forEach { stones[$0] = (stones[$0] ?? 0) + 1 }
+    .forEach { stones[$0].combine(1) }
 
   return stones
 }
@@ -14,12 +20,12 @@ func calc(_ stones: [Int: Int], loops: Int) -> Int {
     for n in stones.keys {
       let s = Array(String(n))
       if n == 0 {
-        next[1] = (next[1] ?? 0) + stones[n]!
+        next[1].combine(stones[n]!)
       } else if s.count % 2 == 0 {
         [s[..<(s.count/2)], s[(s.count/2)...]].map { Int(String($0))! }
-          .forEach { next[$0] = (next[$0] ?? 0) + stones[n]! }
+          .forEach { next[$0].combine(stones[n]!) }
       } else {
-        next[n * 2024] = (next[n * 2024] ?? 0) + stones[n]!
+        next[n * 2024].combine(stones[n]!)
       }
     }
 
