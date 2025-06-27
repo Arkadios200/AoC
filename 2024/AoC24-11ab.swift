@@ -1,0 +1,36 @@
+func getInput() -> [Int: Int] {
+  var stones: [Int: Int] = [:]
+  readLine()!.split(separator: " ").map { Int($0)! }.forEach { stones[$0] = (stones[$0] ?? 0) + 1 }
+
+  return stones
+}
+
+func calc(_ stones: [Int: Int], loops: Int) -> Int {
+  var stones = stones
+
+  for _ in 1...loops {
+    var next: [Int: Int] = [:]
+    for n in stones.keys {
+      let s = Array(String(n))
+      if n == 0 {
+        next[1] = (next[1] ?? 0) + stones[n]!
+      } else if s.count % 2 == 0 {
+        [Int(String(s[..<(s.count/2)]))!, Int(String(s[(s.count/2)...]))!].forEach { next[$0] = (next[$0] ?? 0) + stones[n]! }
+      } else {
+        next[n * 2024] = (next[n * 2024] ?? 0) + stones[n]!
+      }
+    }
+
+    stones = next
+  }
+
+  return stones.values.reduce(0, +)
+}
+
+let stones = getInput()
+
+let ans1 = calc(stones, loops: 25)
+print("Part 1 answer: \(ans1)")
+
+let ans2 = calc(stones, loops: 75)
+print("Part 2 answer: \(ans2)")
