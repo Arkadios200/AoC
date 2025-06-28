@@ -4,12 +4,13 @@ extension Optional where Wrapped == Int {
   }
 }
 
-func getInput() -> [Int: Int] {
-  var stones: [Int: Int] = [:]
-  readLine()!.split(separator: " ").map { Int($0)! }
-    .forEach { stones[$0].combine(1) }
+extension Collection where Element: Hashable {
+  var contents: [Element: Int] {
+    var contents: [Element: Int] = [:]
+    self.forEach { contents[$0].combine(1) }
 
-  return stones
+    return contents
+  }
 }
 
 func calc(_ stones: [Int: Int], loops: Int) -> Int {
@@ -35,7 +36,7 @@ func calc(_ stones: [Int: Int], loops: Int) -> Int {
   return stones.values.reduce(0, +)
 }
 
-let stones = getInput()
+let stones = readLine()!.split(separator: " ").map { Int($0)! }.contents
 
 let ans1 = calc(stones, loops: 25)
 print("Part 1 answer: \(ans1)")
