@@ -34,20 +34,20 @@ fn part1(input: &str) -> u32 {
 fn knot_hash(input: &str) -> String {
   let dirs: Vec<usize> = input.as_bytes().into_iter()
     .map(|&x| x as usize)
-    .chain([17, 31, 73, 47, 23])
+    .chain([17usize, 31, 73, 47, 23])
     .collect();
 
   const LEN: usize = 256;
-  let mut nums: [u32; LEN] = from_fn(|i| i as u32);
+  let mut nums: [u32; LEN] = core::array::from_fn(|i| i as u32);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
 
   for _ in 1..=64 {
-    for &n in dirs.iter() {
+    for &n in &dirs {
       let a = (i..i+n).map(|x| x % LEN);
       let b = a.to_owned().map(move |k| nums[k]);
-      
+
       for (j, e) in zip(a.rev(), b) {
         nums[j] = e;
       }
