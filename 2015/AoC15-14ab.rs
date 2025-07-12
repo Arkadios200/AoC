@@ -2,11 +2,11 @@ use std::fs;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
-
-  let reindeer: Vec<Reindeer> = process(&input);
+  let reindeer: Vec<Reindeer> =   input.lines()
+    .map(|line| Reindeer::from(line))
+    .collect();
 
   let (ans1, ans2) = solve(&reindeer);
-
   println!("Part 1 answer: {ans1}");
   println!("Part 2 answer: {ans2}");
 }
@@ -32,20 +32,6 @@ fn solve(reindeer: &[Reindeer]) -> (u32, u32) {
   (ans1, ans2)
 }
 
-fn process(input: &str) -> Vec<Reindeer> {
-  input.lines().map(|line| {
-    let mut temp = line.split(|c: char| !c.is_digit(10)).filter_map(|s| if !s.is_empty() { Some(s.parse::<u32>().unwrap()) } else { None });
-
-    Reindeer {
-      speed: temp.next().expect("Invalid input: {line}"),
-      flight_time: temp.next().expect("Invalid input: {line}"),
-      rest_time: temp.next().expect("Invalid input: {line}"),
-      dist: 0,
-      score: 0
-    }
-  }).collect()
-}
-
 #[derive(Clone, Copy)]
 struct Reindeer {
   speed: u32,
@@ -62,6 +48,22 @@ impl Reindeer {
 
     if current_cycle_time < self.flight_time {
       self.dist += self.speed;
+    }
+  }
+}
+
+impl From<&str> for Reindeer {
+  fn from(s: &str) -> Reindeer {
+    let mut data = s
+      .split(|c: char| !c.is_digit(10))
+      .filter_map(|s| if !s.is_empty() { Some(s.parse::<u32>().unwrap()) } else { None });
+
+    Reindeer {
+      speed: data.next().expect("Invalid input: {line}"),
+      flight_time: data.next().expect("Invalid input: {line}"),
+      rest_time: data.next().expect("Invalid input: {line}"),
+      dist: 0,
+      score: 0
     }
   }
 }
