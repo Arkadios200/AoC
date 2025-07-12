@@ -2,7 +2,8 @@ use std::fs;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
-  let reindeer: Vec<Reindeer> =   input.lines()
+  let reindeer: Vec<Reindeer> =   input
+    .lines()
     .map(|line| Reindeer::from(line))
     .collect();
 
