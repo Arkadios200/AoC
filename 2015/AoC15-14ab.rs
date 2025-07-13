@@ -18,12 +18,12 @@ fn solve(reindeer: &[Reindeer]) -> (u32, u32) {
   for t in 0..2503 {
     for r in &mut reindeer { r.fly(t); }
 
-    let max = reindeer.iter()
+    let max_dist = reindeer.iter()
       .map(|r| r.dist)
       .max().unwrap();
 
     reindeer.iter_mut()
-      .filter(|r| r.dist == max)
+      .filter(|r| r.dist == max_dist)
       .for_each(|r| r.score += 1);
   }
 
