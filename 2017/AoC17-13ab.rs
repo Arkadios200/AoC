@@ -6,28 +6,19 @@ fn main() {
 
   let firewall: HashMap<u32, u32> = process(&input);
 
-  let (ans1, ans2) = solve(&firewall);
+  let ans1: u32 = firewall.iter().fold(0, |acc, (depth, range)| acc + if depth % (2 * range - 2) == 0 { depth * range } else { 0 });
   println!("{ans1}");
-  println!("{ans2}");
-}
 
-fn solve(firewall: &HashMap<u32, u32>) -> (u32, u32) {
-  let mut delay = 0;
-  let ans1 = traverse(firewall, delay);
-  let ans2 = {
+  let ans2: u32 = {
+    let mut delay = 0;
     loop {
       delay += 1;
-      if delay % (2 * firewall.get(&0).unwrap() - 2) == 0 { continue; }
-
-      if traverse(firewall, delay) == 0 { break delay; }
+      if firewall.iter().all(|(depth, range)| (depth + delay) % (2 * range - 2) != 0) {
+        break delay;
+      }
     }
   };
-
-  (ans1, ans2)
-}
-
-fn traverse(firewall: &HashMap<u32, u32>, delay: u32) -> u32 {
-  firewall.iter().fold(0u32, |acc, (depth, range)| acc + if (depth + delay) % (2 * range - 2) == 0 { depth * range } else { 0 })
+  println!("{ans2}");
 }
 
 fn process(input: &str) -> HashMap<u32, u32> {
