@@ -39,7 +39,7 @@ struct Point: Equatable, Hashable {
 
 func getInput() -> [(Character, Int)] {
   var dirs: [(Character, Int)] = []
-  while let line = readLine(), !line.isEmpty {    
+  while let line = readLine() {    
     dirs.append((line.first!, Int(line.split(separator: " ").last!)!))
   }
 
