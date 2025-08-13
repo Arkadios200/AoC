@@ -8,14 +8,14 @@ struct Point: Equatable, Hashable {
   }
 
   static let steps: [Point] = [
-    (1, 1),
-    (1, -1),
-    (-1, -1),
-    (-1, 1),
     (0, 1),
+    (1, 1),
     (1, 0),
+    (1, -1),
     (0, -1),
-    (-1, 0)
+    (-1, -1),
+    (-1, 0),
+    (-1, 1)
   ].map { Point(x: $0.0, y: $0.1) }
 
   static func + (lhs: Point, rhs: Point) -> Point {
