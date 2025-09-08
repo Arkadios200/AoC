@@ -1,5 +1,4 @@
 use std::fs;
-use std::iter::zip;
 use core::array::from_fn;
 
 fn main() {
@@ -19,9 +18,8 @@ fn part1(input: &str) -> u32 {
   let mut i: usize = 0;
   for n in dirs {
     let a = (i..i+n).map(|x| x % LEN);
-    let b = a.to_owned().map(move |k| nums[k]).rev();
-    for (j, e) in zip(a, b) {
-      nums[j] = e;
+    for (w, x) in a.to_owned().rev().take(n/2).zip(a) {
+      nums.swap(w, x);
     }
 
     i = (i + n + skip) % LEN;
@@ -38,18 +36,15 @@ fn knot_hash(input: &str) -> String {
     .collect();
 
   const LEN: usize = 256;
-  let mut nums: [u32; LEN] = core::array::from_fn(|i| i as u32);
+  let mut nums: [u32; LEN] = from_fn(|i| i as u32);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
-
   for _ in 1..=64 {
     for &n in &dirs {
       let a = (i..i+n).map(|x| x % LEN);
-      let b = a.to_owned().map(move |k| nums[k]);
-
-      for (j, e) in zip(a.rev(), b) {
-        nums[j] = e;
+      for (w, x) in a.to_owned().rev().take(n/2).zip(a) {
+        nums.swap(w, x);
       }
 
       i = (i + n + skip) % LEN;
