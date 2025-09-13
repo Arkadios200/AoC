@@ -80,7 +80,7 @@ impl Point {
   }
 }
 
-impl Add<Point> for Point {
+impl Add for Point {
   type Output = Self;
   fn add(self, other: Self) -> Self {
     Point {
