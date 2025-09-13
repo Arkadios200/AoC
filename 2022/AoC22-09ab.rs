@@ -34,10 +34,10 @@ fn calc(dirs: &[(char, i32)], knot_count: usize) -> usize {
 }
 
 fn process(input: &str) -> Vec<(char, i32)> {
-  input.lines()
-    .map(|line| line.chars().next().unwrap())
-    .zip(input.lines().map(|line| line.split_once(' ').unwrap().1.parse().unwrap()))
-    .collect()
+  input.lines().map(|line| {
+    let (a, b) = line.split_once(' ').unwrap(); 
+    (a.chars().next().unwrap(), b.parse().unwrap())
+  }).collect()
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
