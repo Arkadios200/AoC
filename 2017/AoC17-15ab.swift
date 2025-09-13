@@ -21,8 +21,8 @@ func part2(a: Int, b: Int) -> Int {
 
   var total = 0
   for _ in 1...5000000 {
-    repeat { a = (a * 16807) % 2147483647 } while a % 4 != 0
-    repeat { b = (b * 48271) % 2147483647 } while b % 8 != 0
+    repeat { a = (a * 16807) % 2147483647 } while a & 3 != 0
+    repeat { b = (b * 48271) % 2147483647 } while b & 7 != 0
 
     if (a & n) == (b & n) { total += 1 }
   }
