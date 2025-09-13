@@ -27,11 +27,11 @@ fn part2(mut a: u64, mut b: u64) -> u32 {
   for _ in 1..=5000000 {
     loop {
       a = (a * 16807) % 2147483647;
-      if a % 4 == 0 { break; }
+      if a & 3 == 0 { break; }
     }
     loop {
       b = (b * 48271) % 2147483647;
-      if b % 8 == 0 { break; }
+      if b & 7 == 0 { break; }
     }
 
     if (a & n) == (b & n) { total += 1; }
