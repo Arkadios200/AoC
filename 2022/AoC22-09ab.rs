@@ -20,9 +20,17 @@ fn calc(dirs: &[(char, i32)], knot_count: usize) -> usize {
     for _ in 1..=dist {
       knots[0].step(&dir);
 
+      /*
       for (w, k) in knots.to_owned().windows(2).zip(&mut knots[1..]) {
         if (w[0].x - w[1].x).abs() > 1 || (w[0].y - w[1].y).abs() > 1 {
           *k = k.adjs().min_by_key(|p| p.dist(&w[0])).unwrap();
+        }
+      }
+      */
+
+      for i in 1usize..knots.len() {
+        if (knots[i-1].x - knots[i].x).abs() > 1 || (knots[i-1].y - knots[i].y).abs() > 1 {
+            knots[i] = knots[i].adjs().min_by_key(|p| p.dist(&knots[i-1])).unwrap();
         }
       }
 
