@@ -1,6 +1,7 @@
 use std::fs;
 use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
+use std::ops::{Add, AddAssign};
 
 const WIDTH: i32 = 101;
 const HEIGHT: i32 = 103;
@@ -57,6 +58,22 @@ struct Point {
   y: i32,
 }
 
+impl Add for Point {
+  type Output = Self;
+  fn add(self, other: Self) -> Self {
+    Self {
+      x: (self.x + other.x + WIDTH) % WIDTH,
+      y: (self.y + other.y + HEIGHT) % HEIGHT,
+    }
+  }
+}
+
+impl AddAssign for Point {
+  fn add_assign(&mut self, other: Self) {
+    *self = *self + other;
+  }
+}
+
 #[derive(Clone, Copy)]
 struct Robot {
   pos: Point,
@@ -65,8 +82,7 @@ struct Robot {
 
 impl Robot {
   fn step(&mut self) {
-    self.pos.x = (self.pos.x + self.vel.x + WIDTH) % WIDTH;
-    self.pos.y = (self.pos.y + self.vel.y + HEIGHT) % HEIGHT;
+    self.pos += self.vel;
   }
 }
 
