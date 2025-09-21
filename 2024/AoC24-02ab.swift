@@ -1,37 +1,28 @@
-struct Report {
-  var levels: [Int]
-  var isSafe: Bool {
-    let inc = (levels.first! < levels.last!) ? 1 : -1
-    return levels.indices.dropLast().allSatisfy( {
-      let diff = (levels[$0+1] - levels[$0]) * inc
-      return (1...3).contains(diff)
-    } )
+import struct Foundation.URL
+
+func check(_ v: [Int]) -> Bool {
+  var v = v
+  if v.first! > v.last! { v.reverse() }
+
+  return v.indices.dropFirst().allSatisfy { (1...3).contains(v[$0] - v[$0-1]) }
+}
+
+let input = try String(contentsOf: URL(fileURLWithPath: "input.txt"))
+
+let reports: [[Int]] = input.split(separator: "\n").map { $0.split(separator: " ").map { Int($0)! } }
+
+let notSafe = reports.filter { !check($0) }
+
+let ans1 = reports.count - notSafe.count
+let ans2 = ans1 + notSafe.filter {
+  r in
+  r.indices.contains {
+    i in
+    var v = r
+    v.remove(at: i)
+    return check(v)
   }
-  
-  init(_ levels: [Int]) {
-    self.levels = levels
-  }
-}
+}.count
 
-func getTotal1(of reports: [Report]) -> Int {
-  return reports.filter( { $0.isSafe } ).count
-}
-
-func getTotal2(of reports: [Report]) -> Int {
-  return reports.filter( {
-    (report: Report) in
-    report.isSafe || report.levels.indices.contains(where: {
-      var temp = report
-      temp.levels.remove(at: $0)
-      return temp.isSafe
-    } )
-  } ).count
-}
-
-var reports = [Report]()
-while let line = readLine() {
-  reports.append(Report(line.split(separator: " ").map( { Int(String($0))! } )))
-}
-
-print("Part 1 answer: \(getTotal1(of: reports))")
-print("Part 2 answer: \(getTotal2(of: reports))")
+print("Part 1 answer:", ans1)
+print("Part 2 answer:", ans2)
