@@ -4,42 +4,34 @@ use std::collections::HashSet;
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
 
-  let (points, lines) = process(&input);
+  let (points, dirs) = process(&input);
 
-  let (ans1, ans2) = calc(&points, &lines);
+  let (ans1, ans2) = calc(points, dirs.into_iter());
+
   println!("Part 1 answer: {ans1}");
-  println!("Part 2 answer:");
-  ans2.iter()
-    .map(|line| line.iter().collect::<String>())
-    .for_each(|line| println!("{line}"));
+  println!("Part 2 answer:\n{ans2}");
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Point {
-  x: u32,
-  y: u32
+  x: i32,
+  y: i32,
 }
 
-fn calc(points: &[Point], lines: &[(char, u32)]) -> (usize, Vec<Vec<char>>) {
-  let mut points = points.to_owned();
-  let mut lines  = lines.iter();
-
-  points = round(&points, *lines.next().unwrap());
+fn calc<I>(mut points: Vec<Point>, mut lines: I) -> (usize, String)
+  where I: Iterator<Item = (char, i32)>
+{
+  points = round(points, lines.next().unwrap()); 
   let ans1 = points.len();
 
-  for &line in lines {
-    points = round(&points, line);
+  for line in lines {
+    points = round(points, line);
   }
 
-  let ans2 = layout(&points);
-
-  (ans1, ans2)
+  (ans1, layout(&points))
 }
 
-fn round(points: &[Point], line: (char, u32)) -> Vec<Point> {
-  let mut points = points.to_owned();
-  let (dir, coord) = line;
-
+fn round(mut points: Vec<Point>, (dir, coord): (char, i32)) -> Vec<Point> {
   match dir {
     'x' => {
       for p in points.iter_mut().filter(|p| p.x > coord) {
@@ -51,13 +43,13 @@ fn round(points: &[Point], line: (char, u32)) -> Vec<Point> {
         p.y = 2 * coord - p.y;
       }
     },
-    _ => panic!("Invalid input: {dir}")
+    _ => panic!("Invalid dir: {dir}")
   }
 
-  HashSet::<Point>::from_iter(points).into_iter().collect()
+  Vec::from_iter(HashSet::<Point>::from_iter(points.into_iter()).into_iter())
 }
 
-fn layout(points: &[Point]) -> Vec<Vec<char>> {
+fn layout(points: &[Point]) -> String {
   let width: usize  = points.iter().map(|p| p.x).max().unwrap() as usize + 1;
   let height: usize = points.iter().map(|p| p.y).max().unwrap() as usize + 1;
 
@@ -66,37 +58,33 @@ fn layout(points: &[Point]) -> Vec<Vec<char>> {
     layout[p.y as usize][p.x as usize] = '█';
   }
 
-  layout
+  layout.into_iter()
+    .map(|v| v.into_iter().collect::<String>())
+    .collect::<Vec<String>>()
+    .join("\n")
 }
 
-fn process(input: &str) -> (Vec<Point>, Vec<(char, u32)>) {
+fn process(input: &str) -> (Vec<Point>, Vec<(char, i32)>) {
   let mut blocks = input.split("\n\n");
 
   let points: Vec<Point> = blocks.next().unwrap()
     .lines()
     .map(|line| {
       let (a, b) = line.split_once(',').unwrap();
-
+  
       Point {
         x: a.parse().unwrap(),
-        y: b.parse().unwrap()
+        y: b.parse().unwrap(),
       }
     }).collect();
 
-  let lines: Vec<(char, u32)> = blocks.next().unwrap()
+  let dirs: Vec<(char, i32)> = blocks.next().unwrap()
     .lines()
     .map(|line| {
-      let mut s = line.split(' ')
-        .last().unwrap()
-        .chars();
+      let (a, b) = line.split_once('=').unwrap();
 
-      let dir = s.next().unwrap();
-      let coord: u32 = s.skip(1)
-        .collect::<String>()
-        .parse().unwrap();
-
-      (dir, coord)
+      (a.chars().last().unwrap(), b.parse().unwrap())
     }).collect();
 
-  (points, lines)
+  (points, dirs)
 }
