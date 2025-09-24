@@ -3,8 +3,15 @@ use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
 use std::ops::{Add, AddAssign, Mul};
 
+/*
 const WIDTH: i32 = 101;
 const HEIGHT: i32 = 103;
+*/
+
+const BOUNDS: Point = Point {
+  x: 101,
+  y: 103,
+};
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
@@ -18,8 +25,8 @@ fn main() {
 fn part1(mut robots: Vec<Robot>) -> usize {
   for r in &mut robots { r.step(100); }
 
-  let mid_x = WIDTH / 2;
-  let mid_y = HEIGHT / 2;
+  let mid_x = BOUNDS.x / 2;
+  let mid_y = BOUNDS.y / 2;
   [
     robots.iter().filter(|&r| r.pos.x < mid_x && r.pos.y < mid_y).count(),
     robots.iter().filter(|&r| r.pos.x < mid_x && r.pos.y > mid_y).count(),
@@ -62,6 +69,15 @@ struct Point {
   y: i32,
 }
 
+impl Point {
+  fn rem_euclid(self, other: Self) -> Self {
+    Self {
+      x: self.x.rem_euclid(other.x),
+      y: self.y.rem_euclid(other.y),
+    }
+  }
+}
+
 impl Add for Point {
   type Output = Self;
   fn add(self, other: Self) -> Self {
@@ -97,9 +113,7 @@ struct Robot {
 impl Robot {
   fn step(&mut self, n: i32) {
     self.pos += self.vel * n;
-
-    self.pos.x = ((self.pos.x % WIDTH) + WIDTH) % WIDTH;
-    self.pos.y = ((self.pos.y % HEIGHT) + HEIGHT) % HEIGHT;
+    self.pos = self.pos.rem_euclid(BOUNDS);
   }
 }
 
