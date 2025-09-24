@@ -44,10 +44,10 @@ fn part2(mut robots: Vec<Robot>) -> u32 {
   input.lines().map(|line| {
     let mut t = line
       .split(|c: char| !"-0123456789".contains(c))
-      .filter_map(|s| {
+      .filter_map(|s|
         if !s.is_empty() { Some(s.parse::<i32>().unwrap()) }
         else { None }
-      });
+      );
     assert_eq!(t.to_owned().count(), 4);
 
     Robot {
