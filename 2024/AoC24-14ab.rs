@@ -18,11 +18,13 @@ fn main() {
 fn part1(mut robots: Vec<Robot>) -> usize {
   for r in &mut robots { r.step(100); }
 
+  let mid_x = WIDTH / 2;
+  let mid_y = HEIGHT / 2;
   [
-    robots.iter().filter(|&r| r.pos.x < WIDTH / 2 && r.pos.y < HEIGHT / 2).count(),
-    robots.iter().filter(|&r| r.pos.x < WIDTH / 2 && r.pos.y > HEIGHT / 2).count(),
-    robots.iter().filter(|&r| r.pos.x > WIDTH / 2 && r.pos.y < HEIGHT / 2).count(),
-    robots.iter().filter(|&r| r.pos.x > WIDTH / 2 && r.pos.y > HEIGHT / 2).count(),
+    robots.iter().filter(|&r| r.pos.x < mid_x && r.pos.y < mid_y).count(),
+    robots.iter().filter(|&r| r.pos.x < mid_x && r.pos.y > mid_y).count(),
+    robots.iter().filter(|&r| r.pos.x > mid_x && r.pos.y < mid_y).count(),
+    robots.iter().filter(|&r| r.pos.x > mid_x && r.pos.y > mid_y).count(),
   ].into_iter().product()
 }
 
