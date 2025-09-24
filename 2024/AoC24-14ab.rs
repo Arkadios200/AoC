@@ -65,10 +65,10 @@ struct Point {
 }
 
 impl Point {
-  fn rem_euclid(self, other: Self) -> Self {
+  fn rem_euclid(self, rhs: Self) -> Self {
     Self {
-      x: self.x.rem_euclid(other.x),
-      y: self.y.rem_euclid(other.y),
+      x: self.x.rem_euclid(rhs.x),
+      y: self.y.rem_euclid(rhs.y),
     }
   }
 }
