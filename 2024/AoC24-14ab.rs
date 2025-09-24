@@ -58,7 +58,7 @@ fn process(input: &str) -> Vec<Robot> {
   }).collect()
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Point {
   x: i32,
   y: i32,
@@ -99,7 +99,7 @@ impl Mul<i32> for Point {
   }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy)]
 struct Robot {
   pos: Point,
   vel: Point,
