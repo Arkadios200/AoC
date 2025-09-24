@@ -3,11 +3,6 @@ use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
 use std::ops::{Add, AddAssign, Mul};
 
-/*
-const WIDTH: i32 = 101;
-const HEIGHT: i32 = 103;
-*/
-
 const BOUNDS: Point = Point {
   x: 101,
   y: 103,
