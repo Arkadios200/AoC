@@ -32,7 +32,7 @@ fn part2(antennae: &[Vec<Point>], bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
-    for (&(mut a), &(mut b)) in v.iter().tuple_combinations() {
+    for (&(mut a), &(mut b)) in v.into_iter().tuple_combinations() {
       let diff = a - b;
       while a.is_within(&bounds) {
         antinodes.insert(a);
@@ -68,7 +68,7 @@ fn process(input: &str) -> (Vec<Vec<Point>>, Point) {
     }
   };
 
-  (Vec::from_iter(antennae.values().map(|v| v.to_owned())), bounds)
+  (antennae.values().map(|v| v.to_owned()).collect(), bounds)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
