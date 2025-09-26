@@ -7,7 +7,7 @@ fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
 
   let antennae = process(&input);
-  let bounds = {
+  let bounds: Point = {
     let width = input.lines().next().unwrap().chars().count() as i32;
     let height = input.lines().count() as i32;
 
