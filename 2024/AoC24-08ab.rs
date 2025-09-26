@@ -6,17 +6,8 @@ use itertools::Itertools;
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
 
-  let antennae = process(&input);
-  let bounds: Point = {
-    let width = input.lines().next().unwrap().chars().count() as i32;
-    let height = input.lines().count() as i32;
+  let (antennae, bounds) = process(&input);
 
-    Point {
-      x: width,
-      y: height,
-    }
-  };
-  
   println!("Part 1 answer: {}", part1(&antennae, bounds));
   println!("Part 2 answer: {}", part2(&antennae, bounds));
 }
@@ -57,7 +48,7 @@ fn part2(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
   antinodes.len()
 }
 
-fn process(input: &str) -> HashMap<char, Vec<Point>> {
+fn process(input: &str) -> (HashMap<char, Vec<Point>>, Point) {
   let mut antennae: HashMap<char, Vec<Point>> = HashMap::new();
   for (y, line) in input.lines().enumerate() {
     for (x, c) in line.chars().enumerate() {
@@ -67,7 +58,17 @@ fn process(input: &str) -> HashMap<char, Vec<Point>> {
     }
   }
 
-  antennae
+  let bounds: Point = {
+    let width = input.lines().next().unwrap().chars().count() as i32;
+    let height = input.lines().count() as i32;
+
+    Point {
+      x: width,
+      y: height,
+    }
+  };
+
+  (antennae, bounds)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
