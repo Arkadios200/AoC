@@ -1,6 +1,7 @@
 use std::fs;
 use std::collections::{HashSet, HashMap};
 use std::ops::{Add, Sub, AddAssign, SubAssign};
+use itertools::Itertools;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
@@ -24,14 +25,10 @@ fn part1(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae.values() {
-    for i in 0..(v.len()-1) {
-      for j in (i+1)..v.len() {
-        let (a, b) = (v[i], v[j]);
-        let diff = a - b;
-
-        antinodes.insert(a + diff);
-        antinodes.insert(b - diff);
-      }
+    for (&a, &b) in v.iter().tuple_combinations() {
+      let diff = a - b;
+      antinodes.insert(a + diff);
+      antinodes.insert(b - diff);
     }
   }
 
@@ -44,19 +41,15 @@ fn part2(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae.values() {
-    for i in 0..(v.len()-1) {
-      for j in (i+1)..v.len() {
-        let (mut a, mut b) = (v[i], v[j]);
-        let diff = a - b;
-
-        while a.is_within(&bounds) {
-          antinodes.insert(a);
-          a += diff;
-        }
-        while b.is_within(&bounds) {
-          antinodes.insert(b);
-          b -= diff;
-        }
+    for (&(mut a), &(mut b)) in v.iter().tuple_combinations() {
+      let diff = a - b;
+      while a.is_within(&bounds) {
+        antinodes.insert(a);
+        a += diff;
+      }
+      while b.is_within(&bounds) {
+        antinodes.insert(b);
+        b -= diff;
       }
     }
   }
