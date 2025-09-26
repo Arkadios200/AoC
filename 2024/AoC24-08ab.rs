@@ -12,7 +12,8 @@ fn main() {
   println!("Part 2 answer: {}", part2(antennae.values(), bounds));
 }
 
-fn part1<'a>(antennae: impl Iterator<Item = &'a Vec<Point>>, bounds: Point) -> usize {
+fn part1<'a, I>(antennae: I, bounds: Point) -> usize
+  where I: Iterator<Item = &'a Vec<Point>> {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
@@ -28,7 +29,8 @@ fn part1<'a>(antennae: impl Iterator<Item = &'a Vec<Point>>, bounds: Point) -> u
     .count()
 }
 
-fn part2<'a>(antennae: impl Iterator<Item = &'a Vec<Point>>, bounds: Point) -> usize {
+fn part2<'a, I>(antennae: I, bounds: Point) -> usize
+  where I: Iterator<Item = &'a Vec<Point>> {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
