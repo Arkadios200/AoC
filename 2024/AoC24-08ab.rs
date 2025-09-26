@@ -59,7 +59,8 @@ fn process(input: &str) -> (Vec<Vec<Point>>, Point) {
   }
 
   let bounds: Point = {
-    let width = input.lines().next().unwrap().chars().count() as i32;
+    let width = input.lines().next().unwrap()
+      .chars().count() as i32;
     let height = input.lines().count() as i32;
 
     Point {
@@ -71,7 +72,7 @@ fn process(input: &str) -> (Vec<Vec<Point>>, Point) {
   (antennae.values().map(|v| v.to_owned()).collect(), bounds)
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Point {
   x: i32,
   y: i32,
