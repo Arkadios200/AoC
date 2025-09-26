@@ -59,7 +59,8 @@ fn process(input: &str) -> (HashMap<char, Vec<Point>>, Point) {
   }
 
   let bounds: Point = {
-    let width = input.lines().next().unwrap().chars().count() as i32;
+    let width = input.lines().next().unwrap()
+      .chars().count() as i32;
     let height = input.lines().count() as i32;
 
     Point {
