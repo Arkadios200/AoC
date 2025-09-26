@@ -8,14 +8,14 @@ fn main() {
 
   let (antennae, bounds) = process(&input);
 
-  println!("Part 1 answer: {}", part1(&antennae, bounds));
-  println!("Part 2 answer: {}", part2(&antennae, bounds));
+  println!("Part 1 answer: {}", part1(antennae.values(), bounds));
+  println!("Part 2 answer: {}", part2(antennae.values(), bounds));
 }
 
-fn part1(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
+fn part1<'a>(antennae: impl Iterator<Item = &'a Vec<Point>>, bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
-  for v in antennae.values() {
+  for v in antennae {
     for (&a, &b) in v.iter().tuple_combinations() {
       let diff = a - b;
       antinodes.insert(a + diff);
@@ -28,10 +28,10 @@ fn part1(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
     .count()
 }
 
-fn part2(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
+fn part2<'a>(antennae: impl Iterator<Item = &'a Vec<Point>>, bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
-  for v in antennae.values() {
+  for v in antennae {
     for (&(mut a), &(mut b)) in v.iter().tuple_combinations() {
       let diff = a - b;
       while a.is_within(&bounds) {
@@ -59,8 +59,7 @@ fn process(input: &str) -> (HashMap<char, Vec<Point>>, Point) {
   }
 
   let bounds: Point = {
-    let width = input.lines().next().unwrap()
-      .chars().count() as i32;
+    let width = input.lines().next().unwrap().chars().count() as i32;
     let height = input.lines().count() as i32;
 
     Point {
