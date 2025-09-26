@@ -8,13 +8,11 @@ fn main() {
 
   let (antennae, bounds) = process(&input);
 
-  println!("Part 1 answer: {}", part1(antennae.values(), bounds));
-  println!("Part 2 answer: {}", part2(antennae.values(), bounds));
+  println!("Part 1 answer: {}", part1(&antennae, bounds));
+  println!("Part 2 answer: {}", part2(&antennae, bounds));
 }
 
-fn part1<'a, I>(antennae: I, bounds: Point) -> usize
-where I: Iterator<Item = &'a Vec<Point>>
-{
+fn part1(antennae: &[Vec<Point>], bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
@@ -30,9 +28,7 @@ where I: Iterator<Item = &'a Vec<Point>>
     .count()
 }
 
-fn part2<'a, I>(antennae: I, bounds: Point) -> usize
-where I: Iterator<Item = &'a Vec<Point>>
-{
+fn part2(antennae: &[Vec<Point>], bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
@@ -52,7 +48,7 @@ where I: Iterator<Item = &'a Vec<Point>>
   antinodes.len()
 }
 
-fn process(input: &str) -> (HashMap<char, Vec<Point>>, Point) {
+fn process(input: &str) -> (Vec<Vec<Point>>, Point) {
   let mut antennae: HashMap<char, Vec<Point>> = HashMap::new();
   for (y, line) in input.lines().enumerate() {
     for (x, c) in line.chars().enumerate() {
@@ -72,7 +68,7 @@ fn process(input: &str) -> (HashMap<char, Vec<Point>>, Point) {
     }
   };
 
-  (antennae, bounds)
+  (Vec::from_iter(antennae.values().map(|v| v.to_owned())), bounds)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
