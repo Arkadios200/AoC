@@ -23,30 +23,32 @@ fn main() {
 fn part1(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
-  for (_, val) in antennae {
-    for i in 0..(val.len()-1) {
-      for j in (i+1)..val.len() {
-        let (a, b) = (val[i], val[j]);
-
+  for v in antennae.values() {
+    for i in 0..(v.len()-1) {
+      for j in (i+1)..v.len() {
+        let (a, b) = (v[i], v[j]);
         let diff = a - b;
+
         antinodes.insert(a + diff);
         antinodes.insert(b - diff);
       }
     }
   }
 
-  antinodes.into_iter().filter(|p| p.is_within(&bounds)).count()
+  antinodes.into_iter()
+    .filter(|p| p.is_within(&bounds))
+    .count()
 }
 
 fn part2(antennae: &HashMap<char, Vec<Point>>, bounds: Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
-  for (_, val) in antennae {
-    for i in 0..(val.len()-1) {
-      for j in (i+1)..val.len() {
-        let (mut a, mut b) = (val[i], val[j]);
-
+  for v in antennae.values() {
+    for i in 0..(v.len()-1) {
+      for j in (i+1)..v.len() {
+        let (mut a, mut b) = (v[i], v[j]);
         let diff = a - b;
+
         while a.is_within(&bounds) {
           antinodes.insert(a);
           a += diff;
