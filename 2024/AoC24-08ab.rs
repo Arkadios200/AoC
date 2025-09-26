@@ -13,7 +13,8 @@ fn main() {
 }
 
 fn part1<'a, I>(antennae: I, bounds: Point) -> usize
-  where I: Iterator<Item = &'a Vec<Point>> {
+where I: Iterator<Item = &'a Vec<Point>>
+{
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
@@ -30,7 +31,8 @@ fn part1<'a, I>(antennae: I, bounds: Point) -> usize
 }
 
 fn part2<'a, I>(antennae: I, bounds: Point) -> usize
-  where I: Iterator<Item = &'a Vec<Point>> {
+where I: Iterator<Item = &'a Vec<Point>>
+{
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
