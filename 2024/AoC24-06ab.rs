@@ -1,5 +1,6 @@
 use std::fs;
 use std::collections::HashSet;
+use std::ops::Add;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
@@ -109,5 +110,15 @@ impl Guard {
 
     self.pos = self.next_pos();
     self.pos
+  }
+}
+
+impl Add for Point {
+  type Output = Self;
+  fn add(self, other: Self) -> Self {
+    Point {
+      x: self.x + other.x,
+      y: self.y + other.y,
+    }
   }
 }
