@@ -70,7 +70,7 @@ fn process(input: &str) -> (Guard, HashSet<Point>, Point) {
   (guard.unwrap(), obstacles, bounds)
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Point {
   x: i32,
   y: i32,
@@ -82,7 +82,7 @@ impl Point {
   }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Guard {
   pos: Point,
   dir: u32
