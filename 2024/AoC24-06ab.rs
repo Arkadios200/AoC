@@ -85,21 +85,17 @@ impl Point {
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Guard {
   pos: Point,
-  dir: u32
+  dir: usize
 }
 
 impl Guard {
   fn next_pos(&self) -> Point {
-    let mut pos = self.pos;
-    match self.dir {
-      0 => pos.y -= 1,
-      1 => pos.x += 1,
-      2 => pos.y += 1,
-      3 => pos.x -= 1,
-      _ => panic!("Invalid dir: {}", self.dir),
-    }
-
-    pos
+    self.pos + [
+      Point { x: 0, y: -1 },
+      Point { x: 1, y: 0 },
+      Point { x: 0, y: 1 },
+      Point { x: -1, y: 0 },
+    ][self.dir]
   }
 
   fn turn(&mut self) {
