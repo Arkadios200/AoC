@@ -48,7 +48,10 @@ fn process(input: &str) -> (Guard, HashSet<Point>, Point) {
   for (i, line) in input.lines().enumerate() {
     for (j, c) in line.chars().enumerate() {
       match c {
-        '^' => guard = Some(Guard { pos: Point { x: j as i32, y: i as i32 }, dir: 0 }),
+        '^' => match guard {
+            Some(_) => panic!("Invalid input: More than one guard"),
+            None => guard = Some(Guard { pos: Point { x: j as i32, y: i as i32 }, dir: 0 }),
+        },
         '#' => { obstacles.insert(Point { x: j as i32, y: i as i32 }); },
         _ => {}
       }
