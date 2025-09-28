@@ -1,110 +1,101 @@
-import Foundation
+extension Collection {
+  var tupleCombinations: [(Element, Element)] {
+    var tC: [(Element, Element)] = []
+    for i in indices.dropLast() {
+      tC += self[index(after: i)...].map { (self[i], $0) }
+    }
 
-func + (_ a: (Int, Int), _ b: (Int, Int)) -> (Int, Int) {
-  return (a.0 + b.0, a.1 + b.1)
+    return tC
+  }
 }
 
-func withinBounds(_ antinode: (Int, Int), of map: [[Character]]) -> Bool {
-  let maxHeight = map.count
-  let maxWidth = map[0].count
-  
-  return (antinode.1 < maxWidth && antinode.1 >= 0) && (antinode.0 < maxHeight && antinode.0 >= 0)
+struct Point: Equatable, Hashable {
+  let x: Int
+  let y: Int
+
+  init(x: Int, y: Int) {
+    self.x = x
+    self.y = y
+  }
+
+  func isWithin(_ bounds: Point) -> Bool {
+    return (0..<bounds.x).contains(self.x) && (0..<bounds.y).contains(self.y)
+  }
 }
 
-func getAntinodes1(_ a: [(Int, Int)]) -> [(Int, Int)] {
-  var antinodes = [(Int, Int)]()
+extension Point {
+  static func + (lhs: Point, rhs: Point) -> Point {
+    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+  }
 
-  for i in 0..<a.count-1 {
-    for j in i+1..<a.count {
-      var vector = (a[i].0-a[j].0, a[i].1-a[j].1)
-      var new1 = a[i] + vector
-      if new1 == a[j] {
-        vector = (-vector.0, -vector.1)
-        new1 = a[i] + vector
-      }
-      vector = (a[i].0-a[j].0, a[i].1-a[j].1)
-      var new2 = a[j] + vector
-      if new2 == a[i] {
-        vector = (-vector.0, -vector.1)
-        new2 = a[j] + vector
-      }
-      if withinBounds(new1, of: map) {
-        antinodes.append(new1)
-      }
-      if withinBounds(new2, of: map) {
-        antinodes.append(new2)
+  static func += (lhs: inout Point, rhs: Point) {
+    lhs = lhs + rhs
+  }
+
+  static func - (lhs: Point, rhs: Point) -> Point {
+    return Point(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+  }
+
+  static func -= (lhs: inout Point, rhs: Point) {
+    lhs = lhs - rhs
+  }
+}
+
+func getInput() -> ([[Point]], Point) {
+  var grid: [[Character]] = []
+  while let line = readLine() { grid.append(Array(line)) }
+
+  var antennae: [Character: [Point]] = [:]
+  for (i, line) in grid.enumerated() {
+    for (j, c) in line.enumerated() {
+      if c != "." {
+        var v: [Point] = antennae[c] ?? []
+        v.append(Point(x: j, y: i))
+        antennae[c] = v
       }
     }
   }
 
-  return antinodes
+  let bounds = Point(x: grid.first!.count, y: grid.count)
+
+  return (Array(antennae.values), bounds)
 }
 
-func walk(from start: (Int, Int), along vector: (Int, Int), excluding antinodes: [(Int, Int)]) -> [(Int, Int)] {
-  var newAntinode = start
-  var newAntinodes = [(Int, Int)]()
-  while true {
-    newAntinode = newAntinode + vector
-    if !withinBounds(newAntinode, of: map) {break}
-    if !antinodes.contains(where: {$0 == newAntinode}) {
-      newAntinodes.append(newAntinode)
+func part1(_ antennae: [[Point]], _ bounds: Point) -> Int {
+  var antinodes: Set<Point> = []
+
+  for v in antennae {
+    for (a, b) in v.tupleCombinations {
+      let diff = a - b
+      antinodes.insert(a + diff)
+      antinodes.insert(b - diff)
     }
   }
 
-  return newAntinodes
+  return antinodes.filter { $0.isWithin(bounds) }.count
 }
 
-func getAntinodes2(_ a: [(Int, Int)]) -> [(Int, Int)] {
-  var antinodes = [(Int, Int)]()
+func part2(_ antennae: [[Point]], _ bounds: Point) -> Int {
+  var antinodes: Set<Point> = []
 
-  for i in 0..<a.count-1 {
-    for j in i+1..<a.count {
-      var vector = (a[i].0-a[j].0, a[i].1-a[j].1)
-      antinodes += walk(from: (a[i].0, a[i].1), along: vector, excluding: antinodes)
-      antinodes += walk(from: (a[j].0, a[j].1), along: vector, excluding: antinodes)
-
-      vector = (-vector.0, -vector.1)
-      antinodes += walk(from: (a[i].0, a[i].1), along: vector, excluding: antinodes)
-      antinodes += walk(from: (a[j].0, a[j].1), along: vector, excluding: antinodes)
+  for v in antennae {
+    for (a, b) in v.tupleCombinations {
+      var a = a, b = b
+      let diff = a - b
+      while a.isWithin(bounds) {
+        antinodes.insert(a)
+        a += diff
+      }
+      while b.isWithin(bounds) {
+        antinodes.insert(b)
+        b -= diff
+      }
     }
   }
 
-  return antinodes
+  return antinodes.count
 }
 
-var map = [[Character]]()
-while let line = readLine() {
-  map.append(Array(line))
-}
-
-var antennae = [Character: [(Int, Int)]]()
-for i in 0..<map.count {
-  for j in 0..<map[i].count where map[i][j] != "." {
-    let temp = map[i][j]
-    if var a = antennae[temp] {
-      a.append((i, j))
-      antennae[temp] = a
-    } else {
-      antennae[temp] = [(i, j)]
-    }
-  }
-}
-
-var antinodeRecord1 = [(Int, Int)]()
-var antinodeRecord2 = [(Int, Int)]()
-for (_, val) in antennae {
-  let antinodes1 = getAntinodes1(val)
-  let antinodes2 = getAntinodes2(val)
-  for a in antinodes1 where !antinodeRecord1.contains(where: {$0 == a}) {
-    antinodeRecord1.append(a)
-  }
-  for b in antinodes2 where !antinodeRecord2.contains(where: {$0 == b}) {
-    antinodeRecord2.append(b)
-  }
-}
-  
-let total1 = antinodeRecord1.count
-print("Part 1 answer: \(total1)")
-
-let total2 = antinodeRecord2.count
-print("Part 2 answer: \(total2)")
+let (antennae, bounds) = getInput()
+print(part1(antennae, bounds))
+print(part2(antennae, bounds))
