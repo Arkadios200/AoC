@@ -1,4 +1,4 @@
-use std::fs;
+ std::fs;
 use itertools::Itertools;
 
 fn main() {
@@ -8,16 +8,14 @@ fn main() {
     .collect::<Vec<i32>>();
 
   let ans1 = (0..5).permutations(5).map(|p| {
-    p.into_iter().fold(0, |acc, v| run(&program, [v, acc].into_iter()))
+    p.into_iter().fold(0, |acc, v| run(program.to_owned(), [v, acc].into_iter()))
   }).max().unwrap();
   println!("Part 1 answer: {ans1}");
 }
 
-fn run(program: &[i32], mut input: impl Iterator<Item = i32>) -> i32 {
-  let mut program = program.to_owned();
-
+fn run(mut program: Vec<i32>, mut input: impl Iterator<Item = i32>) -> i32 {
   let mut output: i32 = 0;
-  
+
   let mut i: usize = 0;
   loop {
     if !(0..program.len()).contains(&i) { panic!("Out of range") }
@@ -49,7 +47,7 @@ fn run(program: &[i32], mut input: impl Iterator<Item = i32>) -> i32 {
     match opcode {
       1 => program[args[2]] = program[args[0]] + program[args[1]],
       2 => program[args[2]] = program[args[0]] * program[args[1]],
-      3 => program[args[0]] = input.next().unwrap(),
+      3 => program[args[0]] = input.next().expect("Input required"),
       4 => output = program[args[0]],
       5 => {
         if program[args[0]] != 0 {
