@@ -34,19 +34,19 @@ fn calc<I>(mut points: Vec<Point>, mut lines: I) -> (usize, String)
 fn round(mut points: Vec<Point>, (dir, coord): (char, i32)) -> Vec<Point> {
   match dir {
     'x' => {
-      for p in points.iter_mut().filter(|p| p.x > coord) {
-        p.x = 2 * coord - p.x;
+      for p in &mut points {
+        if p.x > coord { p.x = 2 * coord - p.x; }
       }
     },
     'y' => {
-      for p in points.iter_mut().filter(|p| p.y > coord) {
-        p.y = 2 * coord - p.y;
+      for p in &mut points {
+        if p.y > coord { p.y = 2 * coord - p.y; }
       }
     },
     _ => panic!("Invalid dir: {dir}")
   }
 
-  Vec::from_iter(HashSet::<Point>::from_iter(points.into_iter()).into_iter())
+  Vec::from_iter(HashSet::<Point>::from_iter(points))
 }
 
 fn layout(points: &[Point]) -> String {
@@ -54,7 +54,7 @@ fn layout(points: &[Point]) -> String {
   let height: usize = points.iter().map(|p| p.y).max().unwrap() as usize + 1;
 
   let mut layout = vec![vec![' '; width]; height];
-  for p in points {
+  for &p in points {
     layout[p.y as usize][p.x as usize] = '█';
   }
 
@@ -71,7 +71,7 @@ fn process(input: &str) -> (Vec<Point>, Vec<(char, i32)>) {
     .lines()
     .map(|line| {
       let (a, b) = line.split_once(',').unwrap();
-  
+
       Point {
         x: a.parse().unwrap(),
         y: b.parse().unwrap(),
