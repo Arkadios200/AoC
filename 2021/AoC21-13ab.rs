@@ -59,7 +59,7 @@ fn layout(points: &[Point]) -> String {
   }
 
   layout.into_iter()
-    .map(|v| String::from_iter(v))
+    .map(String::from_iter)
     .collect::<Vec<String>>()
     .join("\n")
 }
