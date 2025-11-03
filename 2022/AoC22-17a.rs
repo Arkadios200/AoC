@@ -41,10 +41,10 @@ fn main() {
     ],
   ].into_iter().cycle();
 
-  let mut record: HashSet<Point> = HashSet::new();
+  let mut record: HashSet<Point> = HashSet::from_iter((0..7).map(|x| Point { x, y: 0 }));
 
   for _ in 1..=2022 {
-    let m = record.iter().map(|&p| p.y).max().unwrap_or(0);
+    let m = record.iter().map(|&p| p.y).max().unwrap();
     let mut shape: Vec<Point> = shapes.next().unwrap().into_iter().map(|(x, y)| Point { x: x + 2, y: y + m + 4 }).collect();
 
     loop {
@@ -53,7 +53,7 @@ fn main() {
         for p in &mut shape { p.x += d; }
       }
 
-      if shape.iter().map(|&p| Point { y: p.y - 1, ..p }).any(|p| record.contains(&p) || p.y == 0) {
+      if shape.iter().map(|&p| Point { y: p.y - 1, ..p }).any(|p| record.contains(&p)) {
         break;
       }
 
