@@ -59,11 +59,11 @@ func part2(_ input: [String]) -> Int {
       case "mem":
         var index = Array(String(Int(temp[1])!, radix: 2))
         index = Array(repeating: "0", count: 36 - index.count) + index
-        for i in mask["1"]! { index[i] = "1" }
+        for i in mask["1"] ?? [] { index[i] = "1" }
 
         let n = Int(temp.last!)!
 
-        let xs = mask["X"]!
+        let xs = mask["X"] ?? []
         for y in 0..<(1 << xs.count) {
           var z = Array(String(y, radix: 2))
           z = Array(repeating: "0", count: xs.count - z.count) + z
