@@ -28,7 +28,7 @@ func part1(_ input: [String]) -> Int {
       case "mask":
         mask = Array(temp.last!)
       case "mem":
-        let i = Int(temp[1])!
+        let index = Int(temp[1])!
         let n = Int(temp.last!)!
 
         var s = Array(String(n, radix: 2))
@@ -38,7 +38,7 @@ func part1(_ input: [String]) -> Int {
           s[i] = mask[i]
         }
 
-        mem[i] = Int(String(s), radix: 2)!
+        mem[index] = Int(String(s), radix: 2)!
       default: fatalError()
     }
   }
