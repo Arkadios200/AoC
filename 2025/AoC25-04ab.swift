@@ -31,16 +31,12 @@ func getInput() -> Set<Point> {
     grid.append(Array(line))
   }
 
-  var rolls: Set<Point> = []
+  var rolls: [Point] = []
   for i in grid.indices {
-    for j in grid[i].indices {
-      if grid[i][j] == "@" {
-        rolls.insert(Point(x: j, y: i))
-      }
-    }
+    rolls += grid[i].indices.compactMap { j in grid[i][j] == "@" ? Point(x: j, y: i) : nil }
   }
 
-  return rolls
+  return Set(rolls)
 }
 
 func calc(_ rolls: Set<Point>) -> (Int, Int) {
