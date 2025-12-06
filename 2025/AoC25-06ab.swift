@@ -19,8 +19,7 @@ func getInput() -> [([Int], [Int], Character)] {
 
   let signs = lines.last!.split(separator: " ").map { Character(String($0)) }
 
-  guard nums1.count == nums2.count else { fatalError() }
-  guard nums1.count == signs.count else { fatalError() }
+  guard nums1.count == nums2.count, nums1.count == signs.count else { fatalError() }
 
   let problems: [([Int], [Int], Character)] = signs.indices.map { (nums1[$0], nums2[$0], signs[$0]) }
 
