@@ -1,16 +1,17 @@
-func transpose<T>(of arr: [[T]]) -> [[T]]? {
-  guard Set(arr.map( { $0.count } )).count == 1 else { return nil }
+func transpose<T>(of arr: [[T]]) -> [[T]] {
+  guard Set(arr.map( { $0.count } )).count == 1 else { fatalError() }
+  guard !arr.isEmpty else { fatalError() }
 
-  return arr.first?.indices.map { j in arr.map { $0[j] } }
+  return arr.first!.indices.map { j in arr.map { $0[j] } }
 }
 
 func getInput() -> [([Int], [Int], Character)] {
   var lines: [String] = []
   while let line = readLine() { lines.append(line) }
 
-  let nums1: [[Int]] = transpose(of: lines.dropLast().map { $0.split(separator: " ").map { Int($0)! } })!
+  let nums1: [[Int]] = transpose(of: lines.dropLast().map { $0.split(separator: " ").map { Int($0)! } })
 
-  let nums2: [[Int]] = transpose(of: lines.dropLast().map { Array($0) })!
+  let nums2: [[Int]] = transpose(of: lines.dropLast().map { Array($0) })
     .split { Set($0) == [" "] }
     .map {
       $0.map { Int(String($0.filter { $0.isNumber }))! }
