@@ -23,7 +23,7 @@ func dedup(_ ranges: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
       let a = min(r.lowerBound, out.last!.lowerBound)
       let b = max(r.upperBound, out.last!.upperBound)
 
-      out[out.index(before: out.endIndex)] = a...b
+      out[out.indices.last!] = a...b
     } else { out.append(r) }
   }
 
