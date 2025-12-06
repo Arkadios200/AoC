@@ -27,8 +27,6 @@ func dedup(_ ranges: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
     } else { out.append(r) }
   }
 
-  out.forEach { print($0) }
-
   return out
 }
 
