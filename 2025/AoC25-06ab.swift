@@ -12,10 +12,9 @@ func getInput() -> [([Int], [Int], Character)] {
   let nums1: [[Int]] = transpose(of: lines.dropLast().map { $0.split(separator: " ").map { Int($0)! } })
 
   let nums2: [[Int]] = transpose(of: lines.dropLast().map { Array($0) })
-    .split { Set($0) == [" "] }
-    .map {
-      $0.map { Int(String($0.filter { $0.isNumber }))! }
-    }
+    .map { String($0.filter { $0.isNumber }) }
+    .split { $0.isEmpty }
+    .map { $0.map { Int($0)! } }
 
   let signs = lines.last!.split(separator: " ").map { Character(String($0)) }
 
