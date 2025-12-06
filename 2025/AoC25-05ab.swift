@@ -19,13 +19,15 @@ func dedup(_ ranges: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
 
   var out: [ClosedRange<Int>] = []
   for r in ranges {
-    if let i = out.firstIndex(where: { $0.overlaps(r) } ) {
-      let a = min(r.lowerBound, out[i].lowerBound)
-      let b = max(r.upperBound, out[i].upperBound)
+    if !out.isEmpty, out.last!.overlaps(r) {
+      let a = min(r.lowerBound, out.last!.lowerBound)
+      let b = max(r.upperBound, out.last!.upperBound)
 
-      out[i] = a...b
+      out[out.index(before: out.endIndex)] = a...b
     } else { out.append(r) }
   }
+
+  out.forEach { print($0) }
 
   return out
 }
