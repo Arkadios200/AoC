@@ -56,6 +56,6 @@ while let y = record.keys.map( { $0.y } ).max(), y < bottom {
   }
 }
 
-let ans2 = record.filter { $0.key.y == bottom }.map { $0.value }.reduce(0, +)
+let ans2 = record.compactMap { $0.key.y == bottom ? $0.value : nil }.reduce(0, +)
 print(ans1)
 print(ans2)
