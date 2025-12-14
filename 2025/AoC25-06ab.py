@@ -5,7 +5,7 @@ def transpose[T](arr: list[list[T]]) -> list[list[T]]:
 
   out = []
   for j in range(len(arr[0])):
-    out.append(list(map(lambda row: row[j], arr)))
+    out.append([row[j] for row in arr])
 
   return out
 
