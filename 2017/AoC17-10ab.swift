@@ -1,18 +1,34 @@
+postfix operator -
+
+extension Int {
+  static postfix func - (n: Int) -> Int {
+    return n - 1
+  }
+}
+
+extension Array {
+  func chunks(of size: Int) -> [[Element]] {
+    return self.indices.compactMap {
+      $0 % size == 0 ? Array(self[$0..<Swift.min($0+size, self.count)]) : nil
+    }
+  }
+}
+
 func part1(_ input: String) -> Int {
   let dirs = input.split(separator: ",").map { Int($0)! }
 
-  var nums = [Int](repeating: 0, count: 256).indices.map { Int($0) }
-  let count = nums.count
+  let len = 256
+  var nums = Array(0..<256)
 
   var skip = 0
   var i = 0
   for n in dirs {
-    let range = Array((i..<i+n).map { $0 % count })
-    for (j, e) in zip(range, range.map( { nums[$0] } ).reversed()) {
-      nums[j] = e
+    let r = (i..<i+n).map { $0 & len- }
+    for (w, x) in zip(r.prefix(n/2), r.reversed()) {
+      nums.swapAt(w, x)
     }
 
-    i = (i + n + skip) % count
+    i = i + n + skip
     skip += 1
   }
 
@@ -20,36 +36,32 @@ func part1(_ input: String) -> Int {
 }
 
 func knotHash(_ input: String) -> String {
-  let dirs = input.map { Int($0.asciiValue!) } + [17, 31, 73, 47, 23]
+  let dirs: [Int] = input.map { Int($0.asciiValue!) } + [17, 31, 73, 47, 23]
 
+  let len = 256
   var nums = Array(0..<256)
-  let count = nums.count
 
   var skip = 0
   var i = 0
   for _ in 1...64 {
     for n in dirs {
-      let range = Array((i..<i+n).map { $0 % count })
-      for (j, e) in zip(range, range.map( { nums[$0] } ).reversed()) {
-        nums[j] = e
-    }
+      let r = (i..<i+n).map { $0 & len- }
+      for (w, x) in zip(r.prefix(n/2), r.reversed()) {
+        nums.swapAt(w, x)
+      }
 
-      i = (i + n + skip) % count
+      i = i + n + skip
       skip += 1
     }
   }
 
-  let dense = nums.indices.compactMap {
-    $0 % 16 == 0 ? String(nums[$0..<$0+16].reduce(0, ^), radix: 16) : nil
-  }.map { $0.count == 1 ? "0\($0)" : $0 }.joined()
-
-  return dense
+  return nums.chunks(of: 16).reduce("") {
+    let n = $1.reduce(0, ^)
+    return $0 + (n < 0x10 ? "0" : "") + String(n, radix: 16)
+  }
 }
 
 let input = readLine()!
 
-let ans1 = part1(input)
-print("Part 1 answer: \(ans1)")
-
-let ans2 = knotHash(input)
-print("Part 2 answer: \(ans2)")
+print("Part 1 answer:", part1(input))
+print("Part 2 answer:", knotHash(input))
