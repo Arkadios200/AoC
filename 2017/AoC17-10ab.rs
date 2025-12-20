@@ -22,7 +22,7 @@ fn part1(input: &str) -> u32 {
       nums.swap(w, x);
     }
 
-    i = (i + n + skip) % LEN;
+    i = i + n + skip;
     skip += 1;
   }
 
@@ -47,7 +47,7 @@ fn knot_hash(input: &str) -> String {
         nums.swap(w, x);
       }
 
-      i = (i + n + skip) % LEN;
+      i = i + n + skip;
       skip += 1;
     }
   }
