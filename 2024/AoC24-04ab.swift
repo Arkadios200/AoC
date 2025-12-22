@@ -1,75 +1,62 @@
-import Foundation
-
-// This part wasn't written by me. Sorry.
-extension Collection {
-  subscript(safe index: Index) -> Element? {
-    indices.contains(index) ? self[index] : nil
+extension Array {
+  func get(at i: Index) -> Element? {
+    return self.indices.contains(i) ? self[i] : nil
   }
 }
 
-func getValue(of input: [[Character]], at ij: [Int]) -> String {
-  if let x = input[safe: ij[0]] {
-    if let y = x[safe: ij[1]] {
-      return String(y)
+func getInput() -> [[Character]] {
+  var grid: [[Character]] = []
+  while let line = readLine() {
+    grid.append(Array(line))
+  }
+
+  return grid
+}
+
+func part1(_ grid: [[Character]]) -> Int {
+  let adjs = [
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1),
+    (1, 0),
+    (1, -1),
+    (0, -1),
+  ]
+
+  var ans = 0
+  for i in grid.indices {
+    for j in grid[i].indices where grid[i][j] == "X" {
+      ans += adjs.map {
+        let (a, b) = $0
+        return String((0...3).compactMap { grid.get(at: i + $0*a)?.get(at: j + $0*b) })
+      }.filter { ["XMAS", "SAMX"].contains($0) }.count
     }
   }
-  return ""
+
+  return ans
 }
 
-let input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!
+func part2(_ grid: [[Character]]) -> Int {
+  let r = -1...1
 
-var wordSearch = [[Character]]()
-for s in input.components(separatedBy: "\n") {
-  wordSearch.append(Array(s))
-}
+  var ans = 0
+  for i in grid.indices {
+    for j in grid[i].indices where grid[i][j] == "A" {
+      let a = zip(r, r).compactMap { grid.get(at: i + $0.0)?.get(at: j + $0.1) }
+      let b = zip(r, r.reversed()).compactMap { grid.get(at: i + $0.0)?.get(at: j + $0.1) }
 
-var total1 = 0, total2 = 0
-for i in 0..<wordSearch.count {
-  for j in 0..<wordSearch[i].count {
-    if wordSearch[i][j] == "X" {
-      var tempStrings = [String](repeating: "", count: 8)
-      for k in 1...3 {
-        let directions: [[Int]] = [
-          [i, j+k],
-          [i+k, j+k],
-          [i+k, j],
-          [i+k, j-k],
-          [i, j-k],
-          [i-k, j-k],
-          [i-k, j],
-          [i-k, j+k]
-        ]
-        for m in 0..<8 {
-          tempStrings[m] += getValue(of: wordSearch, at: directions[m])
-        }
-        for s in tempStrings where s == "MAS" {
-          total1 += 1
-        }
-      }
-    } else if wordSearch[i][j] == "A" {
-      let locations: [[Int]] = [
-        [i-1, j-1],
-        [i+1, j-1],
-        [i+1, j+1],
-        [i-1, j+1]
-      ]
-      var mCount = 0, sCount = 0
-      var temp = [String]()
-      for k in locations {
-        let tempChar = getValue(of: wordSearch, at: k)
-        temp.append(tempChar)
-        if tempChar == "M" {
-          mCount += 1
-        } else if tempChar == "S" {
-          sCount += 1
-        }
-      }
-      if mCount == 2 && sCount == 2 && temp[0] != temp[2] && temp[1] != temp[3] {
-        total2 += 1
+      if [a, b].map( { String($0) } ).allSatisfy( { ["MAS", "SAM"].contains($0) } ) {
+        ans += 1
       }
     }
   }
+
+  return ans
 }
 
-print("Part 1 answer: \(total1)")
-print("Part 2 answer: \(total2)")
+let grid = getInput()
+
+print("Part 1 answer:", part1(grid))
+print("Part 2 answer:", part2(grid))
