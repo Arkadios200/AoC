@@ -36,5 +36,5 @@ for r in ranges {
 
 ans2 += ans1
 
-print(ans1)
-print(ans2)
+print("Part 1 answer:", ans1)
+print("Part 2 answer:", ans2)
