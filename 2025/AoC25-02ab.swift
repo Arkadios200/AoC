@@ -22,7 +22,7 @@ for r in ranges {
 
     loop: for i in 1...l/2 where l % i == 0 {
       let t = s.prefix(i)
-      for j in stride(from: 0, to: l, by: i) {
+      for j in stride(from: i, to: l, by: i) {
         if t != s[j..<j+i] {
           continue loop
         }
