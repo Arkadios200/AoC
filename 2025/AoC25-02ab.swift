@@ -15,17 +15,26 @@ for r in ranges {
     let s = Array(String(n))
     let l = s.count
 
-    if l % 2 == 0, s.prefix(l/2) == s.suffix(l/2) { ans1 += n }
+    if l % 2 == 0, s.prefix(l/2) == s.suffix(l/2) {
+      ans1 += n
+      continue
+    }
 
-    for i in 1...l/2 where l % i == 0 {
-      let t = Array(s.prefix(i))
-      if Array([[Character]](repeating: t, count: l/i).joined()) == s {
-        ans2 += n
-        break
+    loop: for i in 1...l/2 where l % i == 0 {
+      let t = s.prefix(i)
+      for j in stride(from: 0, to: l, by: i) {
+        if t != s[j..<j+i] {
+          continue loop
+        }
       }
+
+      ans2 += n
+      break
     }
   }
 }
 
-print("Part 1 answer:", ans1)
-print("Part 2 answer:", ans2)
+ans2 += ans1
+
+print(ans1)
+print(ans2)
