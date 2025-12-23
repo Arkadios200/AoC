@@ -1,17 +1,18 @@
-func transpose<T>(of arr: [[T]]) -> [[T]] {
-  guard Set(arr.map( { $0.count } )).count == 1 else { fatalError() }
-  guard !arr.isEmpty else { fatalError() }
+extension Collection where Element: Collection {
+  func transpose() -> [[Self.Element.Element]]? {
+    guard Set(self.map( { $0.count } )).count == 1 else { return nil }
 
-  return arr.first!.indices.map { j in arr.map { $0[j] } }
+    return self.first?.indices.map { j in self.map { $0[j] } }
+  }
 }
 
 func getInput() -> [([Int], [Int], Character)] {
   var lines: [String] = []
   while let line = readLine() { lines.append(line) }
 
-  let nums1: [[Int]] = transpose(of: lines.dropLast().map { $0.split(separator: " ").map { Int($0)! } })
+  let nums1: [[Int]] = lines.dropLast().map { $0.split(separator: " ").map { Int($0)! } }.transpose()!
 
-  let nums2: [[Int]] = transpose(of: lines.dropLast().map { Array($0) })
+  let nums2: [[Int]] = lines.dropLast().map { Array($0) }.transpose()!
     .map { String($0.filter { $0.isNumber }) }
     .split { $0.isEmpty }
     .map { $0.map { Int($0)! } }
