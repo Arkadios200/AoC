@@ -1,3 +1,9 @@
+extension Collection {
+  func maxBy<K: Comparable>(key: (Element) -> K) -> Element? {
+    return self.max { key($0) < key($1) }
+  }
+}
+
 func getInput() -> [[Int]] {
   var banks: [[Int]] = []
   while let line = readLine() {
@@ -16,7 +22,7 @@ func calc(_ bank: [Int], length: Int) -> Int {
   var out = ""
   var offset = 0
   for i in 1...length {
-    let (nextOffset, digit) = bank.dropFirst(offset).dropLast(length-i).max { $0.1 < $1.1 }!
+    let (nextOffset, digit) = bank.dropFirst(offset).dropLast(length-i).maxBy { $0.1 }!
 
     offset = nextOffset
     out += String(digit)
