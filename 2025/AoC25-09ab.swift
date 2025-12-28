@@ -22,11 +22,6 @@ struct Rectangle {
   let x: ClosedRange<Int>
   let y: ClosedRange<Int>
 
-  init(x: ClosedRange<Int>, y: ClosedRange<Int>) {
-    self.x = x
-    self.y = y
-  }
-
   init(a: Point, b: Point) {
     self.x = min(a.x, b.x)...max(a.x, b.x)
     self.y = min(a.y, b.y)...max(a.y, b.y)
