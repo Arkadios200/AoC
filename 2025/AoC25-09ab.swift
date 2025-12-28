@@ -66,6 +66,6 @@ print("Part 1 answer:", ans1)
 
 let lines = (points + [points.first!]).tupleWindows().map { Rectangle(a: $0.0, b: $0.1) }
 
-let ans2 = rectangles.compactMap { rect in !lines.contains { $0.overlaps(with: rect.inner ?? $0) } ? rect.area : nil }.max()!
+let ans2 = rectangles.compactMap { rect in $0.inner != nil && !lines.contains { $0.overlaps(with: rect.inner!) } ? rect.area : nil }.max()!
 
 print("Part 2 answer:", ans2)
