@@ -3,10 +3,6 @@ extension Collection {
     return Array(self.indices.dropLast().map { i in self[index(after: i)...].map { (self[i], $0) } }.joined())
   }
 
-  func minBy<K: Comparable>(key: (Element) -> K) -> Element? {
-    return self.min { key($0) < key($1) }
-  }
-
   func sortedBy<K: Comparable>(key: (Element) -> K) -> [Element] {
     return self.sorted { key($0) < key($1) }
   }
