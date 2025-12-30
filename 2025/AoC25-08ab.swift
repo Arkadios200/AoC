@@ -43,7 +43,7 @@ func part1(_ boxes: [Point]) -> Int {
     }
   }
 
-  return circuits.map { $0.count }.sorted().suffix(3).reduce(1, *)
+  return circuits.map { $0.count }.sorted(by: >).prefix(3).reduce(1, *)
 }
 
 func part2(_ boxes: [Point]) -> Int? {
