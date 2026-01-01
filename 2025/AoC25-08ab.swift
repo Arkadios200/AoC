@@ -32,7 +32,7 @@ func part1(_ boxes: [Point]) -> Int {
     if let i = i, let j = j {
       if i == j { continue }
 
-      for p in circuits.remove(at: max(i, j)) { circuits[min(i, j)].insert(p) }
+      circuits[min(i, j)].formUnion(circuits.remove(at: max(i, j)))
     } else if let i = i {
       circuits[i].insert(b)
     } else if let j = j {
@@ -56,7 +56,7 @@ func part2(_ boxes: [Point]) -> Int? {
     if let i = i, let j = j {
       if i == j { continue }
 
-      for p in circuits.remove(at: max(i, j)) { circuits[min(i, j)].insert(p) }
+      circuits[min(i, j)].formUnion(circuits.remove(at: max(i, j)))
     } else if let i = i {
       circuits[i].insert(b)
       count += 1
@@ -78,7 +78,7 @@ func part2(_ boxes: [Point]) -> Int? {
 
 func getInput() -> [Point] {
   var points: [Point] = []
-  while let line = readLine(), !line.isEmpty {
+  while let line = readLine() {
     let temp = line.split(separator: ",", maxSplits: 2).map { Int($0)! }
 
     points.append(Point(x: temp[0], y: temp[1], z: temp[2]))
