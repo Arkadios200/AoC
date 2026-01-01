@@ -14,9 +14,9 @@ struct Point: Equatable, Hashable {
   static let origin: Point = Point(x: 0, y: 0, z: 0)
 
   func dist(from other: Point = origin) -> Int {
-    let xDist = abs(self.x - other.x)
-    let yDist = abs(self.y - other.y)
-    let zDist = abs(self.z - other.z)
+    let xDist = self.x - other.x
+    let yDist = self.y - other.y
+    let zDist = self.z - other.z
 
     return xDist * xDist + yDist * yDist + zDist * zDist
   }
