@@ -32,8 +32,7 @@ func part1(_ boxes: [Point]) -> Int {
     if let i = i, let j = j {
       if i == j { continue }
 
-      for p in circuits[j] { circuits[i].insert(p) }
-      circuits.remove(at: j)
+      for p in circuits.remove(at: max(i, j)) { circuits[min(i, j)].insert(p) }
     } else if let i = i {
       circuits[i].insert(b)
     } else if let j = j {
@@ -57,8 +56,7 @@ func part2(_ boxes: [Point]) -> Int? {
     if let i = i, let j = j {
       if i == j { continue }
 
-      for p in circuits[j] { circuits[i].insert(p) }
-      circuits.remove(at: j)
+      for p in circuits.remove(at: max(i, j)) { circuits[min(i, j)].insert(p) }
     } else if let i = i {
       circuits[i].insert(b)
       count += 1
