@@ -45,7 +45,7 @@ func part1(_ boxes: [Point]) -> Int {
   return circuits.map { $0.count }.sorted(by: >).prefix(3).reduce(1, *)
 }
 
-func part2(_ boxes: [Point]) -> Int? {
+func part2(_ boxes: [Point]) -> Int {
   var circuits: [Set<Point>] = []
   var count = 0
 
@@ -73,7 +73,7 @@ func part2(_ boxes: [Point]) -> Int? {
     }
   }
 
-  return nil
+  fatalError("Unreachable")
 }
 
 func getInput() -> [Point] {
@@ -90,4 +90,4 @@ func getInput() -> [Point] {
 let boxes = getInput()
 
 print("Part 1 answer:", part1(boxes))
-print("Part 2 answer:", part2(boxes)!)
+print("Part 2 answer:", part2(boxes))
