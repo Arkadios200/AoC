@@ -36,11 +36,9 @@ fun part2(lines: List<Pair<Char, Int>>): Int {
 }
 
 class Point(var x: Int, var y: Int) {
-  companion object {
-    val origin: Point = Point(0, 0)
-  }
-
   constructor(p: Point) : this(p.x, p.y)
+
+  fun mDist(other: Point = origin): Int = Math.abs(this.x - other.x) + Math.abs(this.y - other.y)
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -52,7 +50,9 @@ class Point(var x: Int, var y: Int) {
 
   override fun hashCode(): Int = Objects.hash(x, y)
 
-  fun mDist(other: Point = origin): Int = Math.abs(this.x - other.x) + Math.abs(this.y - other.y)
+  companion object {
+    val origin: Point = Point(0, 0)
+  }
 }
 
 class Nav {
