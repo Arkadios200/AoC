@@ -90,6 +90,7 @@ public class Main {
     while (sc.hasNextLine()) {
       String[] temp = sc.nextLine().split(" ");
       String s = temp[temp.length - 1];
+
       char axis = s.charAt(0);
       int coord = Integer.parseInt(s.substring(2));
 
