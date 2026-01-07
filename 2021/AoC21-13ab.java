@@ -88,8 +88,7 @@ public class Main {
 
     List<Pair<Character, Integer>> dirs = new ArrayList<>();
     while (sc.hasNextLine()) {
-      String[] temp = sc.nextLine().split(" ");
-      String s = temp[temp.length - 1];
+      String s = lastIn(sc.nextLine().split(" "));
 
       char axis = s.charAt(0);
       int coord = Integer.parseInt(s.substring(2));
@@ -100,6 +99,10 @@ public class Main {
     sc.close();
 
     return new Pair<>(points, dirs);
+  }
+
+  static <T> T lastIn(T[] arr) {
+    return arr[arr.length - 1];
   }
 }
 
