@@ -61,7 +61,7 @@ public class Main {
     }
 
     char[][] grid = new char[maxY][maxX];
-    for (char[] line : grid) Arrays.fill(line, ' ');
+    for (char[] row : grid) Arrays.fill(row, ' ');
 
     for (Point p : points) grid[p.y][p.x] = '█';
 
