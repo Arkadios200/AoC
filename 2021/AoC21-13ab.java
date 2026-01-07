@@ -38,12 +38,12 @@ public class Main {
     switch (axis) {
       case 'x':
         for (Point p : points) {
-          temp.add(new Point(p.x > coord ? 2 * coord - p.x : p.x, p.y));
+          temp.add(p.x > coord ? p.reflectHoriz(coord) : new Point(p));
         }
         break;
       case 'y':
         for (Point p : points) {
-          temp.add(new Point(p.x, p.y > coord ? 2 * coord - p.y : p.y));
+          temp.add(p.y > coord ? p.reflectVert(coord) : new Point(p));
         }
         break;
       default: throw new RuntimeException(String.format("Invalid input: %c", axis));
@@ -116,6 +116,14 @@ class Point {
   public Point(Point p) {
     this.x = p.x;
     this.y = p.y;
+  }
+
+  Point reflectHoriz(int coord) {
+    return new Point(2 * coord - this.x, this.y);
+  }
+
+  Point reflectVert(int coord) {
+    return new Point(this.x, 2 * coord - this.y);
   }
 
   @Override
