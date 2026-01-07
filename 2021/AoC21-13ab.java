@@ -79,8 +79,7 @@ public class Main {
       if (line.isEmpty()) break;
 
       int[] nums = new int[2];
-      String[] substrs = line.split(",");
-      if (substrs.length != 2) throw new RuntimeException(String.format("Invalid input: %s", line));
+      String[] substrs = line.split(",", 2);
       for (int i = 0; i < 2; i++) nums[i] = Integer.parseInt(substrs[i]);
 
       points.add(new Point(nums[0], nums[1]));
