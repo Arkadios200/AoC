@@ -20,7 +20,7 @@ class Point:
     return t and x and y and z
 
   def __hash__(self) -> int:
-    return hash((type(self), self.x, self.y, self.z))
+    return hash((self.x, self.y, self.z))
 
   def dist(self, other: Self) -> int:
     x = self.x - other.x
