@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -15,23 +16,27 @@ public class Main {
 
   static int calc(List<Pair<Character, Integer>> input, int len) {
     Set<Point> record = new HashSet<>();
-    Point[] rope = new Point[len];
-    for (int i = 0; i < len; i++) rope[i] = new Point(Point.origin);
+    List<Point> rope = new ArrayList<>(len);
+    for (int i = 0; i < len; i++) rope.add(new Point(Point.origin));
 
     for (final Pair<Character, Integer> line : input) {
       char dir = line.a;
       int dist = line.b;
 
       for (int i = 0; i < dist; i++) {
-        rope[0].step(dir);
-        for (int j = 1; j < rope.length; j++) {
-          if (Math.abs(rope[j].x - rope[j-1].x) > 1 || Math.abs(rope[j].y - rope[j-1].y) > 1) {
-            Point temp = rope[j];
+        rope.get(0).step(dir);
+        for (Pair<Integer, Pair<Point, Point>> item : enumerate(1, tupleWindows(rope))) {
+          int j = item.a;
+          Point a = item.b.a;
+          Point b = item.b.b;
+
+          if (Math.abs(a.x - b.x) > 1 || Math.abs(a.y - b.y) > 1) {
+            Point temp = b;
             for (final Point p : temp.adjs()) {
-              if (temp.mDist(rope[j-1]) > p.mDist(rope[j-1])) temp = p;
+              if (temp.mDist(a) > p.mDist(a)) temp = p;
             }
 
-            rope[j] = temp;
+            rope.set(j, temp);
           }
         }
 
@@ -51,14 +56,36 @@ public class Main {
       String line = sc.nextLine();
 
       dirs.add(line.charAt(0));
-      dists.add(Integer.parseInt(lastIn(line.split(" ", 2))));
+      dists.add(Integer.parseInt(lastIn(Arrays.asList(line.split(" ", 2)))));
     }
 
-    return Pair.zip(dirs, dists);
+    return zip(dirs, dists);
   }
 
-  static <T> T lastIn(T[] arr) {
-    return arr[arr.length - 1];
+  static <T> T lastIn(List<T> l) {
+    return l.get(l.size() - 1);
+  }
+
+  static <T> List<Pair<Integer, T>> enumerate(int start, List<T> items) {
+    List<Pair<Integer, T>> out = new ArrayList<>();
+    for (int i = 0; i < items.size(); i++) {
+      out.add(new Pair<>(start + i, items.get(i)));
+    }
+
+    return out;
+  }
+
+  static <A, B> List<Pair<A, B>> zip(List<A> a, List<B> b) {
+    int l = Math.min(a.size(), b.size());
+
+    List<Pair<A, B>> out = new ArrayList<>();
+    for (int i = 0; i < l; i++) out.add(new Pair<>(a.get(i), b.get(i)));
+
+    return out;
+  }
+
+  static <T> List<Pair<T, T>> tupleWindows(List<T> items) {
+    return zip(items, items.subList(1, items.size()));
   }
 }
 
@@ -144,14 +171,5 @@ class Pair<A, B> {
   public Pair(A a, B b) {
     this.a = a;
     this.b = b;
-  }
-
-  static <A, B> List<Pair<A, B>> zip(List<A> a, List<B> b) {
-    int l = Math.min(a.size(), b.size());
-
-    List<Pair<A, B>> out = new ArrayList<>();
-    for (int i = 0; i < l; i++) out.add(new Pair<>(a.get(i), b.get(i)));
-
-    return out;
   }
 }
