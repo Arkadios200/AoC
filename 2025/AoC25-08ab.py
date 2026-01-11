@@ -47,13 +47,11 @@ def part1(points: list[Point]) -> int:
   for a, b in sorted(unordered_pairs(points), key=lambda p: p[0].dist(p[1]))[:1000]:
     try: i = index_where(lambda c: a in c, circuits)
     except: i = None
-
     try: j = index_where(lambda c: b in c, circuits)
     except: j = None
 
     if i is not None and j is not None:
       if i == j: continue
-
       circuits[min(i, j)].update(circuits.pop(max(i, j)))
     elif i is not None: circuits[i].add(b)
     elif j is not None: circuits[j].add(a)
@@ -67,13 +65,11 @@ def part2(points: list[Point]) -> int:
   for a, b in sorted(unordered_pairs(points), key=lambda p: p[0].dist(p[1])):
     try: i = index_where(lambda c: a in c, circuits)
     except: i = None
-
     try: j = index_where(lambda c: b in c, circuits)
     except: j = None
 
     if i is not None and j is not None:
       if i == j: continue
-
       circuits[min(i, j)].update(circuits.pop(max(i, j)))
     elif i is not None:
       circuits[i].add(b)
