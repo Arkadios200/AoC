@@ -1,28 +1,31 @@
+extension Collection {
+  func minBy<K: Comparable>(key: (Element) -> K) -> Element? {
+    return self.min { key($0) < key($1) }
+  }
+
+  func tupleWindows() -> [(Element, Element)] {
+    return Array(zip(self, self.dropFirst()))
+  }
+}
+
 struct Point: Equatable, Hashable {
   var x: Int
   var y: Int
 
-  init(x: Int, y: Int) {
-    self.x = x
-    self.y = y
+  var adjs: [Point] {
+    return [
+      (0, 1),
+      (1, 1),
+      (1, 0),
+      (1, -1),
+      (0, -1),
+      (-1, -1),
+      (-1, 0),
+      (-1, 1)
+    ].map { self + Point(x: $0.0, y: $0.1) }
   }
 
-  static let steps: [Point] = [
-    (0, 1),
-    (1, 1),
-    (1, 0),
-    (1, -1),
-    (0, -1),
-    (-1, -1),
-    (-1, 0),
-    (-1, 1)
-  ].map { Point(x: $0.0, y: $0.1) }
-
-  static func + (lhs: Point, rhs: Point) -> Point {
-    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-  }
-
-  func dist(from other: Point) -> Int {
+  func mDist(from other: Point) -> Int {
     return abs(self.x - other.x) + abs(self.y - other.y)
   }
 
@@ -35,43 +38,49 @@ struct Point: Equatable, Hashable {
       default: fatalError()
     }
   }
+
+  static func + (lhs: Point, rhs: Point) -> Point {
+    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+  }
+
+  static let origin: Point = Point(x: 0, y: 0)
 }
 
 func getInput() -> [(Character, Int)] {
   var dirs: [(Character, Int)] = []
-  while let line = readLine(), !line.isEmpty {    
-    dirs.append((line.first!, Int(line.split(separator: " ").last!)!))
+  while let line = readLine() {
+    let temp = line.split(separator: " ", maxSplits: 1).map { String($0) }
+    guard temp[0].count == 1 else { fatalError("Invalid input: \(line)") }
+
+    dirs.append((Character(temp[0]), Int(temp[1])!))
   }
 
   return dirs
 }
 
-func calc(_ dirs: [(Character, Int)], knots: Int) -> Int {
+func calc(_ dirs: [(Character, Int)], len: Int) -> Int {
   var record: Set<Point> = []
+  var rope: [Point] = [Point](repeating: Point.origin, count: len)
 
-  var knots: [Point] = [Point](repeating: Point(x: 0, y: 0), count: knots)
+  record.insert(rope.last!)
 
   for (dir, dist) in dirs {
-    for _ in 1...dist {
-      knots[0].step(dir)
-
-      for i in knots.indices.dropFirst() {
-        if abs(knots[i].x - knots[i-1].x) > 1 || abs(knots[i].y - knots[i-1].y) > 1 {
-          knots[i] = Point.steps.map { $0 + knots[i] }.min { $0.dist(from: knots[i-1]) < $1.dist(from: knots[i-1]) }!
+    for _ in 0..<dist {
+      rope[0].step(dir)
+      for (i, (a, b)) in zip(1..., rope.tupleWindows()) {
+        if abs(a.x - b.x) > 1 || abs(a.y - b.y) > 1 {
+          rope[i] = b.adjs.minBy { $0.mDist(from: a) }!
         }
       }
 
-      record.insert(knots.last!)
+      record.insert(rope.last!)
     }
   }
 
   return record.count
 }
 
-let dirs = getInput()
+let dirs: [(Character, Int)] = getInput()
 
-let ans1 = calc(dirs, knots: 2)
-print("Part 1 answer: \(ans1)")
-
-let ans2 = calc(dirs, knots: 10)
-print("Part 2 answer: \(ans2)")
+print("Part 1 answer:", calc(dirs, len: 2))
+print("Part 2 answer:", calc(dirs, len: 10))
