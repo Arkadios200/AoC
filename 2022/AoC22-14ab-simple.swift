@@ -48,8 +48,11 @@ func part1(_ walls: Set<Point>) -> Int {
     while true {
       if sand.y > bottom { break outer }
 
-      let nextPoints: [Point] = [0, -1, 1].map { sand + Point(x: $0, y: 1) }
-      if let p = nextPoints.first(where: { !record.union(walls).contains($0) } ) {
+      let nextPoint: Point? = [0, -1, 1]
+        .map { sand + Point(x: $0, y: 1) }
+        .first { !record.contains($0) && !walls.contains($0) }
+        // Too fucking slow: .first { !record.union(walls).contains($0) }
+      if let p = nextPoint {
         sand = p
       } else {
         record.insert(sand)
@@ -73,8 +76,11 @@ func part2(_ walls: Set<Point>) -> Int {
         break
       }
 
-      let nextPoints: [Point] = [0, -1, 1].map { sand + Point(x: $0, y: 1) }
-      if let p = nextPoints.first(where: { !walls.union(record).contains($0) } ) {
+      let nextPoint: Point? = [0, -1, 1]
+        .map { sand + Point(x: $0, y: 1) }
+        .first { !record.contains($0) && !walls.contains($0) }
+        // Too fucking slow: .first { !record.union(walls).contains($0) }
+      if let p = nextPoint {
         sand = p
       } else {
         record.insert(sand)
