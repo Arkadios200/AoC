@@ -56,7 +56,10 @@ public class Main {
     while (!record.contains(Point.newSand)) {
       Point sand = new Point(Point.newSand);
       while (true) {
-        if (sand.y == bottom) break;
+        if (sand.y == bottom) {
+          record.add(sand);
+          break;
+        }
 
         Point nextPoint = null;
         for (int n : new int[] { 0, -1, 1 }) {
@@ -68,10 +71,11 @@ public class Main {
         }
 
         if (nextPoint != null) sand = nextPoint;
-        else break;
+        else {
+          record.add(sand);
+          break;
+        }
       }
-
-      record.add(sand);
     }
 
     return record.size();
