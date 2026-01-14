@@ -1,122 +1,118 @@
 use std::fs;
-use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
+use std::ops::Add;
 use std::cmp::{min, max};
+use itertools::Itertools;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
 
-  let points = process(&input);
+  let walls: HashSet<Point> = process(&input);
 
-  let ans1 = part1(points.to_owned());
-  println!("Part 1 answer: {ans1}");
-
-  let ans2 = part2(points);
-  println!("Part 2 answer: {ans2}");
+  println!("Part 1 answer: {}", part1(&walls));
+  println!("Part 2 answer: {}", part2(&walls));
 }
 
-#[derive(Clone, Copy)]
-struct Point {
-  x: i32,
-  y: i32,
-  label: char
-}
-
-impl Point {
-  fn new() -> Point {
-    Point {
-      x: 500,
-      y: 0,
-      label: 'o'
-    }
-  }
-}
-
-fn part1(mut points: HashSet<Point>) -> usize {
+fn part1(walls: &HashSet<Point>) -> usize {
+  let mut record: HashSet<Point> = HashSet::new();
+  let bottom = walls.iter().map(|p| p.y).max().unwrap();
   'outer: loop {
-    let mut sand = Point::new();
+    let mut sand = Point::new_sand();
     loop {
-      if sand.y > points.iter().map(|p| p.y).max().unwrap() {
-        break 'outer;
-      }
+      if sand.y > bottom { break 'outer; }
 
-      match [0i32, -1, 1].into_iter().map(|n| Point { x: sand.x + n, y: sand.y + 1, label: 'o' }).find(|p| !points.contains(&p)) {
+      let next_point = [0i32, -1, 1].into_iter().map(|n| sand + Point { x: n, y: 1 }).find(|p| !record.union(walls).contains(&p));
+      match next_point {
         Some(p) => sand = p,
         None => {
-          points.insert(sand);
+          record.insert(sand);
           break;
-        }
+        },
       }
     }
   }
 
-  points.iter().filter(|p| p.label == 'o').count()
+  record.len()
 }
 
-fn part2(mut points: HashSet<Point>) -> usize {
-  let bottom = points.iter().map(|p| p.y).max().unwrap() + 1;
+fn part2(walls: &HashSet<Point>) -> usize {
+  let bottom = walls.iter().map(|p| p.y).max().unwrap() + 1;
 
-  while !points.contains(&Point::new()) {
-    let mut sand = Point::new();
+  let mut record: HashSet<Point> = HashSet::new();
+  while !record.contains(&Point::new_sand()) {
+    let mut sand = Point::new_sand();
     loop {
       if sand.y == bottom {
-        points.insert(sand);
+        record.insert(sand);
         break;
       }
 
-      match [0i32, -1, 1].into_iter().map(|n| Point { x: sand.x + n, y: sand.y + 1, label: 'o' }).find(|p| !points.contains(&p)) {
+        let next_point = [0i32, -1, 1].into_iter().map(|n| sand + Point { x: n, y: 1 }).find(|p| !record.union(walls).contains(&p));
+        match next_point {
         Some(p) => sand = p,
         None => {
-          points.insert(sand);
+          record.insert(sand);
           break;
-        }
+        },
       }
     }
   }
 
-  points.iter().filter(|p| p.label == 'o').count()
+  record.len()
 }
 
 fn process(input: &str) -> HashSet<Point> {
-  let mut points: HashSet<Point> = HashSet::new();
-  let lines: Vec<Vec<(i32, i32)>> = input
-    .lines()
+  let lines: Vec<Vec<Point>> = input.lines()
     .map(|line| {
-      line.split(" -> ").map(|l| {
-        let (a, b) = l.split_once(',').unwrap();
+      line.split(" -> ").map(|s| {
+        let (a, b) = s.split_once(',').unwrap();
 
-        (a.parse().unwrap(), b.parse().unwrap())
+        Point {
+          x: a.parse().unwrap(),
+          y: b.parse().unwrap(),
+        }
       }).collect()
     }).collect();
 
+  let mut walls: HashSet<Point> = HashSet::new();
   for line in lines {
-    for (a, b) in line.windows(2).map(|w| (w[0], w[1])) {
-      if a.0 != b.0 {
-        for i in min(a.0, b.0)..=max(a.0, b.0) {
-          points.insert(Point { x: i, y: a.1, label: '#' });
+    for (a, b) in line.into_iter().tuple_windows() {
+      if a.x != b.x {
+        for i in min(a.x, b.x)..=max(a.x, b.x) {
+          walls.insert(Point { x: i, y: a.y });
         }
-      } else if a.1 != b.1 {
-        for i in min(a.1, b.1)..=max(a.1, b.1) {
-          points.insert(Point { x: a.0, y: i, label: '#' });
+      } else if a.y != b.y {
+        for i in min(a.y, b.y)..=max(a.y, b.y) {
+          walls.insert(Point { x: a.x, y: i });
         }
-      }
+      } else { panic!(); }
     }
   }
 
-  points
+  walls
 }
 
-impl PartialEq for Point {
-  fn eq(&self, other: &Point) -> bool {
-    self.x == other.x && self.y == other.y
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+struct Point {
+  x: i32,
+  y: i32,
+}
+
+impl Point {
+  fn new_sand() -> Self {
+    Self {
+      x: 500,
+      y: 0,
+    }
   }
 }
 
-impl Eq for Point {}
-
-impl Hash for Point {
-  fn hash<H: Hasher>(&self, state: &mut H) {
-    self.x.hash(state);
-    self.y.hash(state);
+impl Add for Point {
+  type Output = Self;
+  fn add(self, other: Self) -> Self {
+    Self {
+      x: self.x + other.x,
+      y: self.y + other.y,
+    }
   }
 }
