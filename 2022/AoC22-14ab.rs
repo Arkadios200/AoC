@@ -39,7 +39,7 @@ fn part1(walls: &HashSet<Point>) -> usize {
 }
 
 fn part2(walls: &HashSet<Point>) -> usize {
-  let bottom = walls.iter().map(|p| p.y).max().unwrap() + 1;
+  let bottom = walls.iter().map(|p| p.y).max().unwrap().add(1);
 
   let mut record: HashSet<Point> = HashSet::new();
   while !record.contains(&Point::new_sand()) {
