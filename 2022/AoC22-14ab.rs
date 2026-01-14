@@ -23,7 +23,8 @@ fn part1(walls: &HashSet<Point>) -> usize {
 
       let next_point = [0i32, -1, 1].into_iter()
         .map(|n| sand + Point { x: n, y: 1 })
-        .find(|p| !record.union(walls).contains(&p));
+        .find(|p| !record.contains(&p) && !walls.contains(&p));
+        // Too fucking slow: .find(|p| !record.union(walls).contains(&p));
       match next_point {
         Some(p) => sand = p,
         None => {
@@ -49,10 +50,11 @@ fn part2(walls: &HashSet<Point>) -> usize {
         break;
       }
 
-        let next_point = [0i32, -1, 1].into_iter()
-          .map(|n| sand + Point { x: n, y: 1 })
-          .find(|p| !record.union(walls).contains(&p));
-        match next_point {
+      let next_point = [0i32, -1, 1].into_iter()
+        .map(|n| sand + Point { x: n, y: 1 })
+        .find(|p| !record.contains(&p) && !walls.contains(&p));
+        // Too fucking slow: .find(|p| !record.union(walls).contains(&p));
+      match next_point {
         Some(p) => sand = p,
         None => {
           record.insert(sand);
