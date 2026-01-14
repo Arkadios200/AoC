@@ -85,11 +85,11 @@ fn process(input: &str) -> HashSet<Point> {
     for (a, b) in line.into_iter().tuple_windows() {
       if a.x != b.x {
         for x in min(a.x, b.x)..=max(a.x, b.x) {
-          walls.insert(Point { x, y: a.y });
+          walls.insert(Point { x, ..a });
         }
       } else if a.y != b.y {
         for y in min(a.y, b.y)..=max(a.y, b.y) {
-          walls.insert(Point { x: a.x, y });
+          walls.insert(Point { y, ..a });
         }
       } else { panic!(); }
     }
