@@ -81,15 +81,13 @@ public class Main {
     Set<Point> walls = new HashSet<>();
     Scanner sc = new Scanner(System.in);
     while (sc.hasNextLine()) {
-      String line = sc.nextLine();
-
       List<Point> points = new ArrayList<>();
-      for (String s : line.split(" -> ")) {
+      for (final String s : sc.nextLine().split(" -> ")) {
         String[] nums = s.split(",", 2);
         points.add(new Point(Integer.parseInt(nums[0]), Integer.parseInt(nums[1])));
       }
 
-      for (Pair<Point, Point> p : tupleWindows(points)) {
+      for (final Pair<Point, Point> p : tupleWindows(points)) {
         Point a = p.a;
         Point b = p.b;
 
