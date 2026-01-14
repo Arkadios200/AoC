@@ -142,8 +142,8 @@ class Point {
     return new Point(this.x + other.x, this.y + other.y);
   }
 
-  @Override public
-  boolean equals(Object o) {
+  @Override
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Point)) return false;
 
