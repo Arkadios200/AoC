@@ -28,10 +28,10 @@ func process(_ input: String) -> Set<Point> {
     for (a, b) in coords.tupleWindows() {
       if a.x != b.x {
         (min(a.x, b.x)...max(a.x, b.x))
-        .forEach { walls.insert(Point(x: $0, y: a.y)) }
+          .forEach { walls.insert(Point(x: $0, y: a.y)) }
       } else if a.y != b.y {
         (min(a.y, b.y)...max(a.y, b.y))
-        .forEach { walls.insert(Point(x: a.x, y: $0)) }
+          .forEach { walls.insert(Point(x: a.x, y: $0)) }
       } else { fatalError() }
     }
   }
