@@ -21,7 +21,7 @@ fn part1(walls: &HashSet<Point>) -> usize {
     loop {
       if sand.y > bottom { break 'outer; }
 
-      let next_point = [0i32, -1, 1].into_iter()
+      let next_point: Option<Point> = [0i32, -1, 1].into_iter()
         .map(|n| sand + Point { x: n, y: 1 })
         .find(|p| !record.contains(&p) && !walls.contains(&p));
         // Too fucking slow: .find(|p| !record.union(walls).contains(&p));
@@ -50,7 +50,7 @@ fn part2(walls: &HashSet<Point>) -> usize {
         break;
       }
 
-      let next_point = [0i32, -1, 1].into_iter()
+      let next_point: Option<Point> = [0i32, -1, 1].into_iter()
         .map(|n| sand + Point { x: n, y: 1 })
         .find(|p| !record.contains(&p) && !walls.contains(&p));
         // Too fucking slow: .find(|p| !record.union(walls).contains(&p));
