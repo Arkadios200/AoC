@@ -1,29 +1,50 @@
-func getLines() -> [[Int]] {
-  var input = [[Int]]()
+extension Collection where Element: Collection {
+  func transposed() -> [[Self.Element.Element]]? {
+    guard Set(self.map( { $0.count } )).count == 1 else { return nil }
+
+    return self.first?.indices.map { j in self.map { $0[j] } }
+  }
+}
+
+extension Collection where Index == Int {
+  func chunks(of size: Int) -> [Self.SubSequence] {
+    return self.indices.compactMap { i in i % size == 0 ? self[i..<i+size] : nil }
+  }
+}
+
+struct Triangle {
+  let sides: [Int]
+
+  init?(sides: [Int]) {
+    guard sides.count == 3 else { return nil }
+
+    self.sides = sides.sorted(by: >)
+  }
+
+  init(a: Int, b: Int, c: Int) {
+    self.init(sides: [a, b, c])!
+  }
+
+  var isValid: Bool {
+    return 2 * sides[0] < sides.reduce(0, +)
+  }
+}
+
+func getInput() -> ([Triangle], [Triangle]) {
+  var lines1: [[Int]] = []
   while let line = readLine() {
-    input.append(line.split(separator: " ").map { Int($0)! })
+    lines1.append(line.split(separator: " ").map { Int($0)! })
   }
 
-  return input
+  let lines2 = lines1.chunks(of: 3).map { $0.transposed()! }.joined()
+
+  let triangles1: [Triangle] = lines1.map { Triangle(sides: $0)! }
+  let triangles2: [Triangle] = lines2.map { Triangle(sides: $0)! }
+
+  return (triangles1, triangles2)
 }
 
-func convert(_ input: [[Int]]) -> [[Int]] {
-  var out = [[Int]]()
-  for i in input.indices.filter( { $0 % 3 == 0 } ) {
-    for j in 0..<3 {
-      out.append(input[i...i+2].map { $0[j] })
-    }
-  }
+let (triangles1, triangles2) = getInput()
 
-  return out
-}
-
-func validTriangles(in input: [[Int]]) -> Int {
-  return input.filter { (2 * $0.max()!) < $0.reduce(0, +) }.count
-}
-
-let input1 = getLines()
-let input2 = convert(input1)
-
-print("Part 1 answer: \(validTriangles(in: input1))")
-print("Part 2 answer: \(validTriangles(in: input2))")
+print("Part 1 answer:", triangles1.filter { $0.isValid }.count)
+print("Part 2 answer:", triangles2.filter { $0.isValid }.count)
