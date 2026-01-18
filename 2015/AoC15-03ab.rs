@@ -5,7 +5,7 @@ fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
   let dirs: Vec<Direction> = input
     .chars()
-    .map(char::into)
+    .map(|c| Direction::try_from(c).unwrap())
     .collect();
 
   println!("Part 1 answer: {}", part1(&dirs));
@@ -70,14 +70,16 @@ enum Direction {
   Left,
 }
 
-impl From<char> for Direction {
-  fn from(value: char) -> Self {
+impl TryFrom<char> for Direction {
+  type Error = &'static str;
+
+  fn try_from(value: char) -> Result<Self, Self::Error> {
     match value {
-      '^' => Direction::Up,
-      'v' => Direction::Down,
-      '>' => Direction::Right,
-      '<' => Direction::Left,
-      _ => panic!(),
+      '^' => Ok(Direction::Up),
+      'v' => Ok(Direction::Down),
+      '>' => Ok(Direction::Right),
+      '<' => Ok(Direction::Left),
+      _ => Err("Invalid direction"),
     }
   }
 }
