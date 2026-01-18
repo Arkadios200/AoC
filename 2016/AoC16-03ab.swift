@@ -17,16 +17,13 @@ struct Triangle {
 
   init?(sides: [Int]) {
     guard sides.count == 3 else { return nil }
+    guard 2 * sides.max()! < sides.reduce(0, +) else { return nil }
 
     self.sides = sides.sorted(by: >)
   }
 
-  init(a: Int, b: Int, c: Int) {
-    self.init(sides: [a, b, c])!
-  }
-
-  var isValid: Bool {
-    return 2 * sides[0] < sides.reduce(0, +)
+  init?(a: Int, b: Int, c: Int) {
+    self.init(sides: [a, b, c])
   }
 }
 
@@ -38,13 +35,13 @@ func getInput() -> ([Triangle], [Triangle]) {
 
   let lines2 = lines1.chunks(of: 3).map { $0.transposed()! }.joined()
 
-  let triangles1: [Triangle] = lines1.map { Triangle(sides: $0)! }
-  let triangles2: [Triangle] = lines2.map { Triangle(sides: $0)! }
+  let validTriangles1: [Triangle] = lines1.compactMap { Triangle(sides: $0) }
+  let validTriangles2: [Triangle] = lines2.compactMap { Triangle(sides: $0) }
 
-  return (triangles1, triangles2)
+  return (validTriangles1, validTriangles2)
 }
 
-let (triangles1, triangles2) = getInput()
+let (validTriangles1, validTriangles2) = getInput()
 
-print("Part 1 answer:", triangles1.filter { $0.isValid }.count)
-print("Part 2 answer:", triangles2.filter { $0.isValid }.count)
+print("Part 1 answer:", validTriangles1.count)
+print("Part 2 answer:", validTriangles2.count)
