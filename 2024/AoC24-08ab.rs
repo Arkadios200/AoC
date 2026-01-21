@@ -8,11 +8,11 @@ fn main() {
 
   let (antennae, bounds) = process(&input);
 
-  println!("Part 1 answer: {}", part1(&antennae, bounds));
-  println!("Part 2 answer: {}", part2(&antennae, bounds));
+  println!("Part 1 answer: {}", part1(&antennae, &bounds));
+  println!("Part 2 answer: {}", part2(&antennae, &bounds));
 }
 
-fn part1(antennae: &[Vec<Point>], bounds: Point) -> usize {
+fn part1(antennae: &[Vec<Point>], bounds: &Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
@@ -24,21 +24,21 @@ fn part1(antennae: &[Vec<Point>], bounds: Point) -> usize {
   }
 
   antinodes.into_iter()
-    .filter(|p| p.is_within(&bounds))
+    .filter(|p| p.is_within(bounds))
     .count()
 }
 
-fn part2(antennae: &[Vec<Point>], bounds: Point) -> usize {
+fn part2(antennae: &[Vec<Point>], bounds: &Point) -> usize {
   let mut antinodes: HashSet<Point> = HashSet::new();
 
   for v in antennae {
     for (&(mut a), &(mut b)) in v.iter().tuple_combinations() {
       let diff = a - b;
-      while a.is_within(&bounds) {
+      while a.is_within(bounds) {
         antinodes.insert(a);
         a += diff;
       }
-      while b.is_within(&bounds) {
+      while b.is_within(bounds) {
         antinodes.insert(b);
         b -= diff;
       }
