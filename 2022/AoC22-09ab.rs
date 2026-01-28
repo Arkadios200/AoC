@@ -34,15 +34,11 @@ fn calc(dirs: &[(Direction, i32)], knots: usize) -> usize {
 }
 
 fn process(line: &str) -> (Direction, i32) {
-  let (a, b) = line.split_once(' ').unwrap();
+  let dir: Direction = line.chars().next().unwrap()
+    .try_into().unwrap();
+  let dist: i32 = line[2..].parse().unwrap();
 
-  (match a.chars().next().unwrap() {
-    'U' => Direction::Up,
-    'D' => Direction::Down,
-    'R' => Direction::Right,
-    'L' => Direction::Left,
-    _ => panic!(),
-  }, b.parse().unwrap())
+  (dir, dist)
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
@@ -108,4 +104,18 @@ enum Direction {
   Down,
   Right,
   Left,
+}
+
+impl TryFrom<char> for Direction {
+  type Error = &'static str;
+
+  fn try_from(c: char) -> Result<Direction, Self::Error> {
+    match c {
+      'U' => Ok(Direction::Up),
+      'D' => Ok(Direction::Down),
+      'R' => Ok(Direction::Right),
+      'L' => Ok(Direction::Left),
+      _ => Err("Invalid char"),
+    }
+  }
 }
