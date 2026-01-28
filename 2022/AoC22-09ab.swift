@@ -72,7 +72,7 @@ func calc(_ dirs: [(Direction, Int)], len: Int) -> Int {
   for (dir, dist) in dirs {
     for _ in 0..<dist {
       rope[0].step(dir)
-      for (i, (a, b)) in zip(1..., rope.tupleWindows()) {
+      for (i, (a, b)) in zip(rope.indices.dropFirst(), rope.tupleWindows()) {
         if a.diagDist(from: b) > 1 {
           rope[i] = b.adjs.minBy { $0.mDist(from: a) }!
         }
