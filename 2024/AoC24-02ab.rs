@@ -1,4 +1,5 @@
 use std::fs;
+use std::cmp::Ordering;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
@@ -21,7 +22,11 @@ fn main() {
 }
 
 fn is_safe(v: &[i32]) -> bool {
-  let range = if v[0] < v[1] { 1..=3 } else { -3..=-1 };
+  let range = match v[0].cmp(&v[1]) {
+    Ordering::Less => 1..=3,
+    Ordering::Equal => return false,
+    Ordering::Greater => -3..=-1,
+  };
 
   v.windows(2).map(|w| w[1] - w[0]).all(|n| range.contains(&n))
 }
