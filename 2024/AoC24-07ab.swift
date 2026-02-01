@@ -1,83 +1,90 @@
-import Foundation
+import struct Foundation.URL
 
-func exp(_ base: Int, _ power: Int) -> Int {
-  var b = 1
-  for _ in 0..<power {
-    b *= base
+infix operator ><: MultiplicationPrecedence
+infix operator ><=: AssignmentPrecedence
+
+extension Int {
+  func exp(_ power: Int) -> Int {
+    var base = self
+    for _ in 0..<power { base *= self }
+
+    return base
   }
-  
-  return b
+
+  static func >< (lhs: Int, rhs: Int) -> Int {
+    return Int("\(lhs)\(rhs)")!
+  }
+
+  static func ><= (lhs: inout Int, rhs: Int) {
+    lhs = lhs >< rhs
+  }
 }
 
-let input = (try? String(contentsOf: URL(fileURLWithPath: "input.txt")))!.components(separatedBy: "\n")
-var totals = [Int]()
-var lists = [[Int]]()
-for line in input {
-  var tempNums: [String.SubSequence] = line.split(separator: " ")
-  tempNums[0] = tempNums[0][tempNums[0].startIndex...tempNums[0].index(tempNums[0].endIndex, offsetBy:-2)]
-  totals.append(Int(tempNums[0])!)
-  var tempList = [Int]()
-  for v in 1..<tempNums.count {
-    tempList.append(Int(tempNums[v])!)
-  }
-  lists.append(tempList)
+func process(_ line: String) -> (Int, [Int]) {
+  let nums = line.split {!$0.isNumber }.map { Int($0)! }
+  return (nums.first!, Array(nums.dropFirst()))
 }
 
-var total1 = 0, total2 = 0
-for i in 0..<totals.count {
-  let x = exp(2, lists[i].count-1)-1
-  for j in 0...x {
-    var tempBin = Array(String(j, radix: 2))
-    while tempBin.count < lists[i].count-1 {
-      tempBin = "0" + tempBin
-    }
-    var tempTotal1 = lists[i][0]
-    for c in 0..<tempBin.count {
-      if tempBin[c] == "0" {
-        tempTotal1 += lists[i][c+1]
-      } else {
-        tempTotal1 *= lists[i][c+1]
+func part1(_ lines: [(Int, [Int])]) -> Int {
+  var out = 0
+  for (total, nums) in lines {
+    let ops = nums.count - 1
+    for var n in 0..<2.exp(ops) {
+      var temp = nums.first!
+      for i in 1...ops {
+        switch n % 2 {
+          case 0: temp += nums[i]
+          case 1: temp *= nums[i]
+          default: fatalError()
+        }
+
+        if temp > total { break }
+
+        n /= 2
       }
-      if tempTotal1 > totals[i] {
+
+      if temp == total {
+        out += total
         break
       }
     }
-    if tempTotal1 == totals[i] {
-      total1 += totals[i]
-      break
-    } else {
-      tempTotal1 = lists[i][0]
-    }
   }
 
-  let y = exp(3, lists[i].count-1)-1
-  for j in 0...y {
-    var tempTern = Array(String(j, radix: 3))
-    while tempTern.count < lists[i].count-1 {
-      tempTern = "0" + tempTern
-    }
-    var tempTotal2 = lists[i][0]
-    for c in 0..<tempTern.count {
-      if tempTern[c] == "0" {
-        tempTotal2 += lists[i][c+1]
-      } else if tempTern[c] == "1" {
-        tempTotal2 *= lists[i][c+1]
-      } else {
-        tempTotal2 = Int(String(tempTotal2) + String(lists[i][c+1]))!
+  return out
+}
+
+func part2(_ lines: [(Int, [Int])]) -> Int {
+  var out = 0
+  for (total, nums) in lines {
+    let ops = nums.count - 1
+    for var n in 0..<3.exp(ops) {
+      var temp = nums.first!
+      for i in 1...ops {
+        switch n % 3 {
+          case 0: temp  += nums[i]
+          case 1: temp  *= nums[i]
+          case 2: temp ><= nums[i]
+          default: fatalError()
+        }
+        
+        if temp > total { break }
+
+        n /= 3
       }
-      if tempTotal2 > totals[i] {
+
+      if temp == total {
+        out += total
         break
       }
     }
-
-    if tempTotal2 == totals[i] {
-      total2 += totals[i]
-      break
-    } else {
-      tempTotal2 = lists[i][0]
-    }
   }
+
+  return out
 }
 
-print("Part 1 answer: \(total1)")
-print("Part 2 answer: \(total2)")
+let input = try String(contentsOf: URL(fileURLWithPath: "input.txt"))
+
+let lines: [(Int, [Int])] = input.split(separator: "\n").map { process(String($0)) }
+
+print("Part 1 answer:", part1(lines))
+print("Part 2 answer:", part2(lines))
