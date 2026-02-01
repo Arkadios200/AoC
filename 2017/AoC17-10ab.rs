@@ -43,7 +43,7 @@ fn knot_hash(input: &str) -> String {
   for _ in 1..=64 {
     for &n in &dirs {
       let a = (i..i+n).map(|x| x % LEN);
-        for (w, x) in a.to_owned().rev().zip(a).take(n/2) {
+      for (w, x) in a.to_owned().rev().zip(a).take(n/2) {
         nums.swap(w, x);
       }
 
