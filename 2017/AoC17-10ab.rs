@@ -13,7 +13,7 @@ fn main() {
 fn part1(input: &str) -> u32 {
   let dirs = input.split(',').map(|chunk| chunk.parse::<usize>().unwrap());
 
-  let mut nums: [u32; LEN] = core::array::from_fn(|i| i as u32);
+  let mut nums: [u32; LEN] = std::array::from_fn(|i| i as u32);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
@@ -36,7 +36,7 @@ fn knot_hash(input: &str) -> String {
     .chain([17usize, 31, 73, 47, 23])
     .collect();
 
-  let mut nums: [u32; LEN] = core::array::from_fn(|i| i as u32);
+  let mut nums: [u32; LEN] = std::array::from_fn(|i| i as u32);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
