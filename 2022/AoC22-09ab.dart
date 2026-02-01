@@ -111,7 +111,7 @@ extension <E> on List<E> {
 
   List<(int, E)> enumerate([int start = 0]) {
     List<(int, E)> out = [];
-    for (E e in this) out.add((start++, e));
+    for (final E e in this) out.add((start++, e));
 
     return out;
   }
