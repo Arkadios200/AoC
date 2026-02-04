@@ -51,11 +51,10 @@ int part2(List<List<Point>> antennae, Point bounds) {
   Map<String, List<Point>> antennae = Map();
   for (final (i, row) in grid.enumerate()) {
     for (final (j, c) in row.enumerate()) {
-      if (c != '.') {
-        List<Point> v = antennae[c] ?? [];
-        v.add(Point(j, i));
-        antennae[c] = v;
-      }
+      if (c == '.') continue;
+      List<Point> v = antennae[c] ?? [];
+      v.add(Point(j, i));
+      antennae[c] = v;
     }
   }
 
