@@ -73,9 +73,6 @@ class Point {
 
   @override
   int get hashCode => Object.hash(x, y);
-
-  @override
-  String toString() => 'Point($x, $y)';
 }
 
 class Robot {
@@ -89,9 +86,6 @@ class Robot {
     this.pos += (this.vel * time);
     this.pos %= Point(WIDTH, HEIGHT);
   }
-
-  @override
-  String toString() => 'Robot($pos, $vel)';
 
   @override
   bool operator ==(Object other) =>
