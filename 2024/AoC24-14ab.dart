@@ -7,15 +7,12 @@ void main() {
   final String input = File('input.txt').readAsStringSync();
   List<Robot> robots = input.lines.map(process).toList();
 
-  print('Part 1 answer: ${part1(robots)}');
-  print('Part 2 answer: ${part2(robots)}');
+  print('Part 1 answer: ${part1(robots.clone())}');
+  print('Part 2 answer: ${part2(robots.clone())}');
 }
 
 int part1(List<Robot> robots) {
-  List<Robot> copy = [];
-  for (final r in robots) copy.add(Robot.clone(r));
-
-  for (Robot r in copy) r.step(100);
+  for (Robot r in robots) r.step(100);
 
   final int midX = WIDTH ~/ 2;
   final int midY = HEIGHT ~/ 2;
@@ -25,19 +22,16 @@ int part1(List<Robot> robots) {
     (r) => r.pos.x < midX && r.pos.y > midY,
     (r) => r.pos.x > midX && r.pos.y < midY,
     (r) => r.pos.x > midX && r.pos.y > midY,
-  ].fold<int>(1, (acc, v) => acc * copy.where(v).length);
+  ].fold<int>(1, (acc, v) => acc * robots.where(v).length);
 }
 
 int part2(List<Robot> robots) {
-  List<Robot> copy = [];
-  for (final r in robots) copy.add(Robot.clone(r));
-
   int i = 0;
   while (true) {
     i += 1;
 
-    for (Robot r in copy) r.step();
-    if (Set.of(copy).length == copy.length) return i;
+    for (Robot r in robots) r.step();
+    if (Set.of(robots).length == robots.length) return i;
   }
 }
 
@@ -97,4 +91,8 @@ class Robot {
 
 extension on String {
   Iterable<String> get lines => this.split('\n');
+}
+
+extension <E> on List<E> {
+  List<E> clone() => List.generate(this.length, (i) => this[i]);
 }
