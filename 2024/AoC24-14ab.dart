@@ -5,7 +5,7 @@ const int HEIGHT = 103;
 
 void main() {
   final String input = File('input.txt').readAsStringSync();
-  List<Robot> robots = input.lines.map(process).toList();
+  final List<Robot> robots = input.lines.map(process).toList();
 
   print('Part 1 answer: ${part1(robots.clone())}');
   print('Part 2 answer: ${part2(robots.clone())}');
@@ -36,7 +36,7 @@ int part2(List<Robot> robots) {
 }
 
 Robot process(String line) {
-  List<int> temp = line
+  final List<int> temp = line
     .split(RegExp(r'[^\d|\-]+'))
     .where((s) => s.isNotEmpty)
     .map(int.parse)
