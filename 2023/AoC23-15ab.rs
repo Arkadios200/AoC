@@ -31,7 +31,7 @@ fn part2(lines: &[String]) -> u32 {
       }
     } else {
       let label = &line[..line.len()-1];
-      cases[hash_alg(&label)].retain(|lens| lens.label != label);
+      cases[hash_alg(label)].retain(|lens| lens.label != label);
     }
   }
 
