@@ -27,7 +27,7 @@ fn part2(lines: &[String]) -> u32 {
       let case = &mut cases[hash_alg(&label)];
       match case.iter().position(|lens| lens.label == label) {
         Some(i) => case[i].focal_length = focal_length,
-        None => case.push(Lens { label, focal_length }),
+        None    => case.push(Lens { label, focal_length }),
       }
     } else {
       let label = &line[..line.len()-1];
