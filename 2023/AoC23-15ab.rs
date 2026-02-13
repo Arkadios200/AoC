@@ -24,15 +24,14 @@ fn part2(lines: &[String]) -> u32 {
       let label: String     = a.to_string();
       let focal_length: u32 = b.parse().unwrap();
 
-      let case: usize = hash_alg(&label);
-      match cases[case].iter().position(|lens| lens.label == label) {
-        Some(i) => cases[case][i].focal_length = focal_length,
-        None => cases[case].push(Lens { label, focal_length }),
+      let case = &mut cases[hash_alg(&label)];
+      match case.iter().position(|lens| lens.label == label) {
+        Some(i) => case[i].focal_length = focal_length,
+        None => case.push(Lens { label, focal_length }),
       }
     } else {
       let label = &line[..line.len()-1];
-      let case: usize = hash_alg(label);
-      cases[case].retain(|lens| lens.label != label);
+      cases[hash_alg(&label)].retain(|lens| lens.label != label);
     }
   }
 
