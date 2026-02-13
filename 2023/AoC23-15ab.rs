@@ -38,10 +38,7 @@ fn part2(lines: &[String]) -> u32 {
 
   cases.iter().enumerate().map(|(i, case)| {
     case.iter().enumerate().fold(0u32, |acc, (j, lens)| {
-      acc
-      + (i as u32 + 1)
-      * (j as u32 + 1)
-      * lens.focal_length
+      acc + (i as u32 + 1) * (j as u32 + 1) * lens.focal_length
     })
   }).sum()
 }
