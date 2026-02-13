@@ -1,4 +1,5 @@
 use std::fs;
+use std::ops::{Add, Mul, Rem};
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
@@ -13,7 +14,7 @@ fn main() {
 }
 
 fn hash_alg(s: &str) -> usize {
-  s.as_bytes().into_iter().fold(0usize, |acc, &b| ((acc + b as usize) * 17) % 256)
+  s.as_bytes().into_iter().fold(0usize, |acc, &b| acc.add(b as usize).mul(17).rem(256))
 }
 
 fn part2(lines: &[String]) -> u32 {
