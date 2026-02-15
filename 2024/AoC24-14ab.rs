@@ -21,10 +21,10 @@ fn part1(mut robots: Vec<Robot>) -> usize {
   for r in &mut robots { r.step(100); }
 
   [
-    (|&r| r.pos.x < BOUNDS.x / 2 && r.pos.y < BOUNDS.y / 2) as fn(&&Robot) -> bool,
-    |&r| r.pos.x < BOUNDS.x / 2 && r.pos.y > BOUNDS.y / 2,
-    |&r| r.pos.x > BOUNDS.x / 2 && r.pos.y < BOUNDS.y / 2,
-    |&r| r.pos.x > BOUNDS.x / 2 && r.pos.y > BOUNDS.y / 2,
+    |&r: &&Robot| r.pos.x < BOUNDS.x / 2 && r.pos.y < BOUNDS.y / 2,
+    |&r: &&Robot| r.pos.x < BOUNDS.x / 2 && r.pos.y > BOUNDS.y / 2,
+    |&r: &&Robot| r.pos.x > BOUNDS.x / 2 && r.pos.y < BOUNDS.y / 2,
+    |&r: &&Robot| r.pos.x > BOUNDS.x / 2 && r.pos.y > BOUNDS.y / 2,
   ].into_iter().map(|f| robots.iter().filter(f).count()).product()
 }
 
