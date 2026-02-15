@@ -40,7 +40,7 @@ fn part2(mut robots: Vec<Robot>) -> u32 {
   n
 }
 
- process(input: &str) -> Vec<Robot> {
+process(input: &str) -> Vec<Robot> {
   input.lines().map(|line| {
     let mut t = line
       .split(|c: char| !"-0123456789".contains(c))
