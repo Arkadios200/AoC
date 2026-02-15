@@ -20,14 +20,12 @@ fn main() {
 fn part1(mut robots: Vec<Robot>) -> usize {
   for r in &mut robots { r.step(100); }
 
-  let mid_x = BOUNDS.x / 2;
-  let mid_y = BOUNDS.y / 2;
   [
-    robots.iter().filter(|&r| r.pos.x < mid_x && r.pos.y < mid_y).count(),
-    robots.iter().filter(|&r| r.pos.x < mid_x && r.pos.y > mid_y).count(),
-    robots.iter().filter(|&r| r.pos.x > mid_x && r.pos.y < mid_y).count(),
-    robots.iter().filter(|&r| r.pos.x > mid_x && r.pos.y > mid_y).count(),
-  ].into_iter().product()
+    (|&r| r.pos.x < BOUNDS.x / 2 && r.pos.y < BOUNDS.y / 2) as fn(&&Robot) -> bool,
+    |&r| r.pos.x < BOUNDS.x / 2 && r.pos.y > BOUNDS.y / 2,
+    |&r| r.pos.x > BOUNDS.x / 2 && r.pos.y < BOUNDS.y / 2,
+    |&r| r.pos.x > BOUNDS.x / 2 && r.pos.y > BOUNDS.y / 2,
+  ].into_iter().map(|f| robots.iter().filter(f).count()).product()
 }
 
 fn part2(mut robots: Vec<Robot>) -> u32 {
@@ -40,7 +38,7 @@ fn part2(mut robots: Vec<Robot>) -> u32 {
   n
 }
 
-process(input: &str) -> Vec<Robot> {
+fn process(input: &str) -> Vec<Robot> {
   input.lines().map(|line| {
     let mut t = line
       .split(|c: char| !"-0123456789".contains(c))
