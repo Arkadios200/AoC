@@ -7,6 +7,16 @@ extension Sequence where Element: Hashable {
   }
 }
 
+extension Collection {
+  func minByKey<K: Comparable>(_ key: (Element) -> K) -> Element? {
+    return self.min { key($0) < key($1) }
+  }
+
+  func maxByKey<K: Comparable>(_ key: (Element) -> K) -> Element? {
+    return self.max { key($0) < key($1) }
+  }
+}
+
 func getInput() -> [[Character]] {
   var lines: [[Character]] = []
   while let line = readLine() {
@@ -16,12 +26,16 @@ func getInput() -> [[Character]] {
   return lines
 }
 
-let lines = getInput()
+let lines: [[Character]] = getInput()
 
-let counts = lines.first!.indices.map { j in lines.map { $0[j] }.contents }
+var ans1 = ""
+var ans2 = ""
+for i in lines.first!.indices {
+  let contents = lines.map { $0[i] }.contents
 
-let ans1 = String(counts.map { $0.max { $0.value < $1.value }!.key })
-print("Part 1 answer: \(ans1)")
+  ans1.append(contents.maxByKey { $0.value }!.key)
+  ans2.append(contents.minByKey { $0.value }!.key)
+}
 
-let ans2 = String(counts.map { $0.min { $0.value < $1.value }!.key })
-print("Part 2 answer: \(ans2)")
+print(ans1)
+print(ans2)
