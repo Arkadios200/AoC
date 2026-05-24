@@ -43,7 +43,7 @@ func part1(_ walls: Set<Point>) -> Int {
   var record: Set<Point> = []
 
   let bottom = walls.map { $0.y }.max()!
-  outer: while true {
+  while true {
     var sand = Point.newSand
     while true {
       if sand.y > bottom { return record.count }
