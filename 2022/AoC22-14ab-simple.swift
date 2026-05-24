@@ -46,7 +46,7 @@ func part1(_ walls: Set<Point>) -> Int {
   outer: while true {
     var sand = Point.newSand
     while true {
-      if sand.y > bottom { break outer }
+      if sand.y > bottom { return record.count }
 
       let nextPoint: Point? = [0, -1, 1].map { sand + Point(x: $0, y: 1) }
         .first { !record.contains($0) && !walls.contains($0) }
@@ -59,8 +59,6 @@ func part1(_ walls: Set<Point>) -> Int {
       }
     }
   }
-
-  return record.count
 }
 
 func part2(_ walls: Set<Point>) -> Int {
