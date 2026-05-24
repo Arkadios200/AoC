@@ -68,7 +68,7 @@ fn part2(walls: &HashSet<Point>) -> usize {
 }
 
 fn process(input: &str) -> HashSet<Point> {
-  let lines: Vec<Vec<Point>> = input.lines()
+  let lines: Vec<_> = input.lines()
     .map(|line| {
       line.split(" -> ").map(|s| {
         let (a, b) = s.split_once(',').unwrap();
@@ -77,12 +77,12 @@ fn process(input: &str) -> HashSet<Point> {
           x: a.parse().unwrap(),
           y: b.parse().unwrap(),
         }
-      }).collect()
+      })
     }).collect();
 
   let mut walls: HashSet<Point> = HashSet::new();
   for line in lines {
-    for (a, b) in line.into_iter().tuple_windows() {
+    for (a, b) in line.tuple_windows() {
       if a.x != b.x {
         for x in min(a.x, b.x)..=max(a.x, b.x) {
           walls.insert(Point { x, ..a });
