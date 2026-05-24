@@ -138,8 +138,7 @@ class Point {
   }
 
   public Point(Point p) {
-    this.x = p.x;
-    this.y = p.y;
+    this(p.x, p.y);
   }
 
   public Point add(Point other) {
