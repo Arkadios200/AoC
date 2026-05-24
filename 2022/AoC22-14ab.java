@@ -88,7 +88,10 @@ public class Main {
       List<Point> points = new ArrayList<>();
       for (final String s : sc.nextLine().split(" -> ")) {
         String[] nums = s.split(",", 2);
-        points.add(new Point(Integer.parseInt(nums[0]), Integer.parseInt(nums[1])));
+
+        int x = Integer.parseInt(nums[0]);
+        int y = Integer.parseInt(nums[1]);
+        points.add(new Point(x, y));
       }
 
       for (final Pair<Point, Point> p : tupleWindows(points)) {
