@@ -30,7 +30,7 @@ public class Main {
           Point a = item.b.a;
           Point b = item.b.b;
 
-          if (Math.abs(a.x - b.x) > 1 || Math.abs(a.y - b.y) > 1) {
+          if (a.diagDist(b) > 1) {
             Point temp = b;
             for (final Point p : temp.adjs()) {
               if (temp.mDist(a) > p.mDist(a)) temp = p;
@@ -103,6 +103,10 @@ class Point {
 
   public int mDist(Point other) {
     return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+  }
+
+  public int diagDist(Point other) {
+    return Math.max(Math.abs(this.x - other.x), Math.abs(this.y - other.y));
   }
 
   public Point add(Point other) {
