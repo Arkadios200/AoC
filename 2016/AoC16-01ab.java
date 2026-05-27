@@ -18,11 +18,12 @@ public class Main {
     for (Pair<Character, Integer> p : dirs) {
       char dir = p.a;
       int dist = p.b;
+
       nav.turn(dir);
       nav.step(dist);
     }
 
-    return nav.pos.mDist(new Point(0, 0));
+    return nav.pos.mDist();
   }
 
   static int part2(List<Pair<Character, Integer>> dirs) {
@@ -37,7 +38,7 @@ public class Main {
 
         nav.turn(dir);
         for (int i = 0; i < dist; i++) {
-          if (!record.add(nav.step(1))) return nav.pos.mDist(new Point(0, 0));
+          if (!record.add(nav.step(1))) return nav.pos.mDist();
         }
       }
     }
@@ -73,6 +74,10 @@ class Point {
 
   public int mDist(Point other) {
     return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+  }
+
+  public int mDist() {
+    return Math.abs(x) + Math.abs(y);
   }
 
   @Override
