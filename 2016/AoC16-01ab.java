@@ -112,26 +112,27 @@ class Nav {
     case 'R':
       dir = (dir + 1) % 4;
       break;
-    default: throw new RuntimeException("Invalid direction");
+    default:
+      throw new RuntimeException("Invalid direction");
     }
   }
 
   public Point step(int dist) {
     switch (dir) {
-      case 0:
-        this.pos.y += dist;
-        break;
-      case 1:
-        this.pos.x -= dist;
-        break;
-      case 2:
-        this.pos.y -= dist;
-        break;
-      case 3:
-        this.pos.x += dist;
-        break;
-      default:
-        throw new RuntimeException("Invalid direction");
+    case 0:
+      this.pos.y += dist;
+      break;
+    case 1:
+      this.pos.x -= dist;
+      break;
+    case 2:
+      this.pos.y -= dist;
+      break;
+    case 3:
+      this.pos.x += dist;
+      break;
+    default:
+      throw new RuntimeException("Invalid direction");
     }
 
     return new Point(this.pos);
