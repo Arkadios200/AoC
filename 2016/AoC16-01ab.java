@@ -106,13 +106,13 @@ class Nav {
 
   public void turn(char d) {
     switch (d) {
-      case 'L':
-        dir = (dir + 3) % 4;
-        break;
-      case 'R':
-        dir = (dir + 1) % 4;
-        break;
-      default: throw new RuntimeException("Invalid direction");
+    case 'L':
+      dir = (dir + 3) % 4;
+      break;
+    case 'R':
+      dir = (dir + 1) % 4;
+      break;
+    default: throw new RuntimeException("Invalid direction");
     }
   }
 
