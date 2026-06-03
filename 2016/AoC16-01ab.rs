@@ -1,95 +1,124 @@
 use std::fs;
 use std::collections::HashSet;
-use std::hash::{Hash, Hasher};
+use std::ops::{Add, Rem};
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
-  let lines: Vec<(char, i32)> = input.split(", ").map(|s| {
-    let mut c = s.chars();
-    (c.next().unwrap(), c.collect::<String>().parse().unwrap())
-  }).collect();
 
-  let ans1 = part1(&lines);
-  println!("Part 1 answer: {ans1}");
+  let route: Vec<(Direction, i32)> = input.split(", ").map(process).collect();
 
-  let ans2 = part2(&lines);
-  println!("Part 2 answer: {ans2}");
+  println!("Part 1 answer: {}", part1(&route));
+  println!("Part 2 answer: {}", part2(&route));
 }
 
-fn part1(lines: &[(char, i32)]) -> i32 {
-  let mut pos = Point::new();
-  for (dir, dist) in lines {
-    pos.turn(dir);
-    pos.step(dist);
+fn part1(route: &[(Direction, i32)]) -> i32 {
+  let mut nav = Nav { pos: Point::origin(), dir: 0 };
+  for (dir, dist) in route {
+    nav.turn(dir);
+    nav.step(*dist);
   }
 
-  pos.m_dist(&Point::new())
+  nav.pos.m_dist(&Point::origin())
 }
 
-fn part2(lines: &[(char, i32)]) -> i32 {
-  let mut pos = Point::new();
-  let mut record: HashSet<Point> = HashSet::from([pos]);
+fn part2(route: &[(Direction, i32)]) -> i32 {
+  let mut record: HashSet<Point> = HashSet::new();
+  record.insert(Point::origin());
 
+  let mut nav = Nav { pos: Point::origin(), dir: 0 };
   loop {
-    for (dir, dist) in lines {
-      pos.turn(dir);
+    for (dir, dist) in route {
+      nav.turn(dir);
       for _ in 0..*dist {
-        if !record.insert(pos.step(&1)) {
-          return pos.m_dist(&Point::new());
+        if !record.insert(nav.step(1)) {
+          return nav.pos.m_dist(&Point::origin());
         }
       }
     }
   }
 }
 
-#[derive(Clone, Copy)]
+fn process(s: &str) -> (Direction, i32) {
+  let dir: Direction = s.chars().next().unwrap().try_into().unwrap();
+  let dist: i32 = s[1..].parse().unwrap();
+
+  (dir, dist)
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Point {
   x: i32,
   y: i32,
-  dir: i32
 }
 
 impl Point {
-  fn new() -> Self {
-    Point { x: 0, y: 0, dir: 0 }
-  }
-
-  fn turn(&mut self, c: &char) {
-    self.dir = match c {
-      'L' => (self.dir + 3) % 4,
-      'R' => (self.dir + 1) % 4,
-      _ => self.dir
+  fn origin() -> Self {
+    Self {
+      x: 0,
+      y: 0,
     }
   }
 
-  fn step(&mut self, dist: &i32) -> Self {
-    match self.dir {
-      0 => self.y += dist,
-      1 => self.x += dist,
-      2 => self.y -= dist,
-      3 => self.x -= dist,
-      _ => panic!("Invalid direction")
-    }
-
-    *self
-  }
-
-  fn m_dist(&self, other: &Point) -> i32 {
+  fn m_dist(&self, other: &Self) -> i32 {
     (self.x - other.x).abs() + (self.y - other.y).abs()
   }
 }
 
-impl PartialEq for Point {
-  fn eq(&self, other: &Self) -> bool {
-    self.x == other.x && self.y == other.y
+#[derive(Clone, Copy)]
+struct Nav {
+  pos: Point,
+  dir: u32,
+}
+
+impl Nav {
+  fn turn(&mut self, dir: &Direction) {
+    self.dir = self.dir
+      .add(match dir { Direction::Left => 3, Direction::Right => 1, _ => 0 })
+      .rem(4);
+  }
+
+  fn step(&mut self, dist: i32) -> Point {
+    match Direction::try_from(self.dir).unwrap() {
+      Direction::Up    => self.pos.y += dist,
+      Direction::Right => self.pos.x += dist,
+      Direction::Down  => self.pos.y -= dist,
+      Direction::Left  => self.pos.x -= dist,
+    };
+
+    self.pos
   }
 }
 
-impl Eq for Point {}
+#[derive(Clone, Copy)]
+enum Direction {
+  Up,
+  Right,
+  Down,
+  Left,
+}
 
-impl Hash for Point {
-  fn hash<H: Hasher>(&self, state: &mut H) {
-    self.x.hash(state);
-    self.y.hash(state);
+impl TryFrom<char> for Direction {
+  type Error = &'static str;
+
+  fn try_from(value: char) -> Result<Self, Self::Error> {
+    match value {
+      'R' => Ok(Direction::Right),
+      'L' => Ok(Direction::Left),
+      _ => Err("Invalid direction"),
+    }
+  }
+}
+
+impl TryFrom<u32> for Direction {
+  type Error = &'static str;
+
+  fn try_from(value: u32) -> Result<Self, Self::Error> {
+    match value {
+      0 => Ok(Direction::Up),
+      1 => Ok(Direction::Right),
+      2 => Ok(Direction::Down),
+      3 => Ok(Direction::Left),
+      _ => Err("Invalid direction"),
+    }
   }
 }
