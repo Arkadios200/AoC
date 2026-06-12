@@ -49,9 +49,8 @@ func getInput() -> ([[Point]], Point) {
   for (i, line) in grid.enumerated() {
     for (j, c) in line.enumerated() {
       if c != "." {
-        var v: [Point] = antennae[c] ?? []
-        v.append(Point(x: j, y: i))
-        antennae[c] = v
+        let p = Point(x: j, y: i)
+        antennae[c]?.append(p) ?? (antennae[c] = [p])
       }
     }
   }
