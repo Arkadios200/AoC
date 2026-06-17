@@ -63,21 +63,19 @@ impl Point {
     (self.x - other.x).abs().max((self.y - other.y).abs())
   }
 
-  fn adjs(&self) -> impl Iterator<Item = Self> {
-    let p = *self;
-
+    fn adjs(&self) -> impl Iterator<Item = Self> + '_ {
     [
-      (0, 1),
-      (1, 1),
-      (1, 0),
-      (1, -1),
-      (0, -1),
+      ( 0,  1),
+      ( 1,  1),
+      ( 1,  0),
+      ( 1, -1),
+      ( 0, -1),
       (-1, -1),
-      (-1, 0),
-      (-1, 1),
-    ].into_iter().map(move |(x, y)| p + Point { x, y })
+      (-1,  0),
+      (-1,  1),
+    ].into_iter().map(|(x, y)| *self + Point { x, y })
   }
-
+  
   fn step(&mut self, dir: &Direction) {
     match dir {
       Direction::Up    => self.y += 1,
