@@ -63,7 +63,7 @@ impl Point {
     (self.x - other.x).abs().max((self.y - other.y).abs())
   }
 
-    fn adjs(&self) -> impl Iterator<Item = Self> + '_ {
+  fn adjs(&self) -> impl Iterator<Item = Self> + '_ {
     [
       ( 0,  1),
       ( 1,  1),
