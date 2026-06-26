@@ -5,16 +5,10 @@ use std::ops::Sub;
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
 
-  let reports: Vec<Report> = input.lines().map(process).collect();
+  let reports: Vec<Report> = input.lines().map(Report::from).collect();
 
-  println!("Part 1 answer: {}", reports.iter().filter(|r| r.is_safe(0)).count());
-  println!("Part 2 answer: {}", reports.iter().filter(|r| r.is_safe(1)).count());
-}
-
-fn process(line: &str) -> Report {
-  Report {
-    values: line.split(' ').map(|s| s.parse().unwrap()).collect(),
-  }
+  println!("Part 1 answer: {}", reports.iter().filter(|r| r.is_safe(&0)).count());
+  println!("Part 2 answer: {}", reports.iter().filter(|r| r.is_safe(&1)).count());
 }
 
 #[derive(Debug, Clone)]
@@ -23,17 +17,20 @@ struct Report {
 }
 
 impl Report {
-  fn is_safe(&self, tolerance: u32) -> bool {
-    let sign =  if self.values[0] < self.values[1] { 1 } else { -1 };
+  fn is_safe(&self, tolerance: &usize) -> bool {
+    let sign = if self.values[0] < self.values[1] { 1 } else { -1 };
 
-    let mut check = 0;
-    for (a, b) in self.values.iter().map(|n| n * sign).tuple_windows() {
-      if !(1..=3).contains(&b.sub(a)) {
-        check += 1;
-        if check > tolerance { return false; }
-      }
+    self.values.iter()
+    .map(|n| n * sign)
+    .tuple_windows().filter(|(a, b)| !(1..=3).contains(&b.sub(a)))
+    .count().le(tolerance)
+  }
+}
+
+impl From<&str> for Report {
+  fn from(s: &str) -> Self {
+    Self {
+      values: s.split(' ').map(|s| s.parse().unwrap()).collect(),
     }
-
-    true
   }
 }
