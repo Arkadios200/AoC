@@ -20,9 +20,9 @@ impl Report {
     let sign = if self.values[0] < self.values[1] { 1 } else { -1 };
 
     self.values.iter()
-    .map(|n| n * sign)
-    .tuple_windows().filter(|(a, b)| !(1..=3).contains(&b.sub(a)))
-    .count().le(tolerance)
+      .map(|n| n * sign)
+      .tuple_windows().filter(|(a, b)| !(1..=3).contains(&b.sub(a)))
+      .count().le(tolerance)
   }
 }
 
