@@ -1,32 +1,39 @@
 use std::fs;
-use std::cmp::Ordering;
+use itertools::Itertools;
+use std::ops::Sub;
 
 fn main() {
   let input = fs::read_to_string("input.txt").unwrap();
 
-  let reports: Vec<Vec<i32>> = input.lines().map(|line| line.split(' ').map(|s| s.parse().unwrap()).collect()).collect();
+  let reports: Vec<Report> = input.lines().map(process).collect();
 
-  let not_safe = reports.iter().filter(|r| !is_safe(r));
-
-  let ans1 = reports.len() - not_safe.to_owned().count();
-  let ans2 = ans1 + not_safe.filter(|&r| {
-    (0..r.len()).any(|i| {
-      let mut r = r.to_owned();
-      r.remove(i);
-      is_safe(&r)
-    })
-  }).count();
-
-  println!("Part 1 answer: {ans1}");
-  println!("Part 2 answer: {ans2}");
+  println!("Part 1 answer: {}", reports.iter().filter(|r| r.is_safe(0)).count());
+  println!("Part 2 answer: {}", reports.iter().filter(|r| r.is_safe(1)).count());
 }
 
-fn is_safe(v: &[i32]) -> bool {
-  let range = match v[0].cmp(&v[1]) {
-    Ordering::Less => 1..=3,
-    Ordering::Equal => return false,
-    Ordering::Greater => -3..=-1,
-  };
+fn process(line: &str) -> Report {
+  Report {
+    values: line.split(' ').map(|s| s.parse().unwrap()).collect(),
+  }
+}
 
-  v.windows(2).map(|w| w[1] - w[0]).all(|n| range.contains(&n))
+#[derive(Debug, Clone)]
+struct Report {
+  values: Vec<i32>,
+}
+
+impl Report {
+  fn is_safe(&self, tolerance: u32) -> bool {
+    let sign =  if self.values[0] < self.values[1] { 1 } else { -1 };
+
+    let mut check = 0;
+    for (a, b) in self.values.iter().map(|n| n * sign).tuple_windows() {
+      if !(1..=3).contains(&b.sub(a)) {
+        check += 1;
+        if check > tolerance { return false; }
+      }
+    }
+
+    true
+  }
 }
