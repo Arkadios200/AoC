@@ -11,7 +11,6 @@ fn main() {
   println!("Part 2 answer: {}", reports.iter().filter(|r| r.is_safe(&1)).count());
 }
 
-#[derive(Debug, Clone)]
 struct Report {
   values: Vec<i32>,
 }
