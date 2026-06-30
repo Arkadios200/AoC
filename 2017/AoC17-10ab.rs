@@ -10,10 +10,10 @@ fn main() {
   println!("Part 2 answer: {}", knot_hash(&input));
 }
 
-fn part1(input: &str) -> u32 {
+fn part1(input: &str) -> usize {
   let dirs = input.split(',').map(|chunk| chunk.parse::<usize>().unwrap());
 
-  let mut nums: [u32; LEN] = std::array::from_fn(|i| i as u32);
+  let mut nums: [usize; LEN] = std::array::from_fn(|i| i);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
@@ -36,7 +36,7 @@ fn knot_hash(input: &str) -> String {
     .chain([17usize, 31, 73, 47, 23])
     .collect();
 
-  let mut nums: [u32; LEN] = std::array::from_fn(|i| i as u32);
+  let mut nums: [usize; LEN] = std::array::from_fn(|i| i as usize);
 
   let mut skip: usize = 0;
   let mut i: usize = 0;
@@ -53,7 +53,7 @@ fn knot_hash(input: &str) -> String {
   }
 
   nums.chunks(16).fold(String::new(), |acc, chunk| {
-    let n = chunk.iter().fold(0, u32::bitxor);
+    let n = chunk.iter().fold(0, usize::bitxor);
     acc + &format!("{n:0>2x}")
   })
 }
