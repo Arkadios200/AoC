@@ -1,10 +1,9 @@
-use std::fs;
 use std::ops::BitXor;
 
 const LEN: usize = 256;
 
 fn main() {
-  let input = fs::read_to_string("input.txt").unwrap();
+  let input = std::fs::read_to_string("input.txt").unwrap();
 
   println!("Part 1 answer: {}", part1(&input));
   println!("Part 2 answer: {}", knot_hash(&input));
